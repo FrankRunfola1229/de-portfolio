@@ -1,48 +1,53 @@
-# de-portfolio
-My Personal DE Portfolio
+# Minimal Data Engineering Portfolio (Azure Static)
+A tiny, minimalist portfolio site for showcasing my Azure data engineering projects.
 
-## High-level Components
-1. Graphical “Medallion” pipeline diagram
-2. Project cards generated from JSON (so updating projects is trivial)
-3. Interactive charts (Chart.js via CDN)
-4. “Transparency” (cost, quality checks, SLAs, runbooks, lineage)
-
-
-## High level steps
-
-1. Create a GitHub repo (example: de-portfolio)
-2. Add the files below and push to main
-3. In Azure Portal → create Static Web App → connect to GitHub repo/branch
-4. App location: / (root). Output location: leave blank (it’s plain HTML)
-5. Azure auto-generates a GitHub Actions workflow to deploy. 
+## Why this layout
+- **Low coupling** : project content lives in `projects.json`
+- **Separation of duties** : HTML/CSS/JS/data/images are independent
+- **Easy updates**:  add a project by editing a single JSON file
 
 
 ## Folder Structure
 ```
 portfolio-site/
-  index.html
+  index.html          # structure
   README.md
   assets/
     css/
       styles.css
     js/
-      app.js
+      app.js          # logic (renders projects)
     data/
-      projects.json
-    img/
+      projects.json   # content
+    img/              # project images
       weather.svg
       bankrisk.svg
       quake.svg
       favicon.svg
-
 ```
 
-## Deploy instructions (copy/paste practical)
-If you choose Azure Static Web Apps (recommended)
-  - Push repo to GitHub
-  - Azure Portal → Create Static Web App
-  - Deployment source: GitHub
-  - Branch: main
-  - App location: /
-  - Output location: (blank)
-    - Azure uses GitHub Actions to build/deploy. 
+
+## Customize
+
+### 1) Update links
+   - Edit `index.html`: GitHub / LinkedIn / Email
+
+### 2) Update projects
+   - Edit `assets/data/projects.json`: - `title`, `blurb`, `tags`, `repo`, `readme`, `image`
+   - **NOTE:** If you change `projects.json`, refresh with a hard reload to bypass cached content.
+
+### 3) Swap images (optional)
+   - Replace `assets/img/*.img` with: PNG/JPG screenshots (update `image` paths in JSON)
+
+
+## Deploy to Azure (Storage Static Website)
+  1. Push repo to GitHub
+  2. Azure Portal → Create Static Web App (Standard / LRS is fine)
+  3. connect to GitHub repo/branch
+    - Index document name: `index.html`
+    - `assets/` folder (keep structure)
+  5. App location: `/`
+  6. Output location: `/`
+      - Azure uses GitHub Actions to build/deploy.
+  7. Open the static website endpoint URL provided by Azure
+      
