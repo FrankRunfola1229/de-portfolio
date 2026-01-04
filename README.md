@@ -1,10 +1,12 @@
 # Minimal Data Engineering Portfolio (Azure Static)
+
+## Description
 A tiny, minimalist portfolio site for showcasing my Azure data engineering projects.
 
 ## Why this layout
-- **Low coupling** : project content lives in `projects.json`
-- **Separation of duties** : HTML/CSS/JS/data/images are independent
-- **Easy updates**:  add a project by editing a single JSON file
+  - **Low coupling** : project content lives in `projects.json`
+  - **Separation of duties** : HTML/CSS/JS/data/images are independent
+  - **Easy updates**:  add a project by editing a single JSON file
 
 
 ## Folder Structure
@@ -30,14 +32,14 @@ portfolio-site/
 ## Customize
 
 ### 1) Update links
-   - Edit `index.html`: GitHub / LinkedIn / Email
+  - Edit `index.html`: GitHub / LinkedIn / Email
 
 ### 2) Update projects
-   - Edit `assets/data/projects.json`: - `title`, `blurb`, `tags`, `repo`, `readme`, `image`
-   - **NOTE:** If you change `projects.json`, refresh with a hard reload to bypass cached content.
+  - Edit `assets/data/projects.json`: - `title`, `blurb`, `tags`, `repo`, `readme`, `image`
+  - **NOTE:** If you change `projects.json`, refresh with a hard reload to bypass cached content.
 
 ### 3) Swap images (optional)
-   - Replace `assets/img/*.img` with: PNG/JPG screenshots (update `image` paths in JSON)
+  - Replace `assets/img/*.img` with: PNG/JPG screenshots (update `image` paths in JSON)
 
 
 ## Deploy to Azure (Storage Static Website)
