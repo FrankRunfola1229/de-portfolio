@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Frank Runfola — Data Engineering</title>
+        <meta name="description" content="Azure Data Engineering portfolio projects." />
+
+        <!-- Bootstrap (CDN) -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="icon" type="image/svg+xml" href="assets/img/favicon.png">
+
+        <!-- Your styles -->
+        <link rel="stylesheet" href="assets/css/styles.css">
+    </head>
+
+    <body>
+        <!-- Top bar -->
+        <header class="py-4">
+            <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div>
+                    <div class="name">Frank Runfola</div>
+                    <div class="role">Data Engineering • Azure</div>
+                </div>
+
+                <nav class="d-flex gap-2">
+                    <!-- Replace links -->
+                    <a class="btn btn-sm btn-soft" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noreferrer">GitHub</a>
+                    <a class="btn btn-sm btn-soft" href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
+                    <a class="btn btn-sm btn-soft" href="mailto:YOUR_EMAIL@example.com">Email</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main -->
+        <main class="container pb-5">
+            <!-- Minimal intro (few words) -->
+            <section class="card-soft p-4 p-md-5 mb-4">
+                <div class="intro">
+                    <span class="pill">Small</span>
+                    <span class="pill">End-to-end</span>
+                    <span class="pill">Reproducible</span>
+                </div>
+                <h1 class="headline mt-3 mb-2">Pipelines you can audit.</h1>
+                <p class="subhead mb-0">ADF • ADLS Gen2 • Databricks • Synapse</p>
+            </section>
+
+            <!-- Projects -->
+            <section class="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-3">
+                <h2 class="section-title m-2">Projects</h2>
+                <div class="small text-muted" id="updated"></div>
+            </section>
+
+            <section class="row g-3" id="projectsGrid" aria-live="polite"></section>
+
+            <!-- Footer -->
+            <footer class="pt-4 mt-4 border-top">
+                <div class="d-flex justify-content-between flex-wrap gap-2 small text-muted">
+                    <div>© <span id="year"></span> Frank Runfola</div>
+                    <div>Built on Azure • Static</div>
+                </div>
+            </footer>
+        </main>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/app.js"></script>
+    </body>
+</html>

@@ -1,0 +1,131 @@
+:root{
+  /* Calming palette */
+  --bg: #f6faf9;
+  --ink: #0f172a;
+  --muted: #52606d;
+  --card: #ffffff;
+  --line: #e6efee;
+  --accent: #2aa198;      /* calm teal */
+  --accent2: #2f7dd1;     /* soft blue */
+}
+
+* { box-sizing: border-box; }
+
+body{
+  background-color: whitesmoke;
+}
+
+.name{
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1.15rem;
+}
+
+.role{
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.btn-soft{
+  background: rgba(255,255,255,.75);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+.btn-soft:hover{
+  background: #fff;
+  border-color: #dbe7e6;
+}
+
+.card-soft{
+  background: rgba(255,255,255,.85);
+  border: 5px solid var(--line);
+  border-radius: 18px;
+}
+
+.intro{
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+.pill{
+  display: inline-flex;
+  align-items: center;
+  padding: .25rem .6rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.8);
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.headline{
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+}
+
+.subhead{
+  color: var(--muted);
+}
+
+.section-title{
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.project-card{
+  padding:1em;
+  background: rgba(255,255,255,.9);
+  border: 5px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform .12s ease, border-color .12s ease;
+  height: 100%;
+}
+.project-card:hover{
+  transform: translateY(-2px);
+  border-color: #dfdbe7;
+}
+
+.project-img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  max-width: 100%;
+  height: 160px;          /* or whatever you want */
+  object-fit: contain;
+}
+
+.project-body{  
+  padding: 2em;
+  text-align: center;
+}
+
+.project-title{
+  font-weight: 700;
+  margin-bottom: .25rem;
+}
+
+.project-desc{
+  color: var(--muted);
+  margin-bottom: .75rem;
+  font-size: .95rem;
+}
+
+.badge-soft{
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.75);
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.project-links a{
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  color: var(--ink);
+}
+.project-links a:hover{
+  border-bottom-color: #cfe2df;
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "title": "weather-medallion01",
+    "blurb": "Free API → Medallion → daily KPIs.",
+    "tags": ["ADF", "ADLS", "Databricks", "Gold"],
+    "image": "assets/img/weather.png",
+    "repo": "https://github.com/FrankRunfola1229/weather/blob/main/README.md",
+    "readme": "README.md",
+    "demo": ""
+  },
+  {
+    "title": "bankrisk01",
+    "blurb": "Validations → curated outputs.",
+    "tags": ["Managed Identity", "DQ", "Medallion", "Synapse"],
+    "image": "assets/img/bank-risk.png",
+    "repo": "https://github.com/YOUR_GITHUB/bankrisk01",
+    "readme": "https://github.com/FrankRunfola1229/bankrisk01/blob/main/README.md",
+    "demo": ""
+  },
+  {
+    "title": "quake-ingest-lite",
+    "blurb": "Incremental loads → dedupe → trends.",
+    "tags": ["Incremental", "Cheap", "Reliable"],
+    "image": "assets/img/earthquake.png",
+    "repo": "https://github.com/YOUR_GITHUB/quake-ingest-lite",
+    "readme": "https://github.com/FrankRunfola1229/earthquake-azure-data-pipeline/blob/main/README.md",
+    "demo": ""
+  }
+]
