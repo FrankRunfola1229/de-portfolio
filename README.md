@@ -49,7 +49,7 @@ git init
 git add .
 git commit -m "Initial portfolio site"
 git branch -M main
-git remote add origin https://github.com/<YOUR_USER>/<YOUR_REPO>.git
+git remote add origin https://frankrunfola1229.github.io/de-portfolio/
 git push -u origin main
 ```
 
@@ -58,17 +58,17 @@ git push -u origin main
   1. Go to your repo on GitHub
   2. Settings → Pages
   3. Under Build and deployment
-    - Source: Deploy from a branch
-    - Branch: main
-    - Folder: / (root)
+     - Source: Deploy from a branch
+     - Branch: main
+     - Folder: / (root)
   4. Click Save
-    GitHub will give you a URL like:
-    https://<YOUR_USER>.github.io/<YOUR_REPO>/
+     - GitHub gives URL: **https://frankrunfola1229.github.io/de-portfolio/**
   5. Test it locally first (so you don’t debug in production)
      - Run a tiny local server: ```python -m http.server 8080```
   6. Common gotchas
      - Case sensitivity: GitHub Pages is Linux. Assets/ is NOT the same as assets/.
-     - Wrong README link in JSON: readme: "README.md" won’t work on Pages unless that file exists at /<repo>/README.md. Use full GitHub URL or leave blank.
+     - Wrong README link in JSON: readme: 
+       - "README.md" won’t work on Pages unless that file exists at /<repo>/README.md.
      - CORS / blocked icons: Your Azure icons come from external URLs. If one doesn’t load, download the PNGs into assets/img/azure/ and reference locally (more reliable).
 <br>
 
