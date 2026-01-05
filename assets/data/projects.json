@@ -2,7 +2,7 @@
   {
     "title": "earthquake",
     "year": 2025,
-    "desc": "Low-cost public data pipeline demonstrating incremental loads, partitioning, and curated analytics outputs.",
+    "desc": "Low-cost earthquake data pipeline for incremental loads, partitioning, and curated analytics outputs.",
     "services": ["adls", "adf", "databricks"],
     "image": "assets/img/earthquake.png",
     "flow": "assets/img/flows/earthquake-flow.png",
@@ -24,7 +24,7 @@
   {
     "title": "stocks",
     "year": 2026,
-    "desc": "Market data pipeline with schema enforcement, validation rules, and curated outputs for reporting and analysis.",
+    "desc": "Market data pipeline with schema enforcement, validation rules, and curated reporting and analysis.",
     "services": ["adls", "adf", "databricks", "synapse"],
     "image": "assets/img/stocks.png",
     "flow": "assets/img/flows/stocks-flow.png",

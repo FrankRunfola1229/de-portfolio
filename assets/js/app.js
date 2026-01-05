@@ -146,7 +146,7 @@ function renderProjectCard(p) {
              alt="${safeAttr(title)} project image"
              loading="lazy" />
         <div class="project-body">
-          ${yearHtml}
+          <!--${yearHtml}-->
           <div class="project-title">${safeHtml(title)}</div>
           ${descHtml}
           ${servicesHtml}

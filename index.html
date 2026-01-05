@@ -36,36 +36,34 @@
         <!-- Main -->
         <main class="container pb-5">
             <!-- Intro Card -->
+            <!-- Intro Card -->
             <div class="container py-5">
                 <div class="d-flex justify-content-center">
-                    <div class="card card-soft rounded-4 overflow-hidden border-0" style="max-width:600px; width: 100%;">
+                    <div class="card card-soft rounded-4 overflow-hidden border-0 intro-card">
 
                         <!-- Image area -->
                         <div class="d-flex justify-content-center bg-body-tertiary px-3 pt-3 pb-2">
                             <img
                                 src="assets/img/me.png"
                                 alt="Frank Runfola"
-                                class="img-fluid rounded-4 shadow-sm"
-                                style="max-height: 210px; width: auto; height: auto; object-fit: contain;"
+                                class="img-fluid rounded-4 shadow-sm intro-photo"
                                 loading="lazy" />
                         </div>
 
-                        <div class="card-body px-4 pt-4 pb-5">
+                        <div class="card-body px-4 pt-3 pb-4 intro-body">
                             <div class="text-center">
-                                <h1 class="h4 mb-1 fw-semibold">
+                                <h1 class="h5 mb-1 fw-semibold">
                                     <span class="text-pop">Frank Runfola</span>
                                 </h1>
 
-                                <div class="intro-subtitle">
-                                    Azure Data Engineer
-                                </div>
+                                <div class="intro-subtitle mb-2">Azure Data Engineer</div>
 
-                                <!-- ✅ Tagline (standalone highlight) -->
-                                <div class="tagline">
+                                <!-- Tagline (tighter + sleeker) -->
+                                <div class="tagline tagline-compact">
                                     I build practical, cost-aware data pipelines on Azure.
                                 </div>
 
-                                <!-- ✅ Azure Icon + Pill Grid -->
+                                <!-- Azure Icon + Pill Grid -->
                                 <div class="azure-strip" aria-label="Azure services used">
                                     <div class="azure-stack-grid">
 
@@ -126,7 +124,7 @@
 
                                     </div>
                                 </div>
-                                <!-- ✅ End Azure Icon + Pill Grid -->
+                                <!-- End Azure Icon + Pill Grid -->
                             </div>
                         </div>
 
@@ -151,12 +149,15 @@
             <section class="row g-3" id="projectsGrid" aria-live="polite"></section>
 
             <!-- Footer -->
-            <footer class="pt-4 mt-4 border-top">
-                <div class="d-flex justify-content-between flex-wrap gap-2 small text-muted">
-                    <div>© <span id="year"></span> Frank Runfola</div>
-                    <div>Built on Azure • Static</div>
+            <footer class="footer-bar mt-5">
+                <div class="container py-3">
+                    <div class="d-flex justify-content-between flex-wrap gap-2 small">
+                        <div class="footer-text">© <span id="year"></span> Frank Runfola</div>
+                        <div class="footer-text">Built on Azure • Static</div>
+                    </div>
                 </div>
             </footer>
+
         </main>
 
         <!-- ✅ Flow Modal -->
