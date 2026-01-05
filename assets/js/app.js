@@ -19,6 +19,7 @@ const CONFIG = {
 document.addEventListener("DOMContentLoaded", () => {
   setFooterDates();
   initNavbarElevation();
+  initFlowModal();
   loadAndRenderProjects();
 });
 
@@ -47,6 +48,48 @@ function initNavbarElevation() {
 
   window.addEventListener("scroll", update, { passive: true });
   update();
+}
+
+// -------------------------
+// Flow Modal
+// -------------------------
+function initFlowModal() {
+  const bs = window.bootstrap;
+  if (!bs) return;
+
+  const modalEl = document.getElementById("flowModal");
+  const imgEl = document.getElementById("flowModalImg");
+  const titleEl = document.getElementById("flowModalLabel");
+  const openNewEl = document.getElementById("flowModalOpenNew");
+
+  if (!modalEl || !imgEl || !titleEl || !openNewEl) return;
+
+  const modal = new bs.Modal(modalEl);
+
+  document.addEventListener("click", (e) => {
+    const trigger = e.target.closest("a.flow-link");
+    if (!trigger) return;
+
+    e.preventDefault();
+
+    const src = trigger.getAttribute("data-flow") || "";
+    const project = trigger.getAttribute("data-title") || "Project";
+    if (!src) return;
+
+    titleEl.textContent = `${project} — Flow`;
+    imgEl.src = src;
+    imgEl.alt = `${project} flow diagram`;
+    openNewEl.href = src;
+
+    modal.show();
+  });
+
+  modalEl.addEventListener("hidden.bs.modal", () => {
+    titleEl.textContent = "Project Flow";
+    imgEl.src = "";
+    imgEl.alt = "";
+    openNewEl.href = "#";
+  });
 }
 
 // -------------------------
@@ -79,13 +122,6 @@ function renderProjectCard(p) {
     ? `<div class="project-year">${safeHtml(String(p.year))}</div>`
     : "";
 
-  const links = buildLinks(p);
-  const linksRowHtml = links.length
-    ? `<div class="project-links d-flex gap-3 small justify-content-center">${links.join("")}</div>`
-    : `<div class="project-soon">In progress</div>`;
-
-  const servicesHtml = renderServicesDock(p?.services);
-
   const descHtml = desc
     ? `
       <div class="project-section">
@@ -94,6 +130,13 @@ function renderProjectCard(p) {
       </div>
     `
     : "";
+
+  const servicesHtml = renderServicesDock(p?.services);
+
+  // Buttons: Repo / README / Flow (modal)
+  const primaryButtons = buildPrimaryButtons(p);
+  const flowButton = hasUrl(p?.flow) ? flowButtonHtml(p.flow, title) : "";
+  const actionsHtml = renderActions(primaryButtons, flowButton);
 
   return `
     <div class="col-md-6 col-lg-4">
@@ -107,29 +150,79 @@ function renderProjectCard(p) {
           <div class="project-title">${safeHtml(title)}</div>
           ${descHtml}
           ${servicesHtml}
-          ${linksRowHtml}
+          ${actionsHtml}
         </div>
       </article>
     </div>
   `;
 }
 
-function buildLinks(p) {
-  const links = [];
-  if (hasUrl(p?.repo)) links.push(linkHtml(p.repo, "Repo"));
-  if (hasUrl(p?.readme)) links.push(linkHtml(p.readme, "README"));
-  if (hasUrl(p?.demo)) links.push(linkHtml(p.demo, "Demo"));
-  return links;
+function renderActions(primaryButtons, flowButton) {
+  const hasPrimary = primaryButtons.length > 0;
+  const hasFlow = typeof flowButton === "string" && flowButton.length > 0;
+
+  // Nothing at all => show status only
+  if (!hasPrimary && !hasFlow) {
+    return `
+      <div class="card-actions">
+        <span class="project-status">In progress</span>
+      </div>
+    `;
+  }
+
+  // No repo/readme/demo yet => show status + Flow (if flow exists)
+  if (!hasPrimary && hasFlow) {
+    return `
+      <div class="card-actions">
+        <span class="project-status">In progress</span>
+        ${flowButton}
+      </div>
+    `;
+  }
+
+  // Repo/README/Demo exist => show them (+ Flow if it exists)
+  const all = hasFlow ? [...primaryButtons, flowButton] : primaryButtons;
+
+  return `
+    <div class="card-actions">
+      ${all.join("")}
+    </div>
+  `;
+}
+
+function buildPrimaryButtons(p) {
+  const btns = [];
+  if (hasUrl(p?.repo)) btns.push(actionButtonHtml(p.repo, "Repo"));
+  if (hasUrl(p?.readme)) btns.push(actionButtonHtml(p.readme, "README"));
+  if (hasUrl(p?.demo)) btns.push(actionButtonHtml(p.demo, "Demo"));
+  return btns;
 }
 
 function hasUrl(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function linkHtml(url, label) {
-  return `<a href="${safeAttr(url)}" target="_blank" rel="noreferrer">${safeHtml(
-    label
-  )}</a>`;
+function actionButtonHtml(url, label) {
+  return `
+    <a class="card-btn"
+       href="${safeAttr(url)}"
+       target="_blank"
+       rel="noreferrer">
+      ${safeHtml(label)}
+    </a>
+  `;
+}
+
+function flowButtonHtml(url, title) {
+  return `
+    <a class="card-btn card-btn-flow flow-link"
+       href="#"
+       role="button"
+       data-flow="${safeAttr(url)}"
+       data-title="${safeAttr(title)}">
+      ${safeHtml("Flow")}
+    </a>
+  `;
 }
 
 function renderServicesDock(services) {

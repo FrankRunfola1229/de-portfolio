@@ -29,7 +29,6 @@
                     <a class="btn btn-sm btn-soft" href="mailto:frank.runfola@gmail.com">Email</a>
                     <a class="btn btn-sm btn-soft" href="assets/data/files/cv.pdf" target="_blank" rel="noreferrer">Résumé</a>
                     <a class="btn btn-sm btn-soft" href="assets/data/files/diploma.png" target="_blank" rel="noreferrer">Diploma</a>
-
                 </nav>
             </div>
         </header>
@@ -39,7 +38,7 @@
             <!-- Intro Card -->
             <div class="container py-5">
                 <div class="d-flex justify-content-center">
-                    <div class="card card-soft rounded-4 overflow-hidden border-0" style="max-width: 560px; width: 100%;">
+                    <div class="card card-soft rounded-4 overflow-hidden border-0" style="max-width:600px; width: 100%;">
 
                         <!-- Image area -->
                         <div class="d-flex justify-content-center bg-body-tertiary px-3 pt-3 pb-2">
@@ -58,7 +57,7 @@
                                 </h1>
 
                                 <div class="intro-subtitle">
-                                    Azure Data Engineer • Medallion pipelines
+                                    Azure Data Engineer
                                 </div>
 
                                 <!-- ✅ Tagline (standalone highlight) -->
@@ -159,6 +158,30 @@
                 </div>
             </footer>
         </main>
+
+        <!-- ✅ Flow Modal -->
+        <div class="modal fade" id="flowModal" tabindex="-1" aria-labelledby="flowModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content flow-modal">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="flowModalLabel">Project Flow</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <img id="flowModalImg" class="img-fluid flow-modal-img" alt />
+                    </div>
+
+                    <div class="modal-footer justify-content-between">
+                        <a id="flowModalOpenNew" class="btn btn-sm btn-outline-secondary" href="#" target="_blank" rel="noreferrer">
+                            Open in new tab
+                        </a>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ✅ End Flow Modal -->
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
         <script type="module" src="assets/js/app.js"></script>

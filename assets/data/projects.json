@@ -1,30 +1,22 @@
 [
   {
     "title": "earthquake",
-    "year": 2026,
-    "desc": "Organizes event data into analytics-ready tables for insights.",
+    "year": 2025,
+    "desc": "Low-cost public data pipeline demonstrating incremental loads, partitioning, and curated analytics outputs.",
     "services": ["adls", "adf", "databricks"],
     "image": "assets/img/earthquake.png",
-    "repo": "https://github.com/FrankRunfola1229/earthquake",
+    "flow": "assets/img/flows/earthquake-flow.png",
+    "repo": "https://github.com/FrankRunfola1229/earthquake.png",
     "readme": "https://github.com/FrankRunfola1229/earthquake/blob/main/README.md",
-    "demo": ""
-  },
-  {
-    "title": "weather",
-    "year": 2026,
-    "desc": "Turns raw public data extracted from an external API into clear daily metrics.",
-    "services": ["adls", "adf", "databricks", "synapse"],
-    "image": "assets/img/weather.png",
-    "repo": "",
-    "readme": "",
     "demo": ""
   },
   {
     "title": "bankrisk",
     "year": 2026,
-    "desc": "Validates incoming data and produces trusted reporting outputs.",
+    "desc": "Bank-style validation and data quality checks that produce trusted, analytics-ready curated datasets.",
     "services": ["adls", "adf", "databricks", "synapse"],
     "image": "assets/img/bank-risk.png",
+    "flow": "assets/img/flows/bankrisk-flow.png",
     "repo": "",
     "readme": "",
     "demo": ""
@@ -32,9 +24,10 @@
   {
     "title": "stocks",
     "year": 2026,
-    "desc": "Builds clean, consistent datasets from market data feeds.",
+    "desc": "Market data pipeline with schema enforcement, validation rules, and curated outputs for reporting and analysis.",
     "services": ["adls", "adf", "databricks", "synapse"],
     "image": "assets/img/stocks.png",
+    "flow": "assets/img/flows/stocks-flow.png",
     "repo": "",
     "readme": "",
     "demo": ""
@@ -42,20 +35,32 @@
   {
     "title": "movies",
     "year": 2026,
-    "desc": "Keeps data up to date and highlights trends over time.",
+    "desc": "Incremental ingestion + dedupe + trend metrics to demonstrate reliable, repeatable batch processing.",
     "services": ["adls", "adf", "databricks"],
     "image": "assets/img/movies.png",
+    "flow": "assets/img/flows/movies-flow.png",
     "repo": "",
     "readme": "",
     "demo": ""
   },
-
+  {
+    "title": "weather",
+    "year": 2026,
+    "desc": "End-to-end weather ingestion using a free public API with Bronze/Silver/Gold outputs and daily KPI rollups.",
+    "services": ["adls", "adf", "databricks", "synapse"],
+    "image": "assets/img/weather.png",
+    "flow": "assets/img/flows/weather-flow.png",
+    "repo": "",
+    "readme": "",
+    "demo": ""
+  },
   {
     "title": "healthcare",
     "year": 2026,
-    "desc": "Standardizes healthcare records so teams can analyze them reliably.",
-    "services": ["adls", "adf", "databricks"],
+    "desc": "Healthcare-style pipeline focused on data quality, lineage/traceability, and dependable curated outputs.",
+    "services": ["adls", "adf", "databricks", "synapse"],
     "image": "assets/img/healthcare.png",
+    "flow": "assets/img/flows/healthcare-flow.png",
     "repo": "",
     "readme": "",
     "demo": ""
