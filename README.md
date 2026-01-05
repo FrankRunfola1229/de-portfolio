@@ -68,7 +68,7 @@ git push -u origin main
   6. Common gotchas
      - Case sensitivity: GitHub Pages is Linux. Assets/ is NOT the same as assets/.
      - Wrong README link in JSON: readme: 
-       - "README.md" won’t work on Pages unless that file exists at /<repo>/README.md.
+       - "README.md" won’t work on Pages unless that file exists at **/de-portfolio/README.md**
      - CORS / blocked icons: Your Azure icons come from external URLs. If one doesn’t load, download the PNGs into assets/img/azure/ and reference locally (more reliable).
 <br>
 
