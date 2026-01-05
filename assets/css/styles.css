@@ -634,8 +634,16 @@ body {
   }
 }
 
+/* Mobile: make project images smaller */
 @media (max-width: 576px) {
-  .intro-photo{ max-height: 135px; }
-  .tagline-compact{ font-size: 1.00rem; margin-bottom: 1.00rem; }
-  .intro-card{ max-width: 100%; }
+  .project-img {
+    height: 80px;
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 380px) {
+  .project-img {
+    height: 70px;
+  }
 }
