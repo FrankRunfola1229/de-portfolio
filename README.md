@@ -44,7 +44,8 @@ portfolio-site/
 
 ## Deploy to GitHub Pages
 ### Push to GitHub
-```git
+
+```
 git init
 git add .
 git commit -m "Initial portfolio site"
@@ -54,15 +55,20 @@ git push -u origin main
 ```
 
 ### Turn on GitHub Pages
-
+  0. Verify Folder Structure
+     - /index.html
+     - /assets/css/styles.css
+     - /assets/js/app.js
+     - /assets/data/projects.json
   1. Go to your repo on GitHub
   2. Settings → Pages
   3. Under Build and deployment
      - Source: Deploy from a branch
-     - Branch: main
-     - Folder: / (root)
+     - Branch: `main`
+     - Folder: `/ (root)`
   4. Click Save
-     - GitHub gives URL: **https://frankrunfola1229.github.io/de-portfolio/**
+  5.Verify Deployment
+     - Open in browser: **https://frankrunfola1229.github.io/de-portfolio/
   5. Test it locally first (so you don’t debug in production)
      - Run a tiny local server: ```python -m http.server 8080```
   6. Common gotchas
