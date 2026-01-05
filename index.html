@@ -15,39 +15,134 @@
     </head>
 
     <body>
-        <!-- Top bar -->
-        <header class="py-4">
-            <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
-                <div>
+        <!-- Frozen Top bar -->
+        <header class="navbar border-bottom navbar-dark fixed-top">
+            <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3 py-3">
+                <div class="lh-sm">
                     <div class="name">Frank Runfola</div>
-                    <div class="role">Data Engineering • Azure</div>
+                    <div class="role">Data Engineering</div>
                 </div>
 
                 <nav class="d-flex gap-2">
-                    <!-- Replace links -->
-                    <a class="btn btn-sm btn-soft" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noreferrer">GitHub</a>
-                    <a class="btn btn-sm btn-soft" href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
-                    <a class="btn btn-sm btn-soft" href="mailto:YOUR_EMAIL@example.com">Email</a>
+                    <a class="btn btn-sm btn-soft" href="https://github.com/FrankRunfola1229" target="_blank" rel="noreferrer">GitHub</a>
+                    <a class="btn btn-sm btn-soft" href="https://www.linkedin.com/in/frankrunfola" target="_blank" rel="noreferrer">LinkedIn</a>
+                    <a class="btn btn-sm btn-soft" href="mailto:frank.runfola@gmail.com">Email</a>
                 </nav>
             </div>
         </header>
 
         <!-- Main -->
         <main class="container pb-5">
-            <!-- Minimal intro (few words) -->
-            <section class="card-soft p-4 p-md-5 mb-4">
-                <div class="intro">
-                    <span class="pill">Small</span>
-                    <span class="pill">End-to-end</span>
-                    <span class="pill">Reproducible</span>
+            <!-- Intro Card -->
+            <div class="container py-5">
+                <div class="d-flex justify-content-center">
+                    <div class="card card-soft rounded-4 overflow-hidden border-0" style="max-width: 560px; width: 100%;">
+
+                        <!-- Image area -->
+                        <div class="d-flex justify-content-center bg-body-tertiary px-3 pt-3 pb-2">
+                            <img
+                                src="assets/img/me.png"
+                                alt="Frank Runfola"
+                                class="img-fluid rounded-4 shadow-sm"
+                                style="max-height: 210px; width: auto; height: auto; object-fit: contain;"
+                                loading="lazy" />
+                        </div>
+
+                        <div class="card-body px-4 pt-4 pb-5">
+                            <div class="text-center">
+                                <h1 class="h4 mb-1 fw-semibold">
+                                    <span class="text-pop">Frank Runfola</span>
+                                </h1>
+
+                                <div class="intro-subtitle">
+                                    Azure Data Engineer • Medallion pipelines
+                                </div>
+
+                                <!-- ✅ Tagline (standalone highlight) -->
+                                <div class="tagline">
+                                    I build practical, cost-aware data pipelines on Azure.
+                                </div>
+
+                                <!-- ✅ Azure Icon + Pill Grid -->
+                                <div class="azure-strip" aria-label="Azure services used">
+                                    <div class="azure-stack-grid">
+
+                                        <div class="azure-stack" title="Microsoft Azure">
+                                            <div class="logo-pill">
+                                                <img
+                                                    class="azure-logo"
+                                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/250px-Microsoft_Azure.svg.png"
+                                                    alt="Microsoft Azure logo"
+                                                    loading="lazy" />
+                                            </div>
+                                            <div class="azure-pill">Azure</div>
+                                        </div>
+
+                                        <div class="azure-stack" title="Azure Data Lake Storage">
+                                            <div class="logo-pill">
+                                                <img
+                                                    class="azure-logo"
+                                                    src="https://az-icons.com/api/icon/data-lake-store-gen1/download?format=png"
+                                                    alt="Azure Data Lake Storage icon"
+                                                    loading="lazy" />
+                                            </div>
+                                            <div class="azure-pill">ADLS Gen2</div>
+                                        </div>
+
+                                        <div class="azure-stack" title="Azure Data Factory">
+                                            <div class="logo-pill">
+                                                <img
+                                                    class="azure-logo"
+                                                    src="https://az-icons.com/api/icon/data-factories/download?format=png"
+                                                    alt="Azure Data Factory icon"
+                                                    loading="lazy" />
+                                            </div>
+                                            <div class="azure-pill">ADF</div>
+                                        </div>
+
+                                        <div class="azure-stack" title="Azure Databricks">
+                                            <div class="logo-pill">
+                                                <img
+                                                    class="azure-logo"
+                                                    src="https://az-icons.com/api/icon/azure-databricks/download?format=png"
+                                                    alt="Azure Databricks icon"
+                                                    loading="lazy" />
+                                            </div>
+                                            <div class="azure-pill">Databricks</div>
+                                        </div>
+
+                                        <div class="azure-stack" title="Azure Synapse Analytics">
+                                            <div class="logo-pill">
+                                                <img
+                                                    class="azure-logo"
+                                                    src="https://az-icons.com/api/icon/azure-synapse-analytics/download?format=png"
+                                                    alt="Azure Synapse Analytics icon"
+                                                    loading="lazy" />
+                                            </div>
+                                            <div class="azure-pill">Synapse</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- ✅ End Azure Icon + Pill Grid -->
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-                <h1 class="headline mt-3 mb-2">Pipelines you can audit.</h1>
-                <p class="subhead mb-0">ADF • ADLS Gen2 • Databricks • Synapse</p>
-            </section>
+            </div>
 
             <!-- Projects -->
             <section class="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-3">
-                <h2 class="section-title m-2">Projects</h2>
+                <div class="projects-header">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="projects-icon" aria-hidden="true">☁</div>
+                        <div>
+                            <h2 class="section-title">Projects</h2>
+                            <div class="accent-rule"></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="small text-muted" id="updated"></div>
             </section>
 
@@ -63,6 +158,6 @@
         </main>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/app.js"></script>
+        <script type="module" src="assets/js/app.js"></script>
     </body>
 </html>

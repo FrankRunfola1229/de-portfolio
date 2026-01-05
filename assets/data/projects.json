@@ -1,29 +1,63 @@
 [
   {
-    "title": "weather-medallion01",
-    "blurb": "Free API → Medallion → daily KPIs.",
-    "tags": ["ADF", "ADLS", "Databricks", "Gold"],
-    "image": "assets/img/weather.png",
-    "repo": "https://github.com/FrankRunfola1229/weather/blob/main/README.md",
-    "readme": "README.md",
-    "demo": ""
-  },
-  {
-    "title": "bankrisk01",
-    "blurb": "Validations → curated outputs.",
-    "tags": ["Managed Identity", "DQ", "Medallion", "Synapse"],
-    "image": "assets/img/bank-risk.png",
-    "repo": "https://github.com/YOUR_GITHUB/bankrisk01",
-    "readme": "https://github.com/FrankRunfola1229/bankrisk01/blob/main/README.md",
-    "demo": ""
-  },
-  {
-    "title": "quake-ingest-lite",
-    "blurb": "Incremental loads → dedupe → trends.",
-    "tags": ["Incremental", "Cheap", "Reliable"],
+    "title": "earthquake",
+    "year": 2026,
+    "desc": "Organizes event data into analytics-ready tables for insights.",
+    "services": ["adls", "adf", "databricks"],
     "image": "assets/img/earthquake.png",
-    "repo": "https://github.com/YOUR_GITHUB/quake-ingest-lite",
-    "readme": "https://github.com/FrankRunfola1229/earthquake-azure-data-pipeline/blob/main/README.md",
+    "repo": "https://github.com/FrankRunfola1229/earthquake",
+    "readme": "https://github.com/FrankRunfola1229/earthquake/blob/main/README.md",
+    "demo": ""
+  },
+  {
+    "title": "weather",
+    "year": 2026,
+    "desc": "Turns raw public data extracted from an external API into clear daily metrics.",
+    "services": ["adls", "adf", "databricks", "synapse"],
+    "image": "assets/img/weather.png",
+    "repo": "",
+    "readme": "",
+    "demo": ""
+  },
+  {
+    "title": "bankrisk",
+    "year": 2026,
+    "desc": "Validates incoming data and produces trusted reporting outputs.",
+    "services": ["adls", "adf", "databricks", "synapse"],
+    "image": "assets/img/bank-risk.png",
+    "repo": "",
+    "readme": "",
+    "demo": ""
+  },
+  {
+    "title": "stocks",
+    "year": 2026,
+    "desc": "Builds clean, consistent datasets from market data feeds.",
+    "services": ["adls", "adf", "databricks", "synapse"],
+    "image": "assets/img/stocks.png",
+    "repo": "",
+    "readme": "",
+    "demo": ""
+  },
+  {
+    "title": "movies",
+    "year": 2026,
+    "desc": "Keeps data up to date and highlights trends over time.",
+    "services": ["adls", "adf", "databricks"],
+    "image": "assets/img/movies.png",
+    "repo": "",
+    "readme": "",
+    "demo": ""
+  },
+
+  {
+    "title": "healthcare",
+    "year": 2026,
+    "desc": "Standardizes healthcare records so teams can analyze them reliably.",
+    "services": ["adls", "adf", "databricks"],
+    "image": "assets/img/healthcare.png",
+    "repo": "",
+    "readme": "",
     "demo": ""
   }
 ]

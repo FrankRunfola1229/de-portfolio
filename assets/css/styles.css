@@ -1,131 +1,446 @@
+/* =========================================
+   Design Tokens
+========================================= */
+:root {
+  --white: #ffffff;
+  --blue-50: #eaf4ff;
+
+  --ink: #0b1220;
+  --muted: #4b5563;
+
+  --accent-blue: #3b82f6;
+  --accent-sky:  #60a5fa;
+
+  --card: rgba(255, 255, 255, 0.92);
+  --card-blue: rgba(234, 244, 255, 0.65);
+  --border-blue: rgba(59, 130, 246, 0.14);
+
+  --shadow:  0 12px 30px rgba(2, 6, 23, 0.08);
+  --shadow2: 0 16px 40px rgba(2, 6, 23, 0.12);
+
+  --nav-offset: 86px;
+  --nav-z: 1030;
+
+  --radius-md: 18px;
+  --radius-lg: 20px;
+
+  --card-gap: 0.65rem;
+}
+
 :root{
-  /* Calming palette */
-  --bg: #f6faf9;
-  --ink: #0f172a;
-  --muted: #52606d;
-  --card: #ffffff;
-  --line: #e6efee;
-  --accent: #2aa198;      /* calm teal */
-  --accent2: #2f7dd1;     /* soft blue */
+  --grad-accent: linear-gradient(90deg, var(--accent-blue), var(--accent-sky));
+  --grad-surface: linear-gradient(180deg, rgba(255,255,255,0.94), var(--card-blue));
+  --grad-surface-strong: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(234,244,255,0.70));
 }
 
+/* =========================================
+   Base / Reset
+========================================= */
 * { box-sizing: border-box; }
+html, body { height: 100%; }
 
-body{
-  background-color: whitesmoke;
-}
-
-.name{
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  font-size: 1.15rem;
-}
-
-.role{
-  color: var(--muted);
-  font-size: .95rem;
-}
-
-.btn-soft{
-  background: rgba(255,255,255,.75);
-  border: 1px solid var(--line);
+body {
+  padding-top: var(--nav-offset);
   color: var(--ink);
-}
-.btn-soft:hover{
-  background: #fff;
-  border-color: #dbe7e6;
+  line-height: 1.55;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
+  font-size: 16px;
+  letter-spacing: -0.01em;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background:
+    radial-gradient(1100px 520px at 15% 0%, rgba(96, 165, 250, 0.22), transparent 60%),
+    radial-gradient(1100px 520px at 85% 10%, rgba(59, 130, 246, 0.16), transparent 60%),
+    radial-gradient(900px 460px at 50% 90%, rgba(255, 255, 255, 0.90), transparent 65%),
+    linear-gradient(180deg, var(--blue-50), var(--white));
 }
 
-.card-soft{
-  background: rgba(255,255,255,.85);
-  border: 5px solid var(--line);
-  border-radius: 18px;
+/* =========================================
+   Navbar (Frozen)
+========================================= */
+.navbar.fixed-top {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: var(--nav-z);
+
+  background: linear-gradient(90deg, rgba(58, 109, 228, 0.78), rgba(2, 6, 23, 0.72));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
-.intro{
-  display: flex;
-  gap: .5rem;
-  flex-wrap: wrap;
+.navbar.fixed-top::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.65), transparent);
 }
 
-.pill{
-  display: inline-flex;
-  align-items: center;
-  padding: .25rem .6rem;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.8);
-  color: var(--muted);
-  font-size: .85rem;
+.navbar.navbar-elevated {
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
 }
 
-.headline{
-  font-weight: 750;
-  letter-spacing: -0.03em;
-  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
-}
-
-.subhead{
-  color: var(--muted);
-}
-
-.section-title{
-  font-weight: 700;
+/* =========================================
+   Typography
+========================================= */
+.name {
+  font-weight: 500;
   letter-spacing: -0.02em;
+  font-size: 1.80rem;
+  color: rgba(255, 255, 255, 0.96);
 }
 
-.project-card{
-  padding:1em;
-  background: rgba(255,255,255,.9);
-  border: 5px solid var(--line);
-  border-radius: 20px;
-  overflow: hidden;
-  transition: transform .12s ease, border-color .12s ease;
-  height: 100%;
-}
-.project-card:hover{
-  transform: translateY(-2px);
-  border-color: #dfdbe7;
+.role {
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
 }
 
-.project-img{
+.section-title {
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.text-pop {
+  background: var(--grad-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.intro-subtitle {
+  font-size: 0.98rem;
+  font-weight: 650;
+  color: rgba(15, 23, 42, 0.62);
+  margin-top: 0.25rem;
+}
+
+.tagline {
+  display: inline-block;
+  margin: 0.85rem auto 1.35rem;
+  font-size: 1.08rem;
+  font-weight: 850;
+  line-height: 1.25;
+  color: rgba(15, 23, 42, 0.88);
+}
+
+.tagline::after {
+  content: "";
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: auto;
+  height: 3px;
+  width: 140px;
+  margin: 0.55rem auto 0;
+  border-radius: 999px;
+  background: var(--grad-accent);
+  opacity: 0.9;
+}
+
+/* =========================================
+   Buttons
+========================================= */
+.btn-soft {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.08);
+  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+
+.btn-soft:hover,
+.btn-soft:focus {
+  transform: translateY(-1px);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* =========================================
+   Cards / Surfaces
+========================================= */
+.card { background: var(--card); }
+
+.card-soft {
+  background: var(--grad-surface);
+  border: 1px solid var(--border-blue);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+}
+
+.bg-body-tertiary {
+  background: linear-gradient(180deg, rgba(234, 244, 255, 0.95), rgba(255, 255, 255, 0.98)) !important;
+}
+
+/* =========================================
+   Azure Strip
+========================================= */
+.azure-strip {
+  margin: 0.2rem auto 0.25rem;
+  max-width: 560px;
+}
+
+.azure-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.85rem 0.6rem;
+  justify-items: center;
+  align-items: start;
+}
+
+@media (max-width: 520px) {
+  .azure-stack-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.azure-stack {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+}
+
+.logo-pill {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+
+  background: rgba(255,255,255,0.86);
+  border: 1px solid rgba(59,130,246,0.14);
+  box-shadow: 0 8px 16px rgba(2, 6, 23, 0.05);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.logo-pill:hover,
+.logo-pill:focus-within {
+  transform: translateY(-2px) scale(1.02);
+  border-color: rgba(59,130,246,0.26);
+  box-shadow: 0 12px 24px rgba(2, 6, 23, 0.08);
+}
+
+.azure-logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
+}
+
+.azure-pill {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0.28rem 0.62rem;
+  border-radius: 999px;
+
+  font-size: 0.80rem;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+
+  color: rgba(15, 23, 42, 0.72);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(59,130,246,0.14);
+}
+
+/* =========================================
+   Project Cards
+========================================= */
+.project-card {
+  height: 100%;
+  padding: 0.5rem;
+  overflow: hidden;
+
+  background: var(--grad-surface-strong);
+  border: 1px solid var(--border-blue);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+
+  transition: transform 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59, 130, 246, 0.38);
+  box-shadow: var(--shadow2);
+}
+
+.project-img {
+  display: block;
+  margin: 0 auto;
   max-width: 100%;
-  height: 160px;          /* or whatever you want */
+  width: auto;
+  height: 160px;
   object-fit: contain;
 }
 
-.project-body{  
-  padding: 2em;
-  text-align: center;
+.project-body {
+  padding: 1.15rem 1.25rem 1.10rem;
+  text-align: center; /* title/year stay centered */
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
 }
 
-.project-title{
-  font-weight: 700;
-  margin-bottom: .25rem;
+.project-year {
+  display: inline-block;
+  align-self: center;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+
+  color: rgba(15, 23, 42, 0.70);
+  border: 1px solid rgba(59, 130, 246, 0.14);
+  background: rgba(255, 255, 255, 0.82);
 }
 
-.project-desc{
-  color: var(--muted);
-  margin-bottom: .75rem;
-  font-size: .95rem;
+.project-title {
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: capitalize;
+  margin: 0.1rem 0 0.1rem;
 }
 
-.badge-soft{
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.75);
-  color: var(--muted);
-  font-weight: 500;
+/* ✅ left-aligned scanning section */
+.project-section {
+  margin-top: 0.35rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(59, 130, 246, 0.16);
+
+  text-align: left;
 }
 
-.project-links a{
+.project-section-label {
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.55);
+  margin-bottom: 0.5rem;
+  padding-left: 0.1rem;
+}
+
+.project-desc {
+  margin: 0;
+  width: 100%;
+
+  padding: 0.85rem 0.95rem;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(59, 130, 246, 0.12);
+
+  color: rgba(15, 23, 42, 0.74);
+  font-size: 0.96rem;
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.project-links {
+  margin-top: 0.2rem;
+}
+
+.project-links a {
+  color: var(--ink);
   text-decoration: none;
   border-bottom: 1px solid transparent;
-  color: var(--ink);
+  padding-bottom: 2px;
 }
-.project-links a:hover{
-  border-bottom-color: #cfe2df;
+
+.project-links a:hover {
+  border-bottom-color: rgba(59, 130, 246, 0.55);
 }
+
+/* =========================================
+   Accent Rule
+========================================= */
+.accent-rule {
+  height: 3px;
+  width: 64px;
+  border-radius: 999px;
+  background: var(--grad-accent);
+}
+
+/* =========================================
+   Services Dock
+========================================= */
+.services-dock-wrap {
+  margin-top: 0.4rem;
+  display: flex;
+  justify-content: center;
+}
+
+.services-dock {
+  display: inline-flex;
+  gap: 0.45rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(59, 130, 246, 0.14);
+  box-shadow: 0 12px 24px rgba(2, 6, 23, 0.06);
+}
+
+.svc-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(59, 130, 246, 0.10);
+  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+}
+
+.svc-icon:hover {
+  transform: translateY(-1px) scale(1.02);
+  border-color: rgba(59, 130, 246, 0.22);
+  box-shadow: 0 10px 18px rgba(2, 6, 23, 0.08);
+}
+
+.svc-img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+}
+
+/* =========================================
+   Projects Heading (No Box)
+========================================= */
+.projects-header {
+  padding: 0.35rem 0.25rem 0.25rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.projects-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.96);
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-sky));
+  box-shadow: 0 10px 18px rgba(59, 130, 246, 0.18);
+}
+
+.projects-header .accent-rule {
+  width: 92px;
+  height: 3px;
+  margin-top: 0.55rem;
+  box-shadow: 0 10px 18px rgba(59, 130, 246, 0.12);
+}
+
+/* =========================================
+   Footer
+========================================= */
+footer { color: rgba(15, 23, 42, 0.65); }
