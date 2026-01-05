@@ -253,9 +253,6 @@ body {
   align-items: start;
 }
 
-@media (max-width: 520px) {
-  .azure-stack-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
 
 .azure-stack {
   display: grid;
@@ -604,46 +601,39 @@ body {
 }
 
 /* =========================================
-   Mobile: left-align the readable parts
+   Mobile: Azure icons stay ONE row (shrink)
 ========================================= */
 @media (max-width: 576px) {
-  /* keep year/title centered */
-  .project-year,
-  .project-title {
-    align-self: center;
-    text-align: center;
+  .azure-stack-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr)); /* force one row */
+    gap: 0.55rem 0.20rem;
   }
 
-  /* make the "scannable" section left-aligned */
-  .project-section {
-    text-align: left;
+  .azure-stack { gap: 0.35rem; }
+
+  .logo-pill {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    box-shadow: none; /* less bulky on mobile */
   }
 
-  .project-section-label {
-    text-align: left;
-    padding-left: 0;
+  .azure-logo {
+    width: 24px;
+    height: 24px;
   }
 
-  .project-desc {
-    text-align: left;
-  }
-
-  /* buttons read better left-aligned on mobile */
-  .card-actions {
-    justify-content: flex-start;
-  }
-}
-
-/* Mobile: make project images smaller */
-@media (max-width: 576px) {
-  .project-img {
-    height: 80px;
+  .azure-pill {
+    padding: 0.16rem 0.40rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
   }
 }
 
 /* Extra-small phones */
-@media (max-width: 380px) {
-  .project-img {
-    height: 70px;
-  }
+@media (max-width: 390px) {
+  .logo-pill { width: 36px; height: 36px; border-radius: 11px; }
+  .azure-logo { width: 22px; height: 22px; }
+  .azure-pill { font-size: 0.66rem; padding: 0.14rem 0.36rem; }
 }
