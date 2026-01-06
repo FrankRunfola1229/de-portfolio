@@ -3,10 +3,11 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>PySpark Basics — Frank Runfola</title>
-        <meta name="description" content="PySpark basics with clean, simple code snippets." />
+        <title>Training — PySpark</title>
+        <meta name="description" content="PySpark training snippets." />
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
 
         <!-- Prism syntax highlighting -->
@@ -16,7 +17,7 @@
         <link rel="stylesheet" href="assets/css/pyspark.css">
     </head>
 
-    <body>
+    <body class="min-vh-100 d-flex flex-column">
         <header class="site-header">
             <div class="container py-3">
                 <div class="site-nav d-flex flex-wrap align-items-center justify-content-between gap-3">
@@ -27,19 +28,27 @@
 
                     <nav class="d-flex flex-wrap gap-2 align-items-center">
                         <a class="btn btn-sm btn-soft" href="index.html" data-nav>Home</a>
-                        <a class="btn btn-sm btn-soft" href="pyspark.html" data-nav>PySpark</a>
-                        <a class="btn btn-sm btn-soft" href="#" id="navBack">Back</a>
+                        <a class="btn btn-sm btn-soft" href="projects.html" data-nav>Projects</a>
+                        <a class="btn btn-sm btn-soft" href="labs.html" data-nav>Labs</a>
+                        <a class="btn btn-sm btn-soft" href="training.html" data-nav>Training</a>
 
-                        <span class="mx-1 text-muted small d-none d-md-inline">|</span>
+                        <a class="btn btn-sm btn-soft btn-icon"
+                            href="https://github.com/YOUR_GITHUB" target="_blank" rel="noreferrer"
+                            aria-label="GitHub">
+                            <i class="bi bi-github"></i>
+                        </a>
 
-                        <a class="btn btn-sm btn-soft" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noreferrer">GitHub</a>
-                        <a class="btn btn-sm btn-soft" href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
-                        <a class="btn btn-sm btn-soft" href="mailto:YOUR_EMAIL@example.com">Email</a>
+                        <a class="btn btn-sm btn-soft btn-icon"
+                            href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noreferrer"
+                            aria-label="LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
                     </nav>
                 </div>
             </div>
         </header>
 
+        <!-- Back button BELOW navbar -->
         <div class="page-backbar">
             <div class="container">
                 <a class="btn btn-sm btn-soft btn-back" href="#" id="navBack" aria-label="Go back">
@@ -49,20 +58,15 @@
             </div>
         </div>
 
-        <main class="container pt-5 pb-5">
-            <section class="card-soft hero-card p-3 p-md-4 mb-4">
-                <h1 class="headline m-0">PySpark basics.</h1>
-                <p class="subhead mb-0 mt-2">Small snippets. Copy. Learn. Move on.</p>
-            </section>
-
-            <section class="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-3">
-                <h2 class="section-title m-0">Snippets</h2>
-                <div class="small text-muted">Databricks-friendly</div>
+        <main class="container pyspark-wrap pt-4 pb-3 flex-grow-1 d-flex flex-column">
+            <section class="card-soft hero-card p-4 p-md-4 mb-3">
+                <h1 class="headline m-0">Training / PySpark</h1>
+                <p class="subhead mb-0 mt-2">Snippets you can actually use.</p>
             </section>
 
             <section class="row g-4" id="snippetsGrid" aria-live="polite"></section>
 
-            <footer class="pt-4 mt-4 border-top">
+            <footer class="border-top mt-auto pt-5 pb-3">
                 <div class="d-flex justify-content-between flex-wrap gap-2 small text-muted">
                     <div>© <span id="year"></span> Frank Runfola</div>
                     <div class="mono">PySpark</div>

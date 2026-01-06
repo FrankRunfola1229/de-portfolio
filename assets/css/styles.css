@@ -68,7 +68,7 @@ html { scroll-padding-top: 92px; }
   border: 1px solid rgba(230,239,238,.95);
   color: rgba(15,23,42,.92);
 
-  padding: .28rem .60rem;
+  padding: .28rem .56rem; /* slightly tighter */
   line-height: 1.05;
   border-radius: 10px;
 
@@ -84,21 +84,50 @@ html { scroll-padding-top: 92px; }
   transform: translateY(-1px);
 }
 
-/* Disabled generic */
-.btn-soft.disabled,
-.btn-soft:disabled{
-  opacity: .55;
-  pointer-events: none;
-  transform: none;
+/* icon-only nav buttons (GitHub/LinkedIn) */
+.btn-icon{
+  padding: .28rem .44rem;
 }
 
 /* Active nav */
 a.btn-soft.is-active{
-  border-color: rgba(42,161,152,.35);
-  box-shadow: 0 0 0 2px rgba(42,161,152,.10) inset;
+  border-color: rgba(59,130,246,.26);
+  box-shadow: 0 0 0 2px rgba(59,130,246,.10) inset;
 }
 
-/* ---------- Card action buttons (prettier + tighter) ---------- */
+/* Back button row: sits under the sticky header, left aligned */
+.page-backbar{
+  background: transparent;
+}
+
+.page-backbar .container{
+  padding-top: .55rem;
+  padding-bottom: .25rem;
+}
+
+/* Pretty Back button */
+.btn-back{
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+
+  background: rgba(234,244,255,.70);
+  border-color: rgba(59,130,246,.18);
+}
+
+.btn-back:hover{
+  background: rgba(234,244,255,.92);
+  border-color: rgba(59,130,246,.28);
+}
+
+.btn-back i{
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+
+
+/* ---------- Card action buttons ---------- */
 .card-actions{
   display: flex;
   gap: .55rem;
@@ -214,10 +243,8 @@ a.btn-soft.is-active{
 
 .project-card:hover{
   transform: translateY(-2px);
-  border-color: #dbe7e6;
-  box-shadow:
-    0 16px 34px rgba(15,23,42,.11),
-    0 4px 12px rgba(15,23,42,.06);
+  border-color: rgba(59,130,246,.22);
+  box-shadow: var(--shadow2);
 }
 
 /* Card header: subtle */
@@ -227,9 +254,9 @@ a.btn-soft.is-active{
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(520px 240px at 20% 25%, rgba(47,125,209,.045), transparent 64%),
-    radial-gradient(520px 240px at 80% 45%, rgba(42,161,152,.035), transparent 64%),
-    rgba(249, 253, 255, .98);
+    radial-gradient(520px 240px at 20% 25%, rgba(59,130,246,.035), transparent 64%),
+    radial-gradient(520px 240px at 80% 45%, rgba(96,165,250,.025), transparent 64%),
+    rgba(251, 254, 255, .98);
   border-bottom: 1px solid rgba(230,239,238,.95);
 }
 
@@ -261,18 +288,7 @@ a.btn-soft.is-active{
   .project-title{ font-size: 1.1rem; }
 }
 
-/* Smaller + lighter section title */
-.card-label{
-  font-size: .7rem;
-  letter-spacing: .10em;
-  text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 700;
-  margin-top: 1.15rem;
-  margin-bottom: .45rem;
-}
-
-/* Description: subtle background + consistent height for alignment */
+/* Description: subtle background + consistent height */
 .project-desc{
   color: var(--muted);
   font-size: 0.8rem;
@@ -300,8 +316,6 @@ a.btn-soft.is-active{
   flex-wrap: wrap;
   gap: .5rem .6rem;
   align-items: center;
-
-  /* cards centered */
   justify-content: center;
 
   margin-top: 1rem;
@@ -318,7 +332,7 @@ a.btn-soft.is-active{
   border-radius: 999px;
   border: 1px solid var(--line);
 
-  background: rgba(47,125,209,.06);
+  background: rgba(59,130,246,.06);
   color: var(--muted);
 
   font-size: .78rem;
@@ -333,11 +347,9 @@ a.btn-soft.is-active{
 
 .svc-txt{ line-height: 1; }
 
-/* ✅ Hero uses the same svc chips, just slightly bigger + LEFT aligned */
+/* Hero services: bigger + left aligned */
 .hero-services{
   margin-top: 0.9rem;
-
-  /* override centering from .svc-row */
   justify-content: flex-start;
 }
 
@@ -351,11 +363,103 @@ a.btn-soft.is-active{
   height: 18px;
 }
 
-/* Mobile tweaks */
+/* =========================================
+   HOME: navigation tiles
+========================================= */
+.hub-row{
+  margin-top: 3.35rem;
+  margin-bottom: 1.35rem;
+}
+
+.hub-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;  /* center tile contents */
+  width: 100%;
+
+  border-radius: 16px;
+  background: rgba(255,255,255,.86);
+  border: 1px solid rgba(59,130,246,.14);
+  box-shadow: 0 8px 20px rgba(2,6,23,.06);
+
+  color: rgba(11,18,32,.92);
+  text-decoration: none;
+
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+}
+
+.hub-btn:hover{
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.94);
+  border-color: rgba(59,130,246,.20);
+  box-shadow: 0 12px 28px rgba(2,6,23,.10);
+}
+
+.hub-left{
+  display: flex;
+  flex-direction: column;    /* always vertical */
+  align-items: center;
+  gap: .45rem;
+  text-align: center;
+}
+
+.hub-ico{
+  display: grid;
+  place-items: center;
+
+  background: rgba(234,244,255,.70);
+  border: 1px solid rgba(59,130,246,.12);
+  color: rgba(59,130,246,.95);
+}
+
+/* FIXED TILE SIZE (desktop) */
+.hub-tile{
+  width: 192px;
+  height: 192px;
+  aspect-ratio: auto;
+  padding: .65rem;
+  margin: 0 auto;
+}
+
+/* ICONS: +50% bigger (from 66px -> 99px) */
+.hub-tile .hub-ico{
+  width: 99px;
+  height: 99px;
+  border-radius: 18px;
+  font-size: 2.8125rem; /* 1.875rem * 1.5 */
+}
+
+.hub-title{
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.hub-tile .hub-title{
+  font-size: .98rem;
+}
+
+.hub-sub{
+  margin: 0;
+  color: var(--muted);
+}
+
+.hub-tile .hub-sub{
+  font-size: .78rem;
+  line-height: 1.15;
+}
+
+/* Mobile: keep centered (not horizontal) */
 @media (max-width: 576px){
   .profile-img{
     width: 72px;
     height: 72px;
+  }
+
+  .hub-tile{
+    width: 100%;
+    height: auto;
+    padding: .90rem;
   }
 
   .project-img-wrap{
@@ -365,4 +469,32 @@ a.btn-soft.is-active{
   .project-img{
     height: 78px;
   }
+}
+
+
+/* ===== Sticky footer that actually works (short pages only) ===== */
+html, body { height: 100%; }
+
+body{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* header/backbar should not stretch */
+.site-header,
+.page-backbar{
+  flex: 0 0 auto;
+}
+
+/* main should take the remaining height */
+main{
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* force footer to the bottom of main (override Bootstrap mt-*) */
+main footer{
+  margin-top: auto !important;
 }

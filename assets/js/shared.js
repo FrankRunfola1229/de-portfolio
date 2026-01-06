@@ -1,35 +1,100 @@
 /**
  * shared.js
- * Tiny shared utilities used across pages.
- * Keeps code DRY and readable.
+ * Small shared utilities with low coupling.
+ * Exposes a single global: window.Site
+ *
+ * - fetchJson(path): fetch and parse JSON
+ * - escapeHtml(str): safe HTML text
+ * - escapeAttr(str): safe HTML attribute value
+ * - SERVICE_META: Azure service metadata (label + icon url)
+ * - renderServicePills(keys, opts): render the service pills row HTML
  */
-(function () {
-  function escapeHtml(s) {
-    return String(s)
+
+(function attachSite() {
+  const Site = {};
+
+  // -----------------------
+  // Safe escaping helpers
+  // -----------------------
+  Site.escapeHtml = function escapeHtml(value) {
+    const s = String(value ?? "");
+    return s
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;")
       .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
+      .replaceAll("'", "&#39;");
+  };
 
-  function escapeAttr(s) {
-    return escapeHtml(s).replaceAll("`", "&#096;");
-  }
+  Site.escapeAttr = function escapeAttr(value) {
+    // Same as HTML escaping; used for attribute contexts.
+    return Site.escapeHtml(value);
+  };
 
-  async function fetchJson(path) {
+  // -----------------------
+  // JSON fetch helper
+  // -----------------------
+  Site.fetchJson = async function fetchJson(path) {
+    // Keep it simple: fetch + check + parse.
     const res = await fetch(path, { cache: "no-store" });
-    if (!res.ok) throw new Error(`${path} HTTP ${res.status}`);
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status} while fetching ${path}`);
+    }
     return await res.json();
-  }
+  };
 
-  function formatUpdated() {
-    return "Updated " + new Date().toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "2-digit"
-    });
-  }
+  // -----------------------
+  // Azure service metadata
+  // (Hot-linked icons — nothing stored locally)
+  // -----------------------
+  Site.SERVICE_META = {
+    adls: {
+      label: "ADLS",
+      desc: "Azure Data Lake Storage Gen2",
+      icon: "https://az-icons.com/api/icon/storage-accounts/download?format=png"
+    },
+    adf: {
+      label: "ADF",
+      desc: "Azure Data Factory",
+      icon: "https://az-icons.com/api/icon/data-factories/download?format=png"
+    },
+    databricks: {
+      label: "Databricks",
+      desc: "Azure Databricks",
+      icon: "https://az-icons.com/api/icon/azure-databricks/download?format=png"
+    },
+    synapse: {
+      label: "Synapse",
+      desc: "Azure Synapse Analytics",
+      icon: "https://az-icons.com/api/icon/azure-synapse-analytics/download?format=png"
+    }
+  };
 
-  window.Site = { escapeHtml, escapeAttr, fetchJson, formatUpdated };
+  /**
+   * Render the Azure service pills row.
+   * @param {string[]} keys - list like ["adls","adf","databricks","synapse"]
+   * @param {{ className?: string }} opts - optional extra class on wrapper pills
+   * @returns {string} HTML string
+   */
+  Site.renderServicePills = function renderServicePills(keys, opts = {}) {
+    if (!Array.isArray(keys) || keys.length === 0) return "";
+    const cls = opts.className ? ` ${Site.escapeAttr(opts.className)}` : "";
+
+    return keys
+      .map((k) => {
+        const m = Site.SERVICE_META[k];
+        if (!m) return "";
+
+        return `
+          <span class="svc${cls}" title="${Site.escapeAttr(m.desc)}" aria-label="${Site.escapeAttr(m.desc)}">
+            <img class="svc-ico" src="${Site.escapeAttr(m.icon)}" alt="${Site.escapeAttr(m.label)} icon" loading="lazy">
+            <span class="svc-txt">${Site.escapeHtml(m.label)}</span>
+          </span>
+        `.trim();
+      })
+      .filter(Boolean)
+      .join("");
+  };
+
+  window.Site = Site;
 })();

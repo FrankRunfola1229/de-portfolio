@@ -1,156 +1,107 @@
 /**
- * app.js (Home page)
- * Renders project cards from assets/data/projects.json
- * Uses shared utilities from shared.js (window.Site).
+ * app.js
+ * Projects page renderer.
  *
- * Updates:
- * - Centered service icons in cards (CSS)
- * - Hero section uses the SAME icon chips as cards (slightly bigger via CSS)
+ * Reads:
+ * - ./assets/data/projects.json
+ *
+ * Renders:
+ * - #projectsGrid -> Bootstrap cards
+ * - #updated -> simple "Updated" text
+ * - #year -> footer year
+ *
+ * Depends on shared.js (window.Site)
  */
-(async function initProjectsPage() {
-  const yearEl = document.getElementById("year");
-  const updatedEl = document.getElementById("updated");
-  const grid = document.getElementById("projectsGrid");
-  const heroServices = document.getElementById("heroServices");
 
-  if (!grid) {
-    console.error("Missing #projectsGrid in index.html");
-    return;
-  }
+(async function initProjectsPage() {
+  const grid = document.getElementById("projectsGrid");
+  const updatedEl = document.getElementById("updated");
+  const yearEl = document.getElementById("year");
 
   if (yearEl) yearEl.textContent = new Date().getFullYear();
-  if (updatedEl) updatedEl.textContent = Site.formatUpdated();
 
-  // Hot-linked Azure icons (you don't store them)
-  const SERVICE_META = {
-    adls: {
-      label: "ADLS",
-      desc: "Azure Data Lake Storage Gen2",
-      icon: "https://az-icons.com/api/icon/storage-accounts/download?format=png"
-    },
-    adf: {
-      label: "ADF",
-      desc: "Azure Data Factory",
-      icon: "https://az-icons.com/api/icon/data-factories/download?format=png"
-    },
-    databricks: {
-      label: "Databricks",
-      desc: "Azure Databricks",
-      icon: "https://az-icons.com/api/icon/azure-databricks/download?format=png"
-    },
-    synapse: {
-      label: "Synapse",
-      desc: "Azure Synapse Analytics",
-      icon: "https://az-icons.com/api/icon/azure-synapse-analytics/download?format=png"
-    }
-  };
-
-  // ✅ Hero uses the same service chips as cards
-  if (heroServices) {
-    const core = ["adf", "adls", "databricks", "synapse"];
-    heroServices.innerHTML = renderServices(core, SERVICE_META, { extraSvcClass: "" });
-  }
+  // If this page doesn't have a grid, do nothing.
+  if (!grid) return;
 
   try {
-    const projects = await Site.fetchJson("./assets/data/projects.json");
-    if (!Array.isArray(projects)) throw new Error("projects.json must be an array");
-    grid.innerHTML = projects.map((p) => renderProjectCard(p, SERVICE_META)).join("");
+    const items = await Site.fetchJson("./assets/data/projects.json");
+    if (!Array.isArray(items)) throw new Error("projects.json must be an array");
+
+    // Keep your layout stable:
+    // - Title centered
+    // - No dates
+    // - Description + service pills
+    // - Bottom buttons: Repo + Flow (if present)
+    grid.innerHTML = items.map(renderProjectCard).join("");
+
+    if (updatedEl) {
+      const d = new Date();
+      updatedEl.textContent = `Updated: ${d.toLocaleDateString()}`;
+    }
   } catch (err) {
     console.error(err);
-    grid.innerHTML = renderErrorCard(err);
+    grid.innerHTML = `
+      <div class="col-12">
+        <div class="card-soft p-4">
+          <div class="section-title mb-2">Projects failed to load.</div>
+          <div class="text-muted small mono">${Site.escapeHtml(String(err.message || err))}</div>
+        </div>
+      </div>
+    `;
   }
 
-  function renderProjectCard(p, meta) {
-    const title = p.title || "";
-    const desc = p.desc || "";
-    const image = p.image || "";
+  function renderProjectCard(p) {
+    const title = p?.title ?? "";
+    const desc = p?.desc ?? "";
+    const image = p?.image ?? "";
+    const services = Array.isArray(p?.services) ? p.services : [];
+    const repo = p?.repo ?? "";
+    const flow = p?.flow ?? "";
 
-    const servicesHtml = renderServices(p.services || [], meta, { extraSvcClass: "" });
-    const actionsHtml = renderActions(p);
+    // Buttons: only show if the link is present
+    const repoBtn = repo ? renderBtn("Repo", repo, "bi-github") : renderBtnDisabled("Repo");
+    const flowBtn = flow ? renderBtn("Flow", flow, "bi-diagram-3") : renderBtnDisabled("Flow");
 
     return `
-      <div class="col-md-6 col-lg-4">
-        <article class="project-card">
+      <div class="col-12 col-sm-6 col-lg-4">
+        <article class="project-card h-100">
           <div class="project-img-wrap">
-            <img class="project-img"
-              src="${Site.escapeAttr(image)}"
-              alt="${Site.escapeAttr(title)} image"
-              loading="lazy" />
+            <img class="project-img" src="${Site.escapeAttr(image)}" alt="${Site.escapeAttr(title)} image" loading="lazy">
           </div>
 
-          <div class="project-body d-flex flex-column">
+          <div class="project-body">
             <div class="project-title">${Site.escapeHtml(title)}</div>
 
-            <div class="card-label">Description</div>
             <div class="project-desc">${Site.escapeHtml(desc)}</div>
 
-            <div class="svc-row">${servicesHtml}</div>
+            <div class="svc-row">
+              ${Site.renderServicePills(services)}
+            </div>
 
-            <div class="mt-auto pt-2">
-              ${actionsHtml}
+            <div class="card-actions">
+              ${repoBtn}
+              ${flowBtn}
             </div>
           </div>
         </article>
       </div>
-    `;
+    `.trim();
   }
 
-  function renderServices(services, meta, opts = {}) {
-    if (!services.length) return `<span class="text-muted small">Not listed</span>`;
-    const extra = (opts.extraSvcClass || "").trim();
-
-    return services.map((keyRaw) => {
-      const key = String(keyRaw || "").toLowerCase().trim();
-      const m = meta[key];
-
-      if (!m) {
-        return `
-          <span class="svc ${extra}" title="${Site.escapeAttr(key)}">
-            <span class="svc-txt">${Site.escapeHtml(key)}</span>
-          </span>
-        `;
-      }
-
-      return `
-        <span class="svc ${extra}" title="${Site.escapeAttr(m.desc)}" aria-label="${Site.escapeAttr(m.desc)}">
-          <img class="svc-ico" src="${Site.escapeAttr(m.icon)}" alt="${Site.escapeAttr(m.label)} icon" loading="lazy" />
-          <span class="svc-txt">${Site.escapeHtml(m.label)}</span>
-        </span>
-      `;
-    }).join("");
-  }
-
-  // Repo + Flow buttons
-  function renderActions(p) {
-    const repoBtn = renderActionButton("Repo", p.repo);
-    const flowBtn = renderActionButton("Flow", p.flow);
-
-    return `
-      <div class="card-actions">
-        ${repoBtn}
-        ${flowBtn}
-      </div>
-    `;
-  }
-
-  function renderActionButton(label, href) {
+  function renderBtn(label, href, iconClass) {
+    // target=_blank for external / assets links
+    const safeHref = Site.escapeAttr(href);
     const safeLabel = Site.escapeHtml(label);
 
-    if (!href) {
-      return `<a class="btn btn-sm btn-card disabled" href="#" tabindex="-1" aria-disabled="true">${safeLabel}</a>`;
-    }
-
-    return `<a class="btn btn-sm btn-card" href="${Site.escapeAttr(href)}" target="_blank" rel="noreferrer">${safeLabel}</a>`;
+    return `
+      <a class="btn btn-sm btn-card" href="${safeHref}" target="_blank" rel="noreferrer">
+        <i class="bi ${Site.escapeAttr(iconClass)} me-1"></i>${safeLabel}
+      </a>
+    `.trim();
   }
 
-  function renderErrorCard(err) {
-    return `
-      <div class="col-12">
-        <div class="card-soft p-4">
-          <div class="fw-semibold">Projects failed to load.</div>
-          <div class="text-muted small mt-1">${Site.escapeHtml(String(err.message || err))}</div>
-        </div>
-      </div>
-    `;
+  function renderBtnDisabled(label) {
+    const safeLabel = Site.escapeHtml(label);
+    return `<button class="btn btn-sm btn-card disabled" type="button" aria-disabled="true">${safeLabel}</button>`;
   }
 })();

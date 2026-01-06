@@ -1,42 +1,28 @@
 /**
- * shared.js
- * Tiny shared utilities used across pages.
- * Keeps code DRY and easy to read.
+ * nav.js
+ * Handles:
+ * - Back button: browser back if possible, otherwise go Home
+ * - Active link highlight for nav buttons (data-nav)
  */
-(function () {
-  function escapeHtml(s) {
-    return String(s)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
 
-  function escapeAttr(s) {
-    // attribute-safe (good enough for simple text/urls)
-    return escapeHtml(s).replaceAll("`", "&#096;");
-  }
-
-  async function fetchJson(path) {
-    const res = await fetch(path, { cache: "no-store" });
-    if (!res.ok) throw new Error(`${path} HTTP ${res.status}`);
-    return await res.json();
-  }
-
-  function formatUpdated() {
-    return "Updated " + new Date().toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "2-digit"
+(function initNav() {
+  // ---- Back button ----
+  const back = document.getElementById("navBack");
+  if (back) {
+    back.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (window.history.length > 1) window.history.back();
+      else window.location.href = "index.html";
     });
   }
 
-  // Expose a tiny namespace (keeps global clean)
-  window.Site = {
-    escapeHtml,
-    escapeAttr,
-    fetchJson,
-    formatUpdated
-  };
+  // ---- Active nav highlight ----
+  const current = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  document.querySelectorAll("[data-nav]").forEach((a) => {
+    const href = (a.getAttribute("href") || "").toLowerCase();
+    if (href === current) {
+      a.classList.add("is-active");
+      a.setAttribute("aria-current", "page");
+    }
+  });
 })();
