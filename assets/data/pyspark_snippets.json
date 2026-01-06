@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Create a Spark session (Databricks)",
+    "note": "In Databricks, SparkSession usually exists as `spark`, but this is the standard pattern.",
+    "code": "# Spark session (Databricks usually provides `spark` for you)\nfrom pyspark.sql import SparkSession\n\n# Create or get an existing SparkSession\nspark = SparkSession.builder.appName(\"pyspark-basics\").getOrCreate()\n"
+  },
+  {
+    "title": "Read JSON into a DataFrame",
+    "note": "Reads a folder or file. Use `multiline` when JSON spans multiple lines.",
+    "code": "# Read JSON (example path)\npath = \"/mnt/data/input/events.json\"\n\n# Load JSON into a DataFrame\n# multiline=True helps when the JSON is pretty-printed\n_df = spark.read.option(\"multiline\", \"true\").json(path)\n\n_df.printSchema()\n_df.show(5, truncate=False)\n"
+  },
+  {
+    "title": "Select + rename columns",
+    "note": "Keep your transformations explicit and readable.",
+    "code": "from pyspark.sql.functions import col\n\n# Select + rename\nclean = (\n    _df\n    .select(\n        col(\"id\").alias(\"event_id\"),\n        col(\"type\").alias(\"event_type\"),\n        col(\"ts\").alias(\"event_ts\")\n    )\n)\n\nclean.show(5, truncate=False)\n"
+  },
+  {
+    "title": "Filter + basic validation",
+    "note": "Filter out junk rows before you write curated data.",
+    "code": "from pyspark.sql.functions import col\n\n# Example filters / basic quality checks\nvalid = (\n    clean\n    .filter(col(\"event_id\").isNotNull())\n    .filter(col(\"event_type\").isNotNull())\n)\n\nvalid.count()  # sanity check\n"
+  },
+  {
+    "title": "Aggregate (daily counts)",
+    "note": "Classic “Gold” style metric: group and count.",
+    "code": "from pyspark.sql.functions import to_date, col, count\n\n# Daily counts\nby_day = (\n    valid\n    .withColumn(\"event_date\", to_date(col(\"event_ts\")))\n    .groupBy(\"event_date\", \"event_type\")\n    .agg(count(\"event_id\").alias(\"event_count\"))\n)\n\nby_day.orderBy(\"event_date\", \"event_type\").show(20, truncate=False)\n"
+  },
+  {
+    "title": "Write Delta (partitioned)",
+    "note": "Partitioning helps query performance and keeps storage organized.",
+    "code": "# Write Delta (example path)\nout_path = \"/mnt/data/gold/events_daily\"\n\n(\n    by_day\n    .write\n    .format(\"delta\")\n    .mode(\"overwrite\")\n    .partitionBy(\"event_date\")\n    .save(out_path)\n)\n"
+  }
+]

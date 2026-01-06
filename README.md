@@ -8,37 +8,42 @@ A tiny, minimalist portfolio site for showcasing my Azure data engineering proje
   - **Separation of duties** : HTML/CSS/JS/data/images are independent
   - **Easy updates**:  add a project by editing a single JSON file
 
-## Folder Structure
-```
-portfolio-site/
-  index.html          # structure
-  README.md
-  assets/
-    css/
-      styles.css
-    js/
-      app.js          # logic (renders projects)
-    data/
-      projects.json   # content
-    img/              # project images
-      weather.svg
-      bankrisk.svg
-      quake.svg
-      favicon.svg
-```
-<br>
+A tiny, calm, minimalist portfolio site for showcasing Azure data engineering projects.
+No build step. Clean separation:
+- `index.html` and `pyspark.html` = structure
+- `assets/css/*.css` = styles
+- `assets/js/*.js` = logic
+- `assets/data/*.json` = content
+- `assets/img/*` = images
 
-## Customize
+## Pages
+- Home: `index.html`
+- PySpark learning page: `pyspark.html`
 
-### 1) Update links
-  - Edit `index.html`: GitHub / LinkedIn / Email
+## Update content
+### Projects
+Edit `assets/data/projects.json`:
+- `title`, `blurb`, `tags`, `repo`, `readme`, `image`
 
-### 2) Update projects
-  - Edit `assets/data/projects.json`: - `title`, `blurb`, `tags`, `repo`, `readme`, `image`
-  - **NOTE:** If you change `projects.json`, refresh with a hard reload to bypass cached content.
+Images are referenced as paths like:
+- `assets/img/weather.png`
 
-### 3) Swap images (optional)
-  - Replace `assets/img/*.img` with: PNG/JPG screenshots (update `image` paths in JSON)
+### PySpark snippets
+Edit `assets/data/pyspark_snippets.json`:
+- `title`, `note`, `code`
+
+## Deploy to Azure (cheapest): Storage Static Website
+1. Create an Azure Storage Account
+2. Enable **Static website**
+   - Index document: `index.html`
+3. Upload everything to `$web` preserving folder structure:
+   - `index.html`, `pyspark.html`, and `assets/`
+4. Open the static website endpoint
+
+## Notes
+- If you update JSON and don’t see changes, hard refresh (cache).
+- Navbar is shared by copy/paste + `assets/js/nav.js` highlights active page and provides Back behavior.
+
 
 <br>
 
@@ -78,15 +83,4 @@ git push -u origin main
      - CORS / blocked icons: Your Azure icons come from external URLs. If one doesn’t load, download the PNGs into assets/img/azure/ and reference locally (more reliable).
 <br>
 
-## Deploy to Azure (Storage Static Website)
 
-  1. Push repo to GitHub
-  2. Azure Portal → Create Static Web App (Standard / LRS is fine)
-  3. connect to GitHub repo/branch
-    - Index document name: `index.html`
-    - `assets/` folder (keep structure)
-  5. App location: `/`
-  6. Output location: `/`
-      - Azure uses GitHub Actions to build/deploy.
-  7. Open the static website endpoint URL provided by Azure
-      

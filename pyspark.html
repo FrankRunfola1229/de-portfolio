@@ -3,12 +3,17 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Frank Runfola — Data Engineering</title>
-        <meta name="description" content="Azure Data Engineering portfolio projects." />
+        <title>PySpark Basics — Frank Runfola</title>
+        <meta name="description" content="PySpark basics with clean, simple code snippets." />
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+
+        <!-- Prism syntax highlighting -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/themes/prism-tomorrow.min.css">
+
         <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/pyspark.css">
     </head>
 
     <body>
@@ -35,45 +40,35 @@
             </div>
         </header>
 
-        <main class="container pt-1 pb-3">
-            <section class="card-soft hero-card p-4 p-md-4 mt-5 mb-5">
-                <div class="d-flex align-items-center gap-3 gap-md-4 flex-wrap">
-                    <img
-                        class="profile-img"
-                        src="assets/img/profile.png"
-                        alt="Frank Runfola headshot"
-                        loading="lazy" />
-
-                    <div class="flex-grow-1">
-                        <h1 class="headline m-0">Azure Data Engineering.</h1>
-                        <p class="subhead mb-0 mt-2">Simple, auditable pipelines.</p>
-
-                        <!-- ✅ Same icon chips as cards, but slightly bigger -->
-                        <div class="svc-row hero-services" id="heroServices" aria-label="Core Azure services"></div>
-                    </div>
-                </div>
+        <main class="container pt-5 pb-5">
+            <section class="card-soft hero-card p-3 p-md-4 mb-4">
+                <h1 class="headline m-0">PySpark basics.</h1>
+                <p class="subhead mb-0 mt-2">Small snippets. Copy. Learn. Move on.</p>
             </section>
 
             <section class="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-3">
-                <h2 class="section-title m-0">Projects</h2>
-                <div class="small text-muted" id="updated"></div>
+                <h2 class="section-title m-0">Snippets</h2>
+                <div class="small text-muted">Databricks-friendly</div>
             </section>
 
-            <div class="projects-wrap">
-                <section class="row g-4" id="projectsGrid" aria-live="polite"></section>
-            </div>
+            <section class="row g-4" id="snippetsGrid" aria-live="polite"></section>
 
             <footer class="pt-4 mt-4 border-top">
                 <div class="d-flex justify-content-between flex-wrap gap-2 small text-muted">
                     <div>© <span id="year"></span> Frank Runfola</div>
-                    <div>Static • Azure</div>
+                    <div class="mono">PySpark</div>
                 </div>
             </footer>
         </main>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Prism JS -->
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-python.min.js"></script>
+
         <script src="assets/js/shared.js"></script>
         <script src="assets/js/nav.js"></script>
-        <script src="assets/js/app.js"></script>
+        <script src="assets/js/pyspark.js"></script>
     </body>
 </html>

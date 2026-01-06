@@ -4,636 +4,365 @@
 :root {
   --white: #ffffff;
   --blue-50: #eaf4ff;
-
   --ink: #0b1220;
   --muted: #4b5563;
-
   --accent-blue: #3b82f6;
   --accent-sky:  #60a5fa;
 
+  /* Base + borders */
+  --bg: #f6faf9;
+  --line: #e6efee;
+
+  /* Card surfaces */
   --card: rgba(255, 255, 255, 0.92);
   --card-blue: rgba(234, 244, 255, 0.65);
-  --border-blue: rgba(59, 130, 246, 0.14);
 
+  /* Borders + shadow */
+  --border-blue: rgba(59, 130, 246, 0.18);
   --shadow:  0 12px 30px rgba(2, 6, 23, 0.08);
   --shadow2: 0 16px 40px rgba(2, 6, 23, 0.12);
 
+  /* Layout */
   --nav-offset: 86px;
   --nav-z: 1030;
-
   --radius-md: 18px;
   --radius-lg: 20px;
-
   --card-gap: 0.65rem;
-}
 
-:root{
+  /* Surfaces */
   --grad-accent: linear-gradient(90deg, var(--accent-blue), var(--accent-sky));
-  --grad-surface: linear-gradient(180deg, rgba(255,255,255,0.94), var(--card-blue));
-  --grad-surface-strong: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(234,244,255,0.70));
+  --grad-surface-strong: linear-gradient(180deg, rgba(255,255,255,.96), rgba(234,244,255,.40));
 }
 
-:root {
-  --border-blue: rgba(59, 130, 246, 0.18);  /* slightly stronger border */
-}
-
-.card-soft,
-.project-card {
-  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.07); /* a bit cleaner than the old shadow */
-}
-
-.project-desc {
-  background: rgba(255, 255, 255, 0.78);       /* higher contrast */
-  border: 1px solid rgba(59, 130, 246, 0.14);
-  color: rgba(15, 23, 42, 0.80);
-}
-
-
-
-
-/* =========================================
-   Base / Reset
-========================================= */
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-
-body {
-  padding-top: var(--nav-offset);
+body{
+  background:
+    radial-gradient(900px 500px at 15% 10%, rgba(42,161,152,.10), transparent 60%),
+    radial-gradient(900px 500px at 85% 20%, rgba(47,125,209,.08), transparent 60%),
+    var(--bg);
   color: var(--ink);
-  line-height: 1.55;
+}
 
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
-  font-size: 16px;
+.mono{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* ---------- Sticky header (full width) ---------- */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: var(--nav-z);
+  width: 100%;
+
+  background: rgba(241, 250, 248, 0.90);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(230, 239, 238, 0.95);
+}
+
+html { scroll-padding-top: 92px; }
+
+/* ---------- Buttons (navbar + general) ---------- */
+.btn-soft{
+  background: rgba(255,255,255,.80);
+  border: 1px solid rgba(230,239,238,.95);
+  color: rgba(15,23,42,.92);
+
+  padding: .28rem .60rem;
+  line-height: 1.05;
+  border-radius: 10px;
+
+  font-weight: 500;
   letter-spacing: -0.01em;
 
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  background: #eef4ff; /* ✅ solid soothing color */
+  transition: background .12s ease, border-color .12s ease, transform .12s ease;
 }
 
-
-
-/* =========================================
-   Navbar (Frozen)
-========================================= */
-.navbar.fixed-top {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: var(--nav-z);
-
-  background: linear-gradient(
-    90deg,
-    rgba(35, 86, 190, 0.58),
-    rgba(10, 20, 40, 0.52)
-  );
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
-
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.navbar.fixed-top::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -1px;
-  height: 2px;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.35), transparent);
-}
-
-.navbar.navbar-elevated {
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
-}
-
-/* =========================================
-   Typography
-========================================= */
-.name {
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  font-size: 1.80rem;
-  color: rgba(255, 255, 255, 0.96);
-}
-
-.role {
-  font-size: 0.85rem;
-  font-weight: 650;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
-}
-
-.section-title {
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  font-size: 1.8rem;
-  margin: 0;
-}
-
-.text-pop {
-  background: var(--grad-accent);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.intro-subtitle {
-  font-size: 0.90rem;
-  font-weight: 350;
-  color: rgba(15, 23, 42, 0.62);
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.tagline {
-  display: inline-block;
-  margin-top: 1rem;
-  margin-bottom: 3rem;
-  font-size: 1.2rem;
-  font-weight: 450;
-  line-height: 1.25;
-  color: rgba(15, 23, 42, 0.88);
-}
-
-.tagline::after {
-  /**content: "";**/
-  display: block;
-  height: 1px;
-  width: 100%;
-  margin: 0.55rem auto 0;
-  border-radius: 999px;
-  background: var(--grad-accent);
-  opacity: 0.9;
-}
-
-/* =========================================
-   Intro Card: tighter + smaller photo
-========================================= */
-.intro-card{
-  max-width: 520px;     /* smaller than 600 */
-  width: 100%;
-}
-
-.intro-photo{
-  max-height: 155px;    /* smaller picture */
-  width: auto;
-  height: auto;
-  object-fit: contain;
-}
-
-.intro-body{
-  padding-top: 0.85rem !important;
-  padding-bottom: 1.10rem !important;
-}
-
-/* Tagline: less vertical space, sleeker */
-.tagline-compact{
-  margin-top: 0.65rem;
-  margin-bottom: 1.25rem;  /* was huge before */
-  font-size: 1.05rem;
-  font-weight: 500;
-  line-height: 1.25;
-}
-
-/* Optional: reduce underline spacing if you ever re-enable it */
-.tagline-compact::after{
-  margin-top: 0.40rem;
-}
-
-
-/* =========================================
-   Buttons
-========================================= */
-.btn-soft {
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  color: rgba(255, 255, 255, 0.92);
-  background: rgba(255, 255, 255, 0.08);
-  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
-}
-
-.btn-soft:hover,
-.btn-soft:focus {
+.btn-soft:hover{
+  background: rgba(255,255,255,.95);
+  border-color: rgba(219,231,230,1);
   transform: translateY(-1px);
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.34);
-  background: rgba(255, 255, 255, 0.14);
 }
 
-/* =========================================
-   Cards / Surfaces
-========================================= */
-.card { background: var(--card); }
-
-.card-soft {
-  background: var(--grad-surface);
-  border: 1px solid var(--border-blue);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow);
+/* Disabled generic */
+.btn-soft.disabled,
+.btn-soft:disabled{
+  opacity: .55;
+  pointer-events: none;
+  transform: none;
 }
 
-.bg-body-tertiary {
-  background: linear-gradient(180deg, rgba(234, 244, 255, 0.95), rgba(255, 255, 255, 0.98)) !important;
+/* Active nav */
+a.btn-soft.is-active{
+  border-color: rgba(42,161,152,.35);
+  box-shadow: 0 0 0 2px rgba(42,161,152,.10) inset;
 }
 
-/* =========================================
-   Azure Strip
-========================================= */
-.azure-strip {
-  margin: 0.2rem auto 0.25rem;
-  max-width: 560px;
-}
-
-.azure-stack-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.85rem 0.6rem;
-  justify-items: center;
-  align-items: start;
-}
-
-
-.azure-stack {
-  display: grid;
-  justify-items: center;
-  gap: 0.5rem;
-}
-
-.logo-pill {
-  display: grid;
-  place-items: center;
-  width: 54px;
-  height: 54px;
-  border-radius: 16px;
-
-  background: rgba(255,255,255,0.86);
-  border: 1px solid rgba(59,130,246,0.14);
-  box-shadow: 0 8px 16px rgba(2, 6, 23, 0.05);
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
-}
-
-.logo-pill:hover,
-.logo-pill:focus-within {
-  transform: translateY(-2px) scale(1.02);
-  border-color: rgba(59,130,246,0.26);
-  box-shadow: 0 12px 24px rgba(2, 6, 23, 0.08);
-}
-
-.azure-logo {
-  width: 34px;
-  height: 34px;
-  object-fit: contain;
-  display: block;
-}
-
-.azure-pill {
-  display: inline-flex;
+/* ---------- Card action buttons (prettier + tighter) ---------- */
+.card-actions{
+  display: flex;
+  gap: .55rem;
   justify-content: center;
-  align-items: center;
-
-  padding: 0.28rem 0.62rem;
-  border-radius: 999px;
-
-  font-size: 0.80rem;
-  font-weight: 750;
-  letter-spacing: 0.01em;
-
-  color: rgba(15, 23, 42, 0.72);
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(59,130,246,0.14);
 }
 
-/* =========================================
-   Project Cards
-========================================= */
-.project-card {
+.btn-card{
+  background: linear-gradient(180deg, rgba(47,125,209,.12), rgba(47,125,209,.05));
+  border: 1px solid rgba(47,125,209,.18);
+  color: rgba(15,23,42,.90);
+
+  padding: .22rem .52rem;
+  line-height: 1.05;
+  border-radius: 12px;
+
+  font-weight: 500;
+  letter-spacing: -0.01em;
+
+  box-shadow:
+    0 10px 22px rgba(15,23,42,.06),
+    0 1px 3px rgba(15,23,42,.05);
+
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+}
+
+.btn-card:hover{
+  background: linear-gradient(180deg, rgba(47,125,209,.16), rgba(47,125,209,.07));
+  border-color: rgba(47,125,209,.26);
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 28px rgba(15,23,42,.08),
+    0 2px 6px rgba(15,23,42,.06);
+}
+
+.btn-card:active{
+  transform: translateY(0);
+  box-shadow:
+    0 8px 18px rgba(15,23,42,.07),
+    0 1px 3px rgba(15,23,42,.05);
+}
+
+.btn-card.disabled,
+.btn-card:disabled{
+  opacity: .55;
+  pointer-events: none;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ---------- Typography ---------- */
+.name{
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1.15rem;
+}
+
+.role{
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.headline{
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+}
+
+.subhead{ color: var(--muted); }
+
+.section-title{
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Cards ---------- */
+.card-soft{
+  background: rgba(255,255,255,.86);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.hero-card{
+  box-shadow: 0 10px 28px rgba(15,23,42,.06);
+}
+
+/* Profile image */
+.profile-img{
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+/* Slightly wider projects area */
+.projects-wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ---------- Project cards ---------- */
+.project-card{
   height: 100%;
   padding: 0.5rem;
   overflow: hidden;
-
   background: var(--grad-surface-strong);
   border: 1px solid var(--border-blue);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
-
   transition: transform 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
 }
 
-.project-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(59, 130, 246, 0.38);
-  box-shadow: var(--shadow2);
+.project-card:hover{
+  transform: translateY(-2px);
+  border-color: #dbe7e6;
+  box-shadow:
+    0 16px 34px rgba(15,23,42,.11),
+    0 4px 12px rgba(15,23,42,.06);
 }
 
-.project-img {
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  width: auto;
-
-  /* ✅ smaller on desktop */
-  height: 100px;
-
-  object-fit: contain;
-}
-
-.project-body {
-  padding: 1.15rem 1.25rem 1.10rem;
-  text-align: center;
+/* Card header: subtle */
+.project-img-wrap{
+  height: 130px;
   display: flex;
-  flex-direction: column;
-  gap: var(--card-gap);
-}
-
-.project-year {
-  display: inline-block;
-  align-self: center;
-  padding: 0.18rem 0.6rem;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-
-  color: rgba(15, 23, 42, 0.70);
-  border: 1px solid rgba(59, 130, 246, 0.14);
-  background: rgba(255, 255, 255, 0.82);
-}
-
-.project-title {
-  font-weight: 900;
-  letter-spacing: -0.01em;
-  text-transform: capitalize;
-  margin: 0.1rem 0 0.1rem;
-}
-
-/* ✅ left-aligned scanning section */
-.project-section {
-
-  padding-top: 0.5rem;
-  /*border-top: 20px solid rgba(59, 130, 246, 0.16);*/
-  text-align: left;
-}
-
-.project-section-label {
-  font-size: 0.78rem;
-  font-weight: 850;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(15, 23, 42, 0.55);
-  margin-bottom: 0.5rem;
-  padding-left: 0.1rem;
-}
-
-.project-desc {
-  margin: 0;
-  width: 100%;
-
-  padding: 0.85rem 0.95rem;
-  border-radius: 14px;
-
-  background: rgba(255, 255, 255, 0.62);
-  border: 1px solid rgba(59, 130, 246, 0.12);
-
-  color: rgba(15, 23, 42, 0.74);
-  font-size: 0.80rem;
-  font-weight: 650;
-  line-height: 1.55;
-}
-
-/* =========================================
-   Accent Rule
-========================================= */
-.accent-rule {
-  height: 3px;
-  width: 64px;
-  border-radius: 999px;
-  background: var(--grad-accent);
-}
-
-/* =========================================
-   Services Dock
-========================================= */
-.services-dock-wrap {
-  margin-top: 0.4rem;
-  display: flex;
+  align-items: center;
   justify-content: center;
+  background:
+    radial-gradient(520px 240px at 20% 25%, rgba(47,125,209,.045), transparent 64%),
+    radial-gradient(520px 240px at 80% 45%, rgba(42,161,152,.035), transparent 64%),
+    rgba(249, 253, 255, .98);
+  border-bottom: 1px solid rgba(230,239,238,.95);
 }
 
-.services-dock {
+.project-img{
+  width: auto;
+  height: 80px;
+  max-width: 90%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Card body */
+.project-body{
+  padding: 1rem;
+  background: transparent;
+}
+
+/* Sleeker centered title */
+.project-title{
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.18;
+  color: rgba(15, 23, 42, .96);
+  margin-bottom: .55rem;
+  text-align: center;
+}
+
+@media (min-width: 768px){
+  .project-title{ font-size: 1.1rem; }
+}
+
+/* Smaller + lighter section title */
+.card-label{
+  font-size: .7rem;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-top: 1.15rem;
+  margin-bottom: .45rem;
+}
+
+/* Description: subtle background + consistent height for alignment */
+.project-desc{
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.45;
+
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(230,239,238,.70);
+  border-radius: 12px;
+
+  padding: .5rem;
+  margin: 0 0 .55rem 0;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+
+  min-height: calc(1.35em * 3 + 1.2rem);
+}
+
+/* ---------- Service icon row ---------- */
+.svc-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem .6rem;
+  align-items: center;
+
+  /* cards centered */
+  justify-content: center;
+
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+
+  min-height: 42px;
+}
+
+.svc{
   display: inline-flex;
-  gap: 0.45rem;
-  padding: 0.5rem 0.6rem;
+  align-items: center;
+  gap: .30rem;
+  padding: .18rem .45rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(59, 130, 246, 0.14);
-  box-shadow: 0 12px 24px rgba(2, 6, 23, 0.06);
+  border: 1px solid var(--line);
+
+  background: rgba(47,125,209,.06);
+  color: var(--muted);
+
+  font-size: .78rem;
+  font-weight: 400;
 }
 
-.svc-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, 0.86);
-  border: 1px solid rgba(59, 130, 246, 0.10);
-  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+.svc-ico{
+  width: 15px;
+  height: 15px;
+  display: block;
 }
 
-.svc-icon:hover {
-  transform: translateY(-1px) scale(1.02);
-  border-color: rgba(59, 130, 246, 0.22);
-  box-shadow: 0 10px 18px rgba(2, 6, 23, 0.08);
+.svc-txt{ line-height: 1; }
+
+/* ✅ Hero uses the same svc chips, just slightly bigger + LEFT aligned */
+.hero-services{
+  margin-top: 0.9rem;
+
+  /* override centering from .svc-row */
+  justify-content: flex-start;
 }
 
-.svc-img {
+.hero-services .svc{
+  padding: .22rem .52rem;
+  font-size: .82rem;
+}
+
+.hero-services .svc-ico{
   width: 18px;
   height: 18px;
-  object-fit: contain;
-  display: block;
 }
 
-/* =========================================
-   Projects Heading (No Box)
-========================================= */
-.projects-header {
-  padding: 0.35rem 0.25rem 0.25rem;
-  background: transparent;
-  box-shadow: none;
-}
-
-.projects-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.96);
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-sky));
-  box-shadow: 0 10px 18px rgba(59, 130, 246, 0.18);
-}
-
-.projects-header .accent-rule {
-  width: 92px;
-  height: 3px;
-  margin-top: 0.55rem;
-  box-shadow: 0 10px 18px rgba(59, 130, 246, 0.12);
-}
-
-
-
-/* =========================================
-   Footer Bar (full-width like header)
-========================================= */
-.footer-bar{
-  width: 100%;
-  margin-left: 0;
-  margin-right: 0;
-  border-top: 1px solid rgba(59, 130, 246, 0.18);
-}
-
-.footer-text{
-  color: rgba(15, 23, 42, 0.70);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-
-
-/* =========================================
-   Card Actions (Repo / README / Flow buttons)
-========================================= */
-.card-actions{
-  margin-top: 0.35rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.60rem;
-  flex-wrap: wrap;
-}
-
-.card-btn{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0.42rem 0.90rem;
-  border-radius: 999px;
-
-  font-size: 0.82rem;
-  font-weight: 850;
-  letter-spacing: 0.01em;
-
-  text-decoration: none;
-  color: rgba(15, 23, 42, 0.78);
-
-  background: rgba(255, 255, 255, 0.84);
-  border: 1px solid rgba(59, 130, 246, 0.18);
-  box-shadow: 0 10px 18px rgba(2, 6, 23, 0.06);
-
-  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease, background 140ms ease;
-}
-
-.card-btn:hover{
-  transform: translateY(-1px);
-  border-color: rgba(59, 130, 246, 0.34);
-  box-shadow: 0 14px 26px rgba(2, 6, 23, 0.08);
-  background: rgba(255, 255, 255, 0.92);
-}
-
-.card-btn:focus-visible{
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.28), 0 14px 26px rgba(2, 6, 23, 0.08);
-}
-
-.card-btn-flow{
-  background: linear-gradient(90deg, rgba(59,130,246,0.14), rgba(96,165,250,0.14));
-}
-
-/* =========================================
-   Status Chip ("In progress")
-========================================= */
-.project-status{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0.42rem 0.90rem;
-  border-radius: 999px;
-
-  font-size: 0.80rem;
-  font-weight: 850;
-  letter-spacing: 0.01em;
-
-  color: rgba(15, 23, 42, 0.62);
-  background: rgba(234, 244, 255, 0.72);
-  border: 1px dashed rgba(59, 130, 246, 0.28);
-}
-
-/* =========================================
-   Flow Modal polish
-========================================= */
-.flow-modal {
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.flow-modal .modal-header {
-  background: rgba(234, 244, 255, 0.75);
-  border-bottom: 1px solid rgba(59, 130, 246, 0.12);
-}
-
-.flow-modal .modal-footer {
-  background: rgba(255, 255, 255, 0.85);
-  border-top: 1px solid rgba(59, 130, 246, 0.10);
-}
-
-.flow-modal-img {
-  width: 100%;
-  max-height: 70vh;
-  object-fit: contain;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid rgba(59, 130, 246, 0.10);
-  padding: 0.5rem;
-}
-
-/* =========================================
-   Mobile: Azure icons stay ONE row (shrink)
-========================================= */
-@media (max-width: 576px) {
-  .azure-stack-grid {
-    grid-template-columns: repeat(5, minmax(0, 1fr)); /* force one row */
-    gap: 0.55rem 0.20rem;
+/* Mobile tweaks */
+@media (max-width: 576px){
+  .profile-img{
+    width: 72px;
+    height: 72px;
   }
 
-  .azure-stack { gap: 0.35rem; }
-
-  .logo-pill {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    box-shadow: none; /* less bulky on mobile */
+  .project-img-wrap{
+    height: 120px;
   }
 
-  .azure-logo {
-    width: 24px;
-    height: 24px;
+  .project-img{
+    height: 78px;
   }
-
-  .azure-pill {
-    padding: 0.16rem 0.40rem;
-    font-size: 0.68rem;
-    font-weight: 800;
-    line-height: 1;
-  }
-}
-
-/* Extra-small phones */
-@media (max-width: 390px) {
-  .logo-pill { width: 36px; height: 36px; border-radius: 11px; }
-  .azure-logo { width: 22px; height: 22px; }
-  .azure-pill { font-size: 0.66rem; padding: 0.14rem 0.36rem; }
 }

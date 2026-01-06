@@ -6,8 +6,7 @@
     "services": ["adls", "adf", "databricks"],
     "image": "assets/img/earthquake.png",
     "flow": "assets/img/flows/earthquake-flow.png",
-    "repo": "https://github.com/FrankRunfola1229/earthquake.png",
-    "readme": "https://github.com/FrankRunfola1229/earthquake/blob/main/README.md",
+    "repo": "https://github.com/FrankRunfola1229/earthquake",
     "demo": ""
   },
   {
@@ -18,7 +17,6 @@
     "image": "assets/img/bank-risk.png",
     "flow": "assets/img/flows/bankrisk-flow.png",
     "repo": "",
-    "readme": "",
     "demo": ""
   },
   {
@@ -29,7 +27,6 @@
     "image": "assets/img/stocks.png",
     "flow": "assets/img/flows/stocks-flow.png",
     "repo": "",
-    "readme": "",
     "demo": ""
   },
   {
@@ -40,7 +37,6 @@
     "image": "assets/img/movies.png",
     "flow": "assets/img/flows/movies-flow.png",
     "repo": "",
-    "readme": "",
     "demo": ""
   },
   {
@@ -51,7 +47,6 @@
     "image": "assets/img/weather.png",
     "flow": "assets/img/flows/weather-flow.png",
     "repo": "",
-    "readme": "",
     "demo": ""
   },
   {
@@ -62,7 +57,6 @@
     "image": "assets/img/healthcare.png",
     "flow": "assets/img/flows/healthcare-flow.png",
     "repo": "",
-    "readme": "",
     "demo": ""
   }
 ]
