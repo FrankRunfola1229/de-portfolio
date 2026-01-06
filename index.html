@@ -12,63 +12,29 @@
         <link rel="stylesheet" href="assets/css/styles.css">
     </head>
 
-    <body class="min-vh-100 d-flex flex-column">
-        <header class="site-header">
-            <div class="container py-3">
-                <div class="site-nav d-flex flex-wrap align-items-center justify-content-between gap-3">
-                    <div>
-                        <div class="name">Frank Runfola</div>
-                        <div class="role">Data Engineering • Azure</div>
-                    </div>
-
-                    <nav class="d-flex flex-wrap gap-2 align-items-center">
-                        <a class="btn btn-sm btn-soft" href="index.html" data-nav>Home</a>
-                        <a class="btn btn-sm btn-soft" href="projects.html" data-nav>Projects</a>
-                        <a class="btn btn-sm btn-soft" href="labs.html" data-nav>Labs</a>
-                        <a class="btn btn-sm btn-soft" href="training.html" data-nav>Training</a>
-
-                        <a class="btn btn-sm btn-soft btn-icon"
-                            href="https://github.com/YOUR_GITHUB" target="_blank" rel="noreferrer"
-                            aria-label="GitHub">
-                            <i class="bi bi-github"></i>
-                        </a>
-
-                        <a class="btn btn-sm btn-soft btn-icon"
-                            href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noreferrer"
-                            aria-label="LinkedIn">
-                            <i class="bi bi-linkedin"></i>
-                        </a>
-                    </nav>
-                </div>
-            </div>
-        </header>
+    <body class="min-vh-100 d-flex flex-column" data-page="home" data-show-back="0" data-footer-right="Static • Azure">
+        <div id="siteHeader"></div>
+        <div id="siteBackbar"></div>
 
         <main class="container pt-1 pb-3 flex-grow-1 d-flex flex-column">
             <section class="card-soft hero-card p-4 p-md-4 mt-5 mb-3">
                 <div class="d-flex align-items-center gap-3 gap-md-4 flex-wrap">
-                    <img
-                        class="profile-img"
-                        src="assets/img/profile.png"
-                        alt="Frank Runfola headshot"
-                        loading="lazy" />
+                    <img class="profile-img" src="assets/img/profile.png" alt="Frank Runfola headshot" loading="lazy" />
 
                     <div class="flex-grow-1">
                         <h1 class="headline m-0">Azure Data Engineering.</h1>
                         <p class="subhead mb-0 mt-2">Simple, auditable pipelines.</p>
 
-                        <!-- Rendered by assets/js/home.js -->
                         <div class="svc-row hero-services" id="heroServices" aria-label="Core Azure services"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- 3 fixed-size tiles -->
             <section class="hub-row">
                 <div class="row g-3 justify-content-center">
                     <div class="col-12 col-sm-6 col-md-auto">
-                        <a class="hub-btn hub-btn-square hub-tile" href="projects.html" aria-label="Go to Projects">
+                        <a class="hub-btn hub-tile" href="projects.html" aria-label="Go to Projects">
                             <div class="hub-left">
-                                <!-- nicer icon -->
                                 <div class="hub-ico"><i class="bi bi-boxes"></i></div>
                                 <div class="text-center">
                                     <p class="hub-title">Projects</p>
@@ -79,22 +45,8 @@
                     </div>
 
                     <div class="col-12 col-sm-6 col-md-auto">
-                        <a class="hub-btn hub-btn-square hub-tile" href="labs.html" aria-label="Go to Labs">
+                        <a class="hub-btn hub-tile" href="training.html" aria-label="Go to Training">
                             <div class="hub-left">
-                                <!-- nicer icon -->
-                                <div class="hub-ico"><i class="bi bi-sliders"></i></div>
-                                <div class="text-center">
-                                    <p class="hub-title">Labs</p>
-                                    <p class="hub-sub">Small experiments</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-auto">
-                        <a class="hub-btn hub-btn-square hub-tile" href="training.html" aria-label="Go to Training">
-                            <div class="hub-left">
-                                <!-- nicer icon -->
                                 <div class="hub-ico"><i class="bi bi-journal-code"></i></div>
                                 <div class="text-center">
                                     <p class="hub-title">Training</p>
@@ -106,16 +58,12 @@
                 </div>
             </section>
 
-            <footer class="pt-4 border-top mt-auto">
-                <div class="d-flex justify-content-between flex-wrap gap-2 small text-muted">
-                    <div>© <span id="year"></span> Frank Runfola</div>
-                    <div>Static • Azure</div>
-                </div>
-            </footer>
+            <footer id="siteFooter" class="border-top mt-auto pt-5 pb-3"></footer>
         </main>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/shared.js"></script>
+        <script src="assets/js/layout.js"></script>
         <script src="assets/js/nav.js"></script>
         <script src="assets/js/home.js"></script>
     </body>

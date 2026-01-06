@@ -18,25 +18,49 @@
 
     <body>
         <header class="site-header">
-            <div class="container py-3">
-                <div class="site-nav d-flex flex-wrap align-items-center justify-content-between gap-3">
-                    <div>
+            <div class="container py-2">
+                <nav class="navbar navbar-expand-md navbar-light p-0">
+                    <!-- Left: name + role -->
+                    <div class="d-flex flex-column">
                         <div class="name">Frank Runfola</div>
                         <div class="role">Data Engineering • Azure</div>
                     </div>
 
-                    <nav class="d-flex flex-wrap gap-2 align-items-center">
-                        <a class="btn btn-sm btn-soft" href="index.html" data-nav>Home</a>
-                        <a class="btn btn-sm btn-soft" href="pyspark.html" data-nav>PySpark</a>
-                        <a class="btn btn-sm btn-soft" href="#" id="navBack">Back</a>
+                    <!-- Mobile toggle -->
+                    <button
+                        class="navbar-toggler ms-auto"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#siteNav"
+                        aria-controls="siteNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                        <span class="mx-1 text-muted small d-none d-md-inline">|</span>
+                    <!-- Collapsible nav -->
+                    <div class="collapse navbar-collapse" id="siteNav">
+                        <div class="d-flex flex-column flex-md-row gap-2 align-items-start align-items-md-center ms-md-auto mt-3 mt-md-0">
+                            <a class="btn btn-sm btn-soft" href="index.html" data-nav>Home</a>
+                            <a class="btn btn-sm btn-soft" href="projects.html" data-nav>Projects</a>
+                            <a class="btn btn-sm btn-soft" href="training.html" data-nav>Training</a>
 
-                        <a class="btn btn-sm btn-soft" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noreferrer">GitHub</a>
-                        <a class="btn btn-sm btn-soft" href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noreferrer">LinkedIn</a>
-                        <a class="btn btn-sm btn-soft" href="mailto:YOUR_EMAIL@example.com">Email</a>
-                    </nav>
-                </div>
+                            <div class="d-flex gap-2">
+                                <a class="btn btn-sm btn-soft btn-icon"
+                                    href="https://github.com/YOUR_GITHUB" target="_blank" rel="noreferrer"
+                                    aria-label="GitHub">
+                                    <i class="bi bi-github"></i>
+                                </a>
+
+                                <a class="btn btn-sm btn-soft btn-icon"
+                                    href="https://www.linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noreferrer"
+                                    aria-label="LinkedIn">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </header>
 

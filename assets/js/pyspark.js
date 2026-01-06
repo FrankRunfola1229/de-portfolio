@@ -1,18 +1,15 @@
 /**
  * pyspark.js
  * Renders snippets from assets/data/pyspark_snippets.json
- * Uses shared utilities from shared.js (window.Site).
+ * Footer year is handled by layout.js now.
+ *
+ * Depends on shared.js (window.Site)
+ * Uses Prism to highlight after render.
  */
+
 (async function initPySparkPage() {
-  const yearEl = document.getElementById("year");
   const grid = document.getElementById("snippetsGrid");
-
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-  if (!grid) {
-    console.error("Missing #snippetsGrid in pyspark.html");
-    return;
-  }
+  if (!grid) return;
 
   try {
     const items = await Site.fetchJson("./assets/data/pyspark_snippets.json");
@@ -27,48 +24,52 @@
     grid.innerHTML = `
       <div class="col-12">
         <div class="card-soft p-4">
-          <div class="fw-semibold">Snippets failed to load.</div>
-          <div class="text-muted small mt-1">${Site.escapeHtml(String(err.message || err))}</div>
+          <div class="section-title mb-2">Snippets failed to load.</div>
+          <div class="text-muted small mono">${Site.escapeHtml(String(err.message || err))}</div>
         </div>
       </div>
     `;
   }
 
   function renderSnippetCard(s) {
-    const title = s.title || "";
-    const note = s.note || "";
-    const code = String(s.code || "");
+    const title = s?.title ?? "";
+    const note = s?.note ?? "";
+    const code = String(s?.code ?? "");
 
     return `
-      <div class="col-lg-6">
-        <article class="code-card">
-          <div class="code-head">
-            <div>
-              <p class="code-title">${Site.escapeHtml(title)}</p>
-              <p class="code-note">${Site.escapeHtml(note)}</p>
+      <div class="col-12 col-lg-6">
+        <article class="project-card h-100">
+          <div class="project-body">
+            <div class="project-title">${Site.escapeHtml(title)}</div>
+            <div class="project-desc">${Site.escapeHtml(note)}</div>
+
+            <div class="d-flex justify-content-center mb-2">
+              <button class="btn btn-sm btn-card" type="button" data-copy="${Site.escapeAttr(code)}">
+                <i class="bi bi-clipboard me-1"></i>Copy
+              </button>
             </div>
-            <button class="btn btn-sm btn-soft btn-copy" data-copy="${Site.escapeAttr(code)}">Copy</button>
-          </div>
-          <div class="code-body">
-            <pre><code class="language-python">${Site.escapeHtml(code)}</code></pre>
+
+            <pre class="m-0"><code class="language-python">${Site.escapeHtml(code)}</code></pre>
           </div>
         </article>
       </div>
-    `;
+    `.trim();
   }
 
   function wireCopyButtons() {
     document.querySelectorAll("[data-copy]").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const code = btn.getAttribute("data-copy") || "";
+
         try {
           await navigator.clipboard.writeText(code);
-          const old = btn.textContent;
-          btn.textContent = "Copied";
-          setTimeout(() => (btn.textContent = old), 900);
+          const old = btn.innerHTML;
+          btn.innerHTML = `<i class="bi bi-check2 me-1"></i>Copied`;
+          setTimeout(() => (btn.innerHTML = old), 900);
         } catch {
-          btn.textContent = "Copy failed";
-          setTimeout(() => (btn.textContent = "Copy"), 900);
+          const old = btn.innerHTML;
+          btn.innerHTML = `<i class="bi bi-x-lg me-1"></i>Copy failed`;
+          setTimeout(() => (btn.innerHTML = old), 900);
         }
       });
     });

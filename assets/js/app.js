@@ -1,43 +1,33 @@
 /**
  * app.js
  * Projects page renderer.
+ * Footer year is handled by layout.js now.
  *
- * Reads:
- * - ./assets/data/projects.json
- *
- * Renders:
- * - #projectsGrid -> Bootstrap cards
- * - #updated -> simple "Updated" text
- * - #year -> footer year
- *
+ * Flow button opens a modal and displays the PNG.
  * Depends on shared.js (window.Site)
  */
 
 (async function initProjectsPage() {
   const grid = document.getElementById("projectsGrid");
   const updatedEl = document.getElementById("updated");
-  const yearEl = document.getElementById("year");
 
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-  // If this page doesn't have a grid, do nothing.
   if (!grid) return;
+
+  const flowModalLabel = document.getElementById("flowModalLabel");
+  const flowModalImg = document.getElementById("flowModalImg");
 
   try {
     const items = await Site.fetchJson("./assets/data/projects.json");
     if (!Array.isArray(items)) throw new Error("projects.json must be an array");
 
-    // Keep your layout stable:
-    // - Title centered
-    // - No dates
-    // - Description + service pills
-    // - Bottom buttons: Repo + Flow (if present)
     grid.innerHTML = items.map(renderProjectCard).join("");
 
     if (updatedEl) {
       const d = new Date();
       updatedEl.textContent = `Updated: ${d.toLocaleDateString()}`;
     }
+
+    wireFlowModal();
   } catch (err) {
     console.error(err);
     grid.innerHTML = `
@@ -58,9 +48,8 @@
     const repo = p?.repo ?? "";
     const flow = p?.flow ?? "";
 
-    // Buttons: only show if the link is present
-    const repoBtn = repo ? renderBtn("Repo", repo, "bi-github") : renderBtnDisabled("Repo");
-    const flowBtn = flow ? renderBtn("Flow", flow, "bi-diagram-3") : renderBtnDisabled("Flow");
+    const repoBtn = repo ? renderLinkBtn("Repo", repo, "bi-github") : renderBtnDisabled("Repo");
+    const flowBtn = flow ? renderFlowBtn("Flow", flow, title) : renderBtnDisabled("Flow");
 
     return `
       <div class="col-12 col-sm-6 col-lg-4">
@@ -71,7 +60,6 @@
 
           <div class="project-body">
             <div class="project-title">${Site.escapeHtml(title)}</div>
-
             <div class="project-desc">${Site.escapeHtml(desc)}</div>
 
             <div class="svc-row">
@@ -88,8 +76,7 @@
     `.trim();
   }
 
-  function renderBtn(label, href, iconClass) {
-    // target=_blank for external / assets links
+  function renderLinkBtn(label, href, iconClass) {
     const safeHref = Site.escapeAttr(href);
     const safeLabel = Site.escapeHtml(label);
 
@@ -100,8 +87,51 @@
     `.trim();
   }
 
+  function renderFlowBtn(label, flowSrc, title) {
+    const safeLabel = Site.escapeHtml(label);
+    const safeFlow = Site.escapeAttr(flowSrc);
+    const safeTitle = Site.escapeAttr(title || "Flow");
+
+    return `
+      <button
+        class="btn btn-sm btn-card"
+        type="button"
+        data-flow-img="${safeFlow}"
+        data-flow-title="${safeTitle}"
+        data-bs-toggle="modal"
+        data-bs-target="#flowModal">
+        <i class="bi bi-diagram-3 me-1"></i>${safeLabel}
+      </button>
+    `.trim();
+  }
+
   function renderBtnDisabled(label) {
     const safeLabel = Site.escapeHtml(label);
     return `<button class="btn btn-sm btn-card disabled" type="button" aria-disabled="true">${safeLabel}</button>`;
+  }
+
+  function wireFlowModal() {
+    if (!flowModalImg || !flowModalLabel) return;
+
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-flow-img]");
+      if (!btn) return;
+
+      const src = btn.getAttribute("data-flow-img") || "";
+      const title = btn.getAttribute("data-flow-title") || "Flow";
+
+      flowModalLabel.textContent = `${title} — Flow`;
+      flowModalImg.src = src;
+      flowModalImg.alt = `${title} flow diagram`;
+    });
+
+    const modalEl = document.getElementById("flowModal");
+    if (modalEl) {
+      modalEl.addEventListener("hidden.bs.modal", () => {
+        flowModalImg.src = "";
+        flowModalImg.alt = "Flow diagram";
+        flowModalLabel.textContent = "Flow";
+      });
+    }
   }
 })();

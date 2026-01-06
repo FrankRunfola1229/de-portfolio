@@ -95,6 +95,28 @@ a.btn-soft.is-active{
   box-shadow: 0 0 0 2px rgba(59,130,246,.10) inset;
 }
 
+
+/* Collapsible navbar toggler styling (matches btn-soft vibe) */
+.site-header .navbar-toggler{
+  border: 1px solid rgba(230,239,238,.95);
+  background: rgba(255,255,255,.70);
+  border-radius: 12px;
+  padding: .28rem .45rem;
+}
+
+.site-header .navbar-toggler:focus{
+  box-shadow: 0 0 0 .2rem rgba(59,130,246,.12);
+}
+
+/* Keep collapse area from looking cramped on mobile */
+@media (max-width: 767.98px){
+  .site-header .navbar-collapse{
+    padding-top: .25rem;
+  }
+}
+
+
+
 /* Back button row: sits under the sticky header, left aligned */
 .page-backbar{
   background: transparent;
@@ -124,6 +146,7 @@ a.btn-soft.is-active{
   font-size: 1.05rem;
   line-height: 1;
 }
+
 
 
 
@@ -222,6 +245,13 @@ a.btn-soft.is-active{
   border: 1px solid var(--line);
   background: #fff;
 }
+
+.flow-modal-img{
+  max-height: 70vh;
+  width: 100%;
+  object-fit: contain;
+}
+
 
 /* Slightly wider projects area */
 .projects-wrap{
