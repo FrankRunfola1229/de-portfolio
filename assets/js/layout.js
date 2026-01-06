@@ -26,8 +26,8 @@
 
   // Centralize these once (no more copy/paste across pages)
   const LINKS = {
-    github: "https://github.com/YOUR_GITHUB",
-    linkedin: "https://www.linkedin.com/in/YOUR_LINKEDIN",
+    github: "https://github.com/FrankRunfola1229",
+    linkedin: "https://www.linkedin.com/in/frank-runfola-92897b53/",
   };
 
   headerHost.innerHTML = `
