@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Training — Data Modeling</title>
-        <meta name="description" content="Data modeling notes and examples." />
+        <meta name="description" content="Data modeling training snippets." />
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -21,63 +21,22 @@
         <main class="container pt-4 pb-3 flex-grow-1 d-flex flex-column" style="max-width: 1200px;">
             <section class="card-soft hero-card p-4 p-md-4 mb-3">
                 <h1 class="headline m-0">Training / Data Modeling</h1>
-                <p class="subhead mb-0 mt-2">Keys, grain, and models that don’t rot.</p>
+                <p class="subhead mb-0 mt-2">The rules that stop your warehouse from turning into sludge.</p>
             </section>
 
-            <div class="row g-4">
-                <div class="col-lg-6">
-                    <article class="project-card">
-                        <div class="project-body">
-                            <div class="project-title">Dim / Fact basics</div>
-                            <div class="project-desc">Pick a grain, then design facts and dims around it.</div>
-                            <pre class="m-0"><code class="language-sql">-- Example grain: 1 row per (date, customer, product)
-CREATE TABLE fact_sales (
-  sales_date   DATE,
-  customer_id  INT,
-  product_id   INT,
-  qty          INT,
-  revenue      DECIMAL(18,2)
-);
-
-CREATE TABLE dim_customer (
-  customer_id INT PRIMARY KEY,
-  customer_name VARCHAR(200),
-  segment VARCHAR(50)
-);</code></pre>
-                        </div>
-                    </article>
-                </div>
-
-                <div class="col-lg-6">
-                    <article class="project-card">
-                        <div class="project-body">
-                            <div class="project-title">3NF reminder</div>
-                            <div class="project-desc">Normalize sources → then publish star schema for analytics.</div>
-                            <pre class="m-0"><code class="language-sql">-- 3NF idea: separate entities
-CREATE TABLE customer (
-  customer_id INT PRIMARY KEY,
-  customer_name VARCHAR(200)
-);
-
-CREATE TABLE address (
-  address_id INT PRIMARY KEY,
-  customer_id INT,
-  city VARCHAR(100),
-  state VARCHAR(50)
-);</code></pre>
-                        </div>
-                    </article>
-                </div>
-            </div>
+            <section class="row g-4" id="snippetsGrid" aria-live="polite"></section>
 
             <footer id="siteFooter" class="border-top mt-auto pt-5 pb-3"></footer>
         </main>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
         <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/prism.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-sql.min.js"></script>
 
+        <script src="assets/js/shared.js"></script>
         <script src="assets/js/layout.js"></script>
         <script src="assets/js/nav.js"></script>
+        <script src="assets/js/modeling.js"></script>
     </body>
 </html>

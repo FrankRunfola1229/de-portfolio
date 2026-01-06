@@ -35,11 +35,8 @@
   // JSON fetch helper
   // -----------------------
   Site.fetchJson = async function fetchJson(path) {
-    // Keep it simple: fetch + check + parse.
     const res = await fetch(path, { cache: "no-store" });
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status} while fetching ${path}`);
-    }
+    if (!res.ok) throw new Error(`HTTP ${res.status} while fetching ${path}`);
     return await res.json();
   };
 
@@ -67,6 +64,23 @@
       label: "Synapse",
       desc: "Azure Synapse Analytics",
       icon: "https://az-icons.com/api/icon/azure-synapse-analytics/download?format=png"
+    },
+
+    // Extra icons (same pill style)
+    api: {
+      label: "API",
+      desc: "API integration (APIs / API Management)",
+      icon: "https://az-icons.com/api/icon/api-management-services/download?format=png"
+    },
+    sql: {
+      label: "SQL",
+      desc: "SQL (SQL Server / Azure SQL)",
+      icon: "https://az-icons.com/api/icon/sql-database/download?format=png"
+    },
+    powerbi: {
+      label: "Power BI",
+      desc: "Power BI (reporting / dashboards)",
+      icon: "https://az-icons.com/api/icon/power-bi-embedded/download?format=png"
     }
   };
 
@@ -78,6 +92,7 @@
    */
   Site.renderServicePills = function renderServicePills(keys, opts = {}) {
     if (!Array.isArray(keys) || keys.length === 0) return "";
+
     const cls = opts.className ? ` ${Site.escapeAttr(opts.className)}` : "";
 
     return keys
@@ -85,10 +100,13 @@
         const m = Site.SERVICE_META[k];
         if (!m) return "";
 
+        const label = m.label || String(k).toUpperCase();
+        const desc = m.desc || label; // safe fallback
+
         return `
-          <span class="svc${cls}" title="${Site.escapeAttr(m.desc)}" aria-label="${Site.escapeAttr(m.desc)}">
-            <img class="svc-ico" src="${Site.escapeAttr(m.icon)}" alt="${Site.escapeAttr(m.label)} icon" loading="lazy">
-            <span class="svc-txt">${Site.escapeHtml(m.label)}</span>
+          <span class="svc${cls}" title="${Site.escapeAttr(desc)}" aria-label="${Site.escapeAttr(desc)}">
+            <img class="svc-ico" src="${Site.escapeAttr(m.icon)}" alt="${Site.escapeAttr(label)} icon" loading="lazy">
+            <span class="svc-txt">${Site.escapeHtml(label)}</span>
           </span>
         `.trim();
       })

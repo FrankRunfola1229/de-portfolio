@@ -1,16 +1,16 @@
 /**
  * home.js
- * Home page-only:
- * - hero Azure service pills
- *
- * Depends on shared.js (window.Site)
- * Footer year is handled by layout.js now.
+ * Renders the hero service icon row on index.html
+ * Requires shared.js (window.Site).
  */
 
 (function initHome() {
-  const heroServices = document.getElementById("heroServices");
-  if (!heroServices || !window.Site) return;
+  const hero = document.getElementById("heroServices");
+  if (!hero || !window.Site) return;
 
-  const core = ["adf", "adls", "databricks", "synapse"];
-  heroServices.innerHTML = Site.renderServicePills(core);
+  // Core + extras (API / SQL / Power BI)
+  const HERO_SERVICES = ["adf", "adls", "databricks", "synapse", "api", "sql", "powerbi"];
+
+  // Use the shared renderer (single source of truth)
+  hero.innerHTML = Site.renderServicePills(HERO_SERVICES, { className: "svc-hero" });
 })();

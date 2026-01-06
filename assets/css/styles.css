@@ -115,6 +115,13 @@ a.btn-soft.is-active{
   }
 }
 
+/* Home: when only 2 tiles, tighten spacing on desktop */
+@media (min-width: 768px){
+  .hub-row-two .row{
+    column-gap: .9rem;
+  }
+}
+
 
 
 /* Back button row: sits under the sticky header, left aligned */

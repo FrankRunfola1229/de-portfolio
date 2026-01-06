@@ -1,0 +1,77 @@
+[
+  {
+    "title": "Start with grain (the #1 rule)",
+    "note": "If you can’t say the grain in one sentence, your model will drift.",
+    "code": "-- Grain examples:\n-- FactSales: 1 row per (order_id, line_number)\n-- FactPayments: 1 row per (payment_id)\n-- FactWebEvents: 1 row per (event_id)\n\n-- Write it down in your doc and enforce it in ETL.\n"
+  },
+  {
+    "title": "Dim vs Fact (simple mental model)",
+    "note": "Facts = measurements/events. Dims = who/what/where/when/context.",
+    "code": "-- Fact table: numeric measures + foreign keys\n-- Dim table: descriptive attributes + surrogate key\n\n-- Facts join to dims, not usually dim-to-dim.\n"
+  },
+  {
+    "title": "Surrogate keys (why you want them)",
+    "note": "Natural keys change. Surrogate keys don’t. Helps with SCD and performance.",
+    "code": "-- DimCustomer\n-- customer_sk (surrogate) -> stable internal key\n-- customer_id (natural/business key) -> from source\n\n-- Typical:\n-- customer_sk BIGINT IDENTITY / generated\n-- customer_id STRING/INT from source\n"
+  },
+  {
+    "title": "Star schema skeleton (dim + fact)",
+    "note": "This is the bread-and-butter analytics shape.",
+    "code": "-- Dimensions\nCREATE TABLE dim_customer (\n  customer_sk    BIGINT,\n  customer_id    INT,\n  customer_name  VARCHAR(200),\n  segment        VARCHAR(50)\n);\n\nCREATE TABLE dim_date (\n  date_sk   INT,\n  date      DATE,\n  year      INT,\n  month     INT,\n  day       INT\n);\n\n-- Fact\nCREATE TABLE fact_orders (\n  order_id     BIGINT,\n  customer_sk  BIGINT,\n  date_sk      INT,\n  order_total  DECIMAL(18,2)\n);\n"
+  },
+  {
+    "title": "Bridge tables (many-to-many)",
+    "note": "If you force many-to-many into a single dim you’ll get duplicates and wrong totals.",
+    "code": "-- Example: Products can have many Tags\n\nCREATE TABLE dim_tag (\n  tag_sk BIGINT,\n  tag_name VARCHAR(100)\n);\n\nCREATE TABLE bridge_product_tag (\n  product_sk BIGINT,\n  tag_sk BIGINT\n);\n"
+  },
+  {
+    "title": "Conformed dimensions (reuse across facts)",
+    "note": "This is how you get consistent reporting across multiple subject areas.",
+    "code": "-- Conformed dim_customer is shared by multiple facts:\n-- fact_orders, fact_payments, fact_support_tickets\n\n-- Same keys, same definitions, same attributes.\n"
+  },
+  {
+    "title": "Slowly Changing Dimension Type 1 (overwrite)",
+    "note": "Use when history doesn’t matter (typo fixes, non-historical attributes).",
+    "code": "-- SCD1 approach:\n-- On change: UPDATE dim row in place\n-- No history\n\n-- Example: customer_name typo correction\n"
+  },
+  {
+    "title": "Slowly Changing Dimension Type 2 (history)",
+    "note": "Use when you need to know what the values were at the time of the fact.",
+    "code": "-- Common SCD2 columns:\n-- is_current BOOLEAN\n-- valid_from DATE/TIMESTAMP\n-- valid_to DATE/TIMESTAMP\n\n-- On change:\n-- 1) expire current row (set valid_to, is_current=false)\n-- 2) insert new row (is_current=true)\n"
+  },
+  {
+    "title": "SCD2 join pattern (facts to dim at event time)",
+    "note": "How you attach the correct historical dimension row.",
+    "code": "-- Fact has event_ts, dim has valid_from/valid_to\n\nSELECT f.*, d.customer_sk\nFROM fact_orders_raw f\nJOIN dim_customer d\n  ON f.customer_id = d.customer_id\n AND f.order_ts >= d.valid_from\n AND f.order_ts <  COALESCE(d.valid_to, TIMESTAMP '9999-12-31 00:00:00');\n"
+  },
+  {
+    "title": "Degenerate dimension (store identifier on fact)",
+    "note": "Sometimes the dimension is just an ID with no attributes (order_number, ticket_id).",
+    "code": "-- Example: OrderNumber is meaningful but has no separate attributes\n\nCREATE TABLE fact_orders (\n  order_number VARCHAR(50),  -- degenerate dimension\n  customer_sk BIGINT,\n  date_sk INT,\n  order_total DECIMAL(18,2)\n);\n"
+  },
+  {
+    "title": "Factless fact table (events without measures)",
+    "note": "Still useful: attendance, clicks, enrollments, relationships.",
+    "code": "-- Example: Student enrolled in course (no numeric measure)\n\nCREATE TABLE fact_enrollments (\n  student_sk BIGINT,\n  course_sk BIGINT,\n  enroll_date_sk INT\n);\n"
+  },
+  {
+    "title": "Grain mismatch warning (classic bug)",
+    "note": "If you join a higher-grain dim to a lower-grain fact incorrectly, your sums explode.",
+    "code": "-- Bad example:\n-- Fact at line item grain, dim at order grain.\n-- Joining can duplicate line items.\n\n-- Fix: model the dimension at the right grain or use a bridge.\n"
+  },
+  {
+    "title": "Data modeling checklist (quick)",
+    "note": "This is the sanity list you run before calling it done.",
+    "code": "-- ✅ Define grain for every fact\n-- ✅ Identify natural keys + create surrogate keys\n-- ✅ Decide SCD type per dimension\n-- ✅ Handle many-to-many with bridge tables\n-- ✅ Define conformed dimensions\n-- ✅ Validate joins don’t duplicate facts\n-- ✅ Add data quality checks (null keys, dupes)\n"
+  },
+  {
+    "title": "Null/Unknown dimension row (avoid null foreign keys)",
+    "note": "Analytics tools hate null joins. Use an 'Unknown' member instead.",
+    "code": "-- Insert an Unknown row once:\n-- customer_sk = 0\n-- customer_id = -1\n-- customer_name = 'Unknown'\n\n-- Then in ETL, coalesce missing lookups to customer_sk = 0.\n"
+  },
+  {
+    "title": "Naming conventions (simple and consistent)",
+    "note": "Consistency beats cleverness. Don’t freestyle names.",
+    "code": "-- dim_customer, dim_date\n-- fact_orders, fact_payments\n-- bridge_product_tag\n\n-- Keys:\n-- customer_sk (surrogate)\n-- customer_id (business key)\n"
+  }
+]

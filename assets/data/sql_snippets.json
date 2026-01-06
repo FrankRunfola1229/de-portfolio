@@ -1,0 +1,77 @@
+[
+  {
+    "title": "SELECT + LIMIT (basic)",
+    "note": "Quick peek at a table without pulling everything.",
+    "code": "SELECT *\nFROM silver_customers\nLIMIT 25;"
+  },
+  {
+    "title": "WHERE + ORDER BY (filtering)",
+    "note": "Always filter early. Order only if you need it.",
+    "code": "SELECT customer_id, customer_name, created_at\nFROM silver_customers\nWHERE created_at >= DATE '2025-01-01'\nORDER BY created_at DESC;"
+  },
+  {
+    "title": "INNER JOIN (facts + dims)",
+    "note": "Use INNER JOIN when you only want records with valid lookups.",
+    "code": "SELECT f.order_id, f.customer_id, d.customer_name, f.order_total\nFROM silver_orders f\nJOIN silver_customers d\n  ON f.customer_id = d.customer_id;"
+  },
+  {
+    "title": "LEFT JOIN (keep all facts)",
+    "note": "Standard analytics pattern: keep facts even if dimension is missing.",
+    "code": "SELECT f.order_id, f.customer_id, d.customer_name, f.order_total\nFROM silver_orders f\nLEFT JOIN silver_customers d\n  ON f.customer_id = d.customer_id;"
+  },
+  {
+    "title": "GROUP BY + KPI rollups (Gold style)",
+    "note": "Gold tables are often daily aggregates that are stable and easy to query.",
+    "code": "SELECT\n  CAST(order_ts AS DATE) AS order_date,\n  COUNT(*) AS orders,\n  COUNT(DISTINCT customer_id) AS unique_customers,\n  SUM(order_total) AS revenue,\n  AVG(order_total) AS avg_order\nFROM silver_orders\nGROUP BY CAST(order_ts AS DATE)\nORDER BY order_date;"
+  },
+  {
+    "title": "Window: ROW_NUMBER for dedupe (latest record wins)",
+    "note": "Keep the newest record per business key. Common Silver cleanup step.",
+    "code": "WITH ranked AS (\n  SELECT\n    *,\n    ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY updated_at DESC) AS rn\n  FROM bronze_customer_updates\n)\nSELECT *\nFROM ranked\nWHERE rn = 1;"
+  },
+  {
+    "title": "Window: SUM over partition (running total)",
+    "note": "Great for trends and time-series features.",
+    "code": "SELECT\n  customer_id,\n  order_ts,\n  order_total,\n  SUM(order_total) OVER (\n    PARTITION BY customer_id\n    ORDER BY order_ts\n    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n  ) AS running_spend\nFROM silver_orders;"
+  },
+  {
+    "title": "CTE pattern (clean + readable SQL)",
+    "note": "Break complex logic into understandable steps.",
+    "code": "WITH base AS (\n  SELECT order_id, customer_id, order_total, order_ts\n  FROM bronze_orders\n), cleaned AS (\n  SELECT\n    order_id,\n    customer_id,\n    CAST(order_total AS DECIMAL(18,2)) AS order_total,\n    CAST(order_ts AS TIMESTAMP) AS order_ts\n  FROM base\n)\nSELECT *\nFROM cleaned;"
+  },
+  {
+    "title": "CASE WHEN (bucketing / rules)",
+    "note": "Use CASE for simple business rules and categories.",
+    "code": "SELECT\n  order_id,\n  order_total,\n  CASE\n    WHEN order_total >= 500 THEN 'high'\n    WHEN order_total >= 100 THEN 'medium'\n    ELSE 'low'\n  END AS spend_band\nFROM silver_orders;"
+  },
+  {
+    "title": "Data quality: null checks",
+    "note": "Catch broken ingestions early. If this returns rows, you have a problem.",
+    "code": "SELECT *\nFROM silver_customers\nWHERE customer_id IS NULL\n   OR customer_name IS NULL;"
+  },
+  {
+    "title": "Data quality: duplicates by key",
+    "note": "If count > 1, your dedupe step failed or upstream sent duplicates.",
+    "code": "SELECT customer_id, COUNT(*) AS cnt\nFROM silver_customers\nGROUP BY customer_id\nHAVING COUNT(*) > 1\nORDER BY cnt DESC;"
+  },
+  {
+    "title": "Create table from select (CTAS)",
+    "note": "Fast way to publish a curated table from a query.",
+    "code": "CREATE TABLE IF NOT EXISTS gold_daily_kpis AS\nSELECT\n  CAST(order_ts AS DATE) AS order_date,\n  COUNT(*) AS orders,\n  SUM(order_total) AS revenue\nFROM silver_orders\nGROUP BY CAST(order_ts AS DATE);"
+  },
+  {
+    "title": "Insert overwrite (rebuild a partition/table)",
+    "note": "Use when you want deterministic rebuilds (common Gold approach).",
+    "code": "INSERT OVERWRITE TABLE gold_daily_kpis\nSELECT\n  CAST(order_ts AS DATE) AS order_date,\n  COUNT(*) AS orders,\n  SUM(order_total) AS revenue\nFROM silver_orders\nGROUP BY CAST(order_ts AS DATE);"
+  },
+  {
+    "title": "MERGE (upsert) into Delta table (Databricks)",
+    "note": "Standard upsert pattern. Works for SCD Type 1 style updates.",
+    "code": "MERGE INTO silver_customers AS t\nUSING customer_updates AS s\nON t.customer_id = s.customer_id\nWHEN MATCHED THEN UPDATE SET\n  t.customer_name = s.customer_name,\n  t.email = s.email,\n  t.updated_at = s.updated_at\nWHEN NOT MATCHED THEN INSERT (\n  customer_id, customer_name, email, updated_at\n) VALUES (\n  s.customer_id, s.customer_name, s.email, s.updated_at\n);"
+  },
+  {
+    "title": "Explain (see query plan)",
+    "note": "If SQL is slow, inspect the plan instead of guessing.",
+    "code": "EXPLAIN\nSELECT\n  CAST(order_ts AS DATE) AS order_date,\n  COUNT(*) AS orders,\n  SUM(order_total) AS revenue\nFROM silver_orders\nGROUP BY CAST(order_ts AS DATE);"
+  }
+]

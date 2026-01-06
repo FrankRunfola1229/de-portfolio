@@ -3,7 +3,7 @@
     "title": "earthquake",
     "year": 2025,
     "desc": "Low-cost earthquake data pipeline for incremental loads, partitioning, and curated analytics outputs.",
-    "services": ["adls", "adf", "databricks"],
+    "services": ["adls", "adf", "databricks", "powerbi"],
     "image": "assets/img/earthquake.png",
     "flow": "assets/img/flows/earthquake-flow.png",
     "repo": "https://github.com/FrankRunfola1229/earthquake",
