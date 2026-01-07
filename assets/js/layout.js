@@ -54,6 +54,7 @@
             <div class="d-flex flex-column flex-md-row gap-2 align-items-start align-items-md-center ms-md-auto mt-3 mt-md-0">
               <a class="btn btn-sm btn-soft" href="index.html" data-nav>Home</a>
               <a class="btn btn-sm btn-soft" href="projects.html" data-nav>Projects</a>
+              <a class="btn btn-sm btn-soft" href="labs.html" data-nav>Labs</a>
 
               <a class="btn btn-sm btn-soft" href="training.html" data-nav>Training</a>
 
@@ -96,7 +97,7 @@
     footerHost.innerHTML = `
       <div class="d-flex justify-content-between flex-wrap gap-2 small text-muted">
         <div>© <span id="year"></span> Frank Runfola</div>
-        <div>${escapeHtml(footerRight)}</div>
+        <div>${Site.escapeHtml(footerRight)}</div>
       </div>
     `.trim();
 
@@ -104,13 +105,7 @@
     if (yearEl) yearEl.textContent = new Date().getFullYear();
   }
 
-  function escapeHtml(value) {
-    const s = String(value ?? "");
-    return s
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#39;");
-  }
+  // Wire shared navigation behaviors (back button + active link).
+  if (window.Site && typeof Site.initNav === "function") Site.initNav();
+
 })();

@@ -2,6 +2,7 @@
  * pyspark-labs.js
  * Renders labs from assets/data/pyspark_labs.json
  * Uses shared utilities from shared.js (window.Site)
+ * Uses Prism to highlight after render.
  */
 
 (async function initPySparkLabs() {
@@ -15,7 +16,7 @@
     grid.innerHTML = labs.map(renderLabCard).join("");
 
     if (window.Prism) Prism.highlightAll();
-    wireCopyButtons();
+    Site.bindCopyButtons(grid);
   } catch (err) {
     console.error(err);
     grid.innerHTML = `
@@ -44,20 +45,22 @@
     `.trim();
 
     const stepsHtml = steps.length
-      ? `<ul class="small text-muted mb-3">
-          ${steps.map((s) => `<li>${Site.escapeHtml(String(s))}</li>`).join("")}
-         </ul>`
+      ? `
+        <div class="mb-3">
+          <div class="small text-muted mb-1"><strong>Steps:</strong></div>
+          <ul class="mb-0 ps-3">
+            ${steps.map((s) => `<li>${Site.escapeHtml(s)}</li>`).join("")}
+          </ul>
+        </div>
+      `.trim()
       : "";
 
     return `
-      <div class="col-12 col-lg-6">
+      <div class="col-12">
         <article class="project-card h-100">
           <div class="project-body">
             <div class="project-title">${Site.escapeHtml(title)}</div>
-
-            <div class="project-desc" style="-webkit-line-clamp: 6; min-height: auto;">
-              ${Site.escapeHtml(goal)}
-            </div>
+            ${goal ? `<div class="project-desc">${Site.escapeHtml(goal)}</div>` : ""}
 
             ${metaRow}
             ${stepsHtml}
@@ -73,23 +76,5 @@
         </article>
       </div>
     `.trim();
-  }
-
-  function wireCopyButtons() {
-    document.querySelectorAll("[data-copy]").forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const code = btn.getAttribute("data-copy") || "";
-        try {
-          await navigator.clipboard.writeText(code);
-          const old = btn.innerHTML;
-          btn.innerHTML = `<i class="bi bi-check2 me-1"></i>Copied`;
-          setTimeout(() => (btn.innerHTML = old), 900);
-        } catch {
-          const old = btn.innerHTML;
-          btn.innerHTML = `<i class="bi bi-x-lg me-1"></i>Copy failed`;
-          setTimeout(() => (btn.innerHTML = old), 900);
-        }
-      });
-    });
   }
 })();
