@@ -225,7 +225,20 @@ a.btn-soft.is-active{
   font-size: clamp(1.5rem, 2.5vw, 2.2rem);
 }
 
-.subhead{ color: var(--muted); }
+ .subhead{ color: var(--muted); }
+
+.hero-intro{
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 72ch;
+}
+.hero-intro p{ margin: 0 0 .45rem 0; }
+.hero-intro ul{
+  margin: 0;
+  padding-left: 1.1rem;
+}
+.hero-intro li{ margin: .25rem 0; }
+
 
 .section-title{
   font-weight: 700;
@@ -446,6 +459,13 @@ a.btn-soft.is-active{
   border: 1px solid rgba(59,130,246,.12);
   color: rgba(59,130,246,.95);
 }
+
+.hub-ico-img{
+  width: 56px;
+  height: 56px;
+  display: block;
+}
+
 
 /* FIXED TILE SIZE (desktop) */
 .hub-tile{

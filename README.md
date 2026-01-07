@@ -1,86 +1,205 @@
-# Minimal Data Engineering Portfolio (Azure Static)
+# de-portfolio — Azure Data Engineering Portfolio (Static Site)
 
-## Description
-A tiny, minimalist portfolio site for showcasing my Azure data engineering projects.
+This repo is a **no-build, static** portfolio site for showcasing Azure data engineering projects, training notes, and hands-on labs.
 
-## Why this layout
-  - **Low coupling** : project content lives in `projects.json`
-  - **Separation of duties** : HTML/CSS/JS/data/images are independent
-  - **Easy updates**:  add a project by editing a single JSON file
+It’s intentionally simple:
+- **No framework**
+- **No bundler**
+- **No build step**
+- **Content is data-driven** (JSON) so you can update the site without touching JS/HTML much.
 
-A tiny, calm, minimalist portfolio site for showcasing Azure data engineering projects.
-No build step. Clean separation:
-- `index.html` and `pyspark.html` = structure
-- `assets/css/*.css` = styles
-- `assets/js/*.js` = logic
-- `assets/data/*.json` = content
-- `assets/img/*` = images
+---
 
 ## Pages
-- Home: `index.html`
-- PySpark learning page: `pyspark.html`
 
-## Update content
-### Projects
-Edit `assets/data/projects.json`:
-- `title`, `blurb`, `tags`, `repo`, `readme`, `image`
+- **Home**: `index.html`
+- **Projects**: `projects.html`
+- **Labs (hub)**: `labs.html`
+  - **PySpark Labs**: `labs-pyspark.html`
+- **Training (hub)**: `training.html`
+  - **PySpark**: `training-pyspark.html`
+  - **SQL**: `training-sql.html`
+  - **Data Modeling**: `training-modeling.html`
 
-Images are referenced as paths like:
-- `assets/img/weather.png`
+> Note: `training-pyspark-labs.html` is kept as a compatibility redirect so older links don’t break.
 
-### PySpark snippets
-Edit `assets/data/pyspark_snippets.json`:
-- `title`, `note`, `code`
+---
 
-## Deploy to Azure (cheapest): Storage Static Website
+## Folder structure
+
+```
+/
+  index.html
+  projects.html
+  labs.html
+  labs-pyspark.html
+  training.html
+  training-pyspark.html
+  training-sql.html
+  training-modeling.html
+
+  assets/
+    css/
+      styles.css          # site-wide styles
+      pyspark.css         # training/pyspark page tweaks (kept consistent with site width)
+    js/
+      layout.js           # injects navbar/backbar/footer
+      shared.js           # shared helpers + nav/back behavior + JSON fetch utilities
+      home.js             # home page service pills
+      app.js              # projects page renderer
+      pyspark-labs.js     # labs/pyspark renderer
+      pyspark.js          # training/pyspark snippets renderer
+      sql.js              # training/sql snippets renderer
+      modeling.js         # training/modeling snippets renderer
+    data/
+      projects.json
+      pyspark_labs.json
+      pyspark_snippets.json
+      sql_snippets.json
+      modeling_snippets.json
+      files/
+        cv.pdf
+        diploma.png
+    img/
+      favicon.svg / favicon.png / favicon.ico
+      icon-labs.svg
+      (project images...)
+```
+
+---
+
+## How the site works
+
+### Shared layout (navbar/back button/footer)
+Every page (except legacy `pyspark.html`) uses:
+- `<div id="siteHeader"></div>`
+- `<div id="siteBackbar"></div>`
+- `<footer id="siteFooter"></footer>`
+
+…and `assets/js/layout.js` injects the actual HTML so you don’t copy/paste nav markup everywhere.
+
+Each page controls behavior with `<body>` data attributes:
+- `data-show-back="0|1"`: show/hide the Back bar
+- `data-page="..."`: used for nav highlighting
+- `data-footer-right="..."`: footer right-hand label
+
+### Data-driven content (JSON → cards)
+The UI content is stored in JSON files under `assets/data/`:
+
+**Projects** → `assets/data/projects.json`
+- Add a new project by adding one object (title, blurb, tags, links, image, etc.).
+- Images live in `assets/img/` and are referenced by relative path.
+
+**Training snippets**
+- PySpark: `assets/data/pyspark_snippets.json`
+- SQL: `assets/data/sql_snippets.json`
+- Modeling: `assets/data/modeling_snippets.json`
+
+**Labs**
+- PySpark labs: `assets/data/pyspark_labs.json`
+
+The JS page files read JSON and render cards into:
+- `#projectsGrid`
+- `#snippetsGrid`
+- `#labsGrid`
+
+---
+
+## Run locally (recommended)
+
+### Option A — Python (fastest)
+From the repo root:
+
+```bash
+python -m http.server 8000
+```
+
+Then open:
+- `http://localhost:8000/index.html`
+
+### Option B — VS Code Live Server
+- Install “Live Server”
+- Right click `index.html` → “Open with Live Server”
+
+> Why a server? Some browsers restrict `fetch()` from `file://` pages. Running a local server avoids that.
+
+---
+
+## Update content (common edits)
+
+### Add a new Project
+Edit: `assets/data/projects.json`
+
+Recommended fields you’ll see:
+- `title`
+- `blurb`
+- `tags` (array)
+- `repo` (GitHub link)
+- `readme` (optional link)
+- `image` (path like `assets/img/weather.png`)
+
+### Add a new Lab
+Edit: `assets/data/pyspark_labs.json`
+
+Each lab entry should include:
+- `title`
+- `level` (ex: Beginner/Intermediate)
+- `goal`
+- `steps` (array of strings)
+- `code` (string) — displayed with syntax highlighting
+- `notes` (optional)
+
+### Add a new Training snippet
+Edit the appropriate `*_snippets.json` file.
+
+Typical fields:
+- `title`
+- `note`
+- `code`
+
+---
+
+## Favicons
+Favicons live in `assets/img/`:
+- `favicon.svg` (modern)
+- `favicon.png` (fallback)
+- `favicon.ico` (classic)
+
+Every page includes all three so browser support is consistent.
+
+---
+
+## Deploy
+
+### Deploy to GitHub Pages
+1. Push to GitHub.
+2. In GitHub: **Settings → Pages**
+3. Source:
+   - Branch: `main`
+   - Folder: `/ (root)`
+4. Your site will publish at your GitHub Pages URL.
+
+### Deploy to Azure (Static Website on Storage — cheapest)
 1. Create an Azure Storage Account
 2. Enable **Static website**
    - Index document: `index.html`
-3. Upload everything to `$web` preserving folder structure:
-   - `index.html`, `pyspark.html`, and `assets/`
-4. Open the static website endpoint
+3. Upload the repo contents to the `$web` container (keep folder structure).
+4. Use the Static Website endpoint.
 
-## Notes
-- If you update JSON and don’t see changes, hard refresh (cache).
-- Navbar is shared by copy/paste + `assets/js/nav.js` highlights active page and provides Back behavior.
+### Deploy to Azure Static Web Apps (also great)
+- Create a Static Web App and point it at this repo.
+- Since this is plain HTML/CSS/JS, it doesn’t need a build command.
 
+---
 
-<br>
+## Design rules (so the site stays clean)
+- Don’t hardcode project cards in HTML — update JSON.
+- Keep shared layout in `layout.js` (don’t copy/paste nav).
+- Prefer small, readable snippets over “giant tutorial dumps”.
+- Keep the UI consistent (same container width across pages).
 
-## Deploy to GitHub Pages
-### Push to GitHub
+---
 
-```
-git init
-git add .
-git commit -m "Initial portfolio site"
-git branch -M main
-git remote add origin https://frankrunfola1229.github.io/de-portfolio/
-git push -u origin main
-```
-
-### Turn on GitHub Pages
-  0. Verify Folder Structure
-     - /index.html
-     - /assets/css/styles.css
-     - /assets/js/app.js
-     - /assets/data/projects.json
-  1. Go to your repo on GitHub
-  2. Settings → Pages
-  3. Under Build and deployment
-     - Source: Deploy from a branch
-     - Branch: `main`
-     - Folder: `/ (root)`
-  4. Click Save
-  5.Verify Deployment
-     - Open in browser: **https://frankrunfola1229.github.io/de-portfolio/
-  5. Test it locally first (so you don’t debug in production)
-     - Run a tiny local server: ```python -m http.server 8080```
-  6. Common gotchas
-     - Case sensitivity: GitHub Pages is Linux. Assets/ is NOT the same as assets/.
-     - Wrong README link in JSON: readme: 
-       - "README.md" won’t work on Pages unless that file exists at **/de-portfolio/README.md**
-     - CORS / blocked icons: Your Azure icons come from external URLs. If one doesn’t load, download the PNGs into assets/img/azure/ and reference locally (more reliable).
-<br>
-
-
+## Credits / references
+- PySpark basics summary content is based on Microsoft Learn Azure Databricks PySpark docs:
+  - https://learn.microsoft.com/en-us/azure/databricks/pyspark/

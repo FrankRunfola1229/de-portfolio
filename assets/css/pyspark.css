@@ -1,7 +1,8 @@
 /* pyspark.css
-   Keeps PySpark page slightly wider than default container, but still readable.
+   Page-specific tweaks for the Training / PySpark page.
+   (Keep layout consistent with the rest of the site.)
 */
 
 .pyspark-wrap{
-  max-width: 1320px; /* wider than default container */
+  max-width: none; /* let Bootstrap's .container control width */
 }
