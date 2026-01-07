@@ -343,8 +343,6 @@ a.btn-soft.is-active{
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
-
-  min-height: calc(1.35em * 3 + 1.2rem);
 }
 
 /* ---------- Service icon row ---------- */
@@ -508,8 +506,48 @@ a.btn-soft.is-active{
   }
 }
 
+/* =========================================
+Training snippets: slightly smaller code on desktop 
+========================================= */
+@media (min-width: 992px){
+  #snippetsGrid pre,
+  #snippetsGrid code{
+    font-size: 0.80rem;
+    line-height: 1.4;
+  }
+}
 
-/* ===== Sticky footer that actually works (short pages only) ===== */
+
+/* =========================================
+   Training snippets: smaller code on mobile
+   (PySpark / SQL / Modeling pages)
+========================================= */
+@media (max-width: 576px){
+  /* Prism code blocks */
+  #snippetsGrid pre,
+  #snippetsGrid code{
+    font-size: 0.6rem;
+    line-height: 1.35;
+  }
+
+  /* Tighten the block a bit so more fits on screen */
+  #snippetsGrid pre{
+    padding: .55rem .65rem;
+    border-radius: 12px;
+    overflow-x: auto;
+  }
+}
+
+/* Labs meta lines: slightly cleaner */
+#labsGrid strong{
+  font-weight: 700;
+  color: rgba(15,23,42,.92);
+}
+
+
+/* =========================================
+   Sticky footer (short pages only) 
+   ========================================= */
 html, body { height: 100%; }
 
 body{

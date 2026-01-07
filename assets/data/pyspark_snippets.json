@@ -2,101 +2,96 @@
   {
     "title": "Create Spark session (Databricks usually gives you `spark`)",
     "note": "In Databricks you already have `spark`. Locally, you create it like this.",
-    "code": "# Databricks: spark is already defined\n# Local example:\nfrom pyspark.sql import SparkSession\n\nspark = (SparkSession.builder\n         .appName(\"pyspark-basics\")\n         .getOrCreate())\n"
+    "code": "# Databricks: `spark` is already defined for you.\n# Local: create a SparkSession once per app.\nfrom pyspark.sql import SparkSession\n\nspark = (\n  SparkSession.builder\n    .appName(\"pyspark-basics\")\n    .getOrCreate()\n)\n\n# Tip: If you're troubleshooting, print the Spark version.\nprint(spark.version)\n"
   },
   {
     "title": "Read CSV (with header + infer schema)",
     "note": "Good for quick exploration. For production, prefer an explicit schema.",
-    "code": "df = (spark.read\n      .option(\"header\", \"true\")\n      .option(\"inferSchema\", \"true\")\n      .csv(\"/mnt/bronze/in/customers.csv\"))\n\ndf.printSchema()\ndf.show(5, truncate=False)\n"
+    "code": "# Fast exploration mode.\n# For production, prefer explicit schema (next snippet) to avoid type drift.\n\ndf = (\n  spark.read\n    .option(\"header\", \"true\")\n    .option(\"inferSchema\", \"true\")\n    .csv(\"/mnt/bronze/in/customers.csv\")\n)\n\n# Always inspect what Spark thinks the schema is.\ndf.printSchema()\n\n# Show a small sample (truncate=False keeps long strings visible).\ndf.show(5, truncate=False)\n"
   },
   {
     "title": "Read CSV with an explicit schema",
     "note": "Explicit schemas prevent surprise type changes and make pipelines reliable.",
-    "code": "from pyspark.sql.types import StructType, StructField, StringType, IntegerType, TimestampType\n\nschema = StructType([\n    StructField(\"customer_id\", IntegerType(), True),\n    StructField(\"name\", StringType(), True),\n    StructField(\"email\", StringType(), True),\n    StructField(\"created_at\", TimestampType(), True)\n])\n\ndf = (spark.read\n      .option(\"header\", \"true\")\n      .schema(schema)\n      .csv(\"/mnt/bronze/in/customers.csv\"))\n"
+    "code": "from pyspark.sql.types import StructType, StructField, StringType, IntegerType, TimestampType\n\n# Define schema once. This is a big reliability upgrade.\nschema = StructType([\n  StructField(\"customer_id\", IntegerType(), True),\n  StructField(\"name\", StringType(), True),\n  StructField(\"email\", StringType(), True),\n  StructField(\"created_at\", TimestampType(), True)\n])\n\ndf = (\n  spark.read\n    .option(\"header\", \"true\")\n    .schema(schema)\n    .csv(\"/mnt/bronze/in/customers.csv\")\n)\n\n# Sanity check\nassert \"customer_id\" in df.columns\n"
   },
   {
     "title": "Read JSON (multiLine) + explode array",
     "note": "Common for API payloads where arrays are nested under a field.",
-    "code": "from pyspark.sql import functions as F\n\nraw = (spark.read\n       .option(\"multiLine\", \"true\")\n       .json(\"/mnt/bronze/api/orders.json\"))\n\n# Example: payload has `orders: [...]`\norders = raw.select(F.explode_outer(\"orders\").alias(\"o\")).select(\"o.*\")\norders.show(5, truncate=False)\n"
+    "code": "from pyspark.sql import functions as F\n\n# multiLine is common for API dumps written as pretty JSON\nraw = (\n  spark.read\n    .option(\"multiLine\", \"true\")\n    .json(\"/mnt/bronze/api/orders.json\")\n)\n\n# Example: payload has `orders: [...]`\n# explode_outer keeps rows even if orders is null.\norders = (\n  raw\n    .select(F.explode_outer(\"orders\").alias(\"o\"))\n    .select(\"o.*\")\n)\n\n# Quick peek\norders.show(5, truncate=False)\n"
   },
   {
     "title": "Select + rename columns (clean Silver layer)",
     "note": "A simple, readable way to shape data for downstream use.",
-    "code": "from pyspark.sql import functions as F\n\nsilver = (df\n          .select(\n              F.col(\"customer_id\").alias(\"customer_key\"),\n              F.trim(F.col(\"name\")).alias(\"customer_name\"),\n              F.lower(F.col(\"email\")).alias(\"email\"),\n              F.col(\"created_at\")\n          ))\n"
+    "code": "from pyspark.sql import functions as F\n\n# Silver: normalized names, basic cleanup.\n# Keep transformations readable and obvious.\nsilver = (\n  df.select(\n    F.col(\"customer_id\").alias(\"customer_key\"),  # rename for clarity\n    F.trim(F.col(\"name\")).alias(\"customer_name\"),\n    F.lower(F.col(\"email\")).alias(\"email\"),\n    F.col(\"created_at\")\n  )\n)\n\n# Always keep a quick count around while learning.\nprint(\"rows:\", silver.count())\n"
   },
   {
     "title": "Add ingestion metadata columns",
     "note": "These columns make your pipeline auditable and debuggable.",
-    "code": "from pyspark.sql import functions as F\n\nbronze_with_meta = (df\n  .withColumn(\"ingest_ts\", F.current_timestamp())\n  .withColumn(\"source_system\", F.lit(\"open-api\"))\n  .withColumn(\"source_file\", F.input_file_name()))\n"
+    "code": "from pyspark.sql import functions as F\n\n# Metadata is how you debug real pipelines.\n# You want to know WHEN it landed and WHERE it came from.\nbronze_with_meta = (\n  df\n    .withColumn(\"ingest_ts\", F.current_timestamp())     # when Spark processed it\n    .withColumn(\"source_system\", F.lit(\"open-api\"))    # your logical source name\n    .withColumn(\"source_file\", F.input_file_name())     # file path for traceability\n)\n"
   },
   {
     "title": "Parse timestamps + derive date partition column",
     "note": "Use `to_timestamp` for parsing strings into real timestamps, then derive a date partition for storage.",
-    "code": "from pyspark.sql import functions as F\n\nparsed = (df\n  .withColumn(\"event_ts\", F.to_timestamp(\"event_ts\"))\n  .withColumn(\"event_date\", F.to_date(\"event_ts\")))\n"
+    "code": "from pyspark.sql import functions as F\n\n# If event_ts is a string, convert it.\n# This makes date filters and aggregations correct.\nparsed = (\n  df\n    .withColumn(\"event_ts\", F.to_timestamp(\"event_ts\"))\n    .withColumn(\"event_date\", F.to_date(\"event_ts\"))  # partition key\n)\n\n# Check for parse failures (null event_ts means bad input format).\nparsed.select(F.sum(F.col(\"event_ts\").isNull().cast(\"int\")).alias(\"bad_ts\")).show()\n"
   },
   {
     "title": "Handle nulls + basic cleanup",
     "note": "Small cleanup steps reduce downstream headaches.",
-    "code": "from pyspark.sql import functions as F\n\nclean = (df\n  .withColumn(\"email\", F.lower(F.col(\"email\")))\n  .fillna({\"email\": \"unknown\"})\n  .dropna(subset=[\"customer_id\"]))\n"
+    "code": "from pyspark.sql import functions as F\n\n# Normalize common text fields.\nclean = (\n  df\n    .withColumn(\"email\", F.lower(F.col(\"email\")))\n    .fillna({\"email\": \"unknown\"})            # avoid null string surprises\n    .dropna(subset=[\"customer_id\"])           # key must exist\n)\n\n# Good habit: verify your key uniqueness later in Silver.\n"
   },
   {
     "title": "Deduplicate keeping latest record (row_number window)",
     "note": "Classic Silver step: keep the newest record per business key.",
-    "code": "from pyspark.sql import functions as F\nfrom pyspark.sql.window import Window\n\nw = Window.partitionBy(\"customer_id\").orderBy(F.col(\"updated_at\").desc())\n\ndeduped = (df\n  .withColumn(\"rn\", F.row_number().over(w))\n  .filter(F.col(\"rn\") == 1)\n  .drop(\"rn\"))\n"
+    "code": "from pyspark.sql import functions as F\nfrom pyspark.sql.window import Window\n\n# Window: group by business key, order by recency.\nw = Window.partitionBy(\"customer_id\").orderBy(F.col(\"updated_at\").desc())\n\n# Keep only rn=1 (latest record)\ndeduped = (\n  df\n    .withColumn(\"rn\", F.row_number().over(w))\n    .filter(F.col(\"rn\") == 1)\n    .drop(\"rn\")\n)\n\n# Quick duplicate check\nprint(\"deduped rows:\", deduped.count())\n"
   },
   {
     "title": "Join facts to dimensions (left join)",
     "note": "Use left join to keep all facts even if dimension lookup is missing.",
-    "code": "facts = spark.read.format(\"delta\").load(\"/mnt/silver/facts\")\ndim_customer = spark.read.format(\"delta\").load(\"/mnt/silver/dim_customer\")\n\njoined = (facts\n  .join(dim_customer.select(\"customer_id\", \"customer_name\"), on=\"customer_id\", how=\"left\"))\n"
+    "code": "# Facts should not disappear because a dim lookup is missing.\n# LEFT JOIN is the default for analytics enrichment.\n\nfacts = spark.read.format(\"delta\").load(\"/mnt/silver/facts\")\ndim_customer = spark.read.format(\"delta\").load(\"/mnt/silver/dim_customer\")\n\njoined = (\n  facts\n    .join(\n      dim_customer.select(\"customer_id\", \"customer_name\"),\n      on=\"customer_id\",\n      how=\"left\"\n    )\n)\n\n# Validate: left join should preserve fact count (usually).\nprint(\"facts:\", facts.count(), \"joined:\", joined.count())\n"
   },
   {
     "title": "Aggregate to Gold KPIs (daily rollups)",
     "note": "Gold tables are typically aggregates that are stable and easy to query.",
-    "code": "from pyspark.sql import functions as F\n\nkpis = (df\n  .groupBy(\"event_date\")\n  .agg(\n      F.count(\"*\").alias(\"rows\"),\n      F.countDistinct(\"customer_id\").alias(\"unique_customers\"),\n      F.sum(\"amount\").alias(\"total_amount\"),\n      F.avg(\"amount\").alias(\"avg_amount\")\n  ))\n"
+    "code": "from pyspark.sql import functions as F\n\n# Gold: stable aggregates / KPIs.\n# Always group by a clean date column.\nkpis = (\n  df\n    .groupBy(\"event_date\")\n    .agg(\n      F.count(\"*\").alias(\"rows\"),\n      F.countDistinct(\"customer_id\").alias(\"unique_customers\"),\n      F.sum(\"amount\").alias(\"total_amount\"),\n      F.avg(\"amount\").alias(\"avg_amount\")\n    )\n)\n\nkpis.orderBy(\"event_date\").show(10, truncate=False)\n"
   },
   {
     "title": "Write Delta (overwrite) + partition by date",
     "note": "Partitioning makes reads faster when you filter on the partition column.",
-    "code": "(\nkpis\n  .write\n  .format(\"delta\")\n  .mode(\"overwrite\")\n  .partitionBy(\"event_date\")\n  .save(\"/mnt/gold/daily_kpis\")\n)\n"
+    "code": "# Overwrite is great for deterministic rebuilds of Gold.\n# Partition by the field you always filter on.\n(\n  kpis.write\n    .format(\"delta\")\n    .mode(\"overwrite\")\n    .partitionBy(\"event_date\")\n    .save(\"/mnt/gold/daily_kpis\")\n)\n"
   },
   {
     "title": "Write Delta (append) with schema evolution (careful)",
     "note": "Use schema evolution intentionally. Don’t let random new columns silently spread.",
-    "code": "(\ndf\n  .write\n  .format(\"delta\")\n  .mode(\"append\")\n  .option(\"mergeSchema\", \"true\")\n  .save(\"/mnt/bronze/events\")\n)\n"
+    "code": "# Append is typical for Bronze incremental loads.\n# mergeSchema can be useful, but only if you control upstream changes.\n(\n  df.write\n    .format(\"delta\")\n    .mode(\"append\")\n    .option(\"mergeSchema\", \"true\")\n    .save(\"/mnt/bronze/events\")\n)\n"
   },
   {
     "title": "Register a Delta table (so SQL can query it)",
     "note": "Once registered, you can use Spark SQL / Databricks SQL to query it easily.",
-    "code": "spark.sql(\"\"\"\nCREATE TABLE IF NOT EXISTS gold_daily_kpis\nUSING DELTA\nLOCATION '/mnt/gold/daily_kpis'\n\"\"\")\n"
+    "code": "# Register the path as a table name.\n# Makes BI/Synapse/SQL endpoints easier to use.\n\nspark.sql(\"\"\"\nCREATE TABLE IF NOT EXISTS gold_daily_kpis\nUSING DELTA\nLOCATION '/mnt/gold/daily_kpis'\n\"\"\")\n\n# Test query\nspark.sql(\"SELECT * FROM gold_daily_kpis ORDER BY event_date DESC LIMIT 10\").show(truncate=False)\n"
   },
   {
     "title": "Upsert into Delta with MERGE (SCD Type 1-ish)",
     "note": "Updates existing rows and inserts new rows based on a key. This is a standard pattern.",
-    "code": "from delta.tables import DeltaTable\n\nupdates = spark.read.format(\"delta\").load(\"/mnt/silver/customer_updates\")\ntarget_path = \"/mnt/silver/dim_customer\"\n\ntarget = DeltaTable.forPath(spark, target_path)\n\n(\ntarget.alias(\"t\")\n  .merge(updates.alias(\"s\"), \"t.customer_id = s.customer_id\")\n  .whenMatchedUpdateAll()\n  .whenNotMatchedInsertAll()\n  .execute()\n)\n"
-  },
-  {
-    "title": "SCD Type 2-ish pattern (very simplified)",
-    "note": "This is the concept: end-date old row, insert new row. Real SCD2 needs careful handling.",
-    "code": "from pyspark.sql import functions as F\n\n# Expect dim has: customer_id, customer_name, is_current, valid_from, valid_to\n# Expect updates has: customer_id, customer_name\n\nupdates = updates.withColumn(\"valid_from\", F.current_date())\n\n# Mark existing current rows as expired if changed\nexpired = (dim\n  .join(updates, \"customer_id\", \"inner\")\n  .where(dim.customer_name != updates.customer_name)\n  .select(dim[\"*\"])\n  .withColumn(\"is_current\", F.lit(False))\n  .withColumn(\"valid_to\", F.current_date()))\n\n# New current rows\nnew_rows = (updates\n  .withColumn(\"is_current\", F.lit(True))\n  .withColumn(\"valid_to\", F.lit(None).cast(\"date\")))\n\n# Combine (in practice you'd MERGE, not overwrite blindly)\nscd2 = (dim.filter(\"is_current = true\")\n        .unionByName(expired)\n        .unionByName(new_rows))\n"
+    "code": "from delta.tables import DeltaTable\n\n# Incoming updates (source)\nupdates = spark.read.format(\"delta\").load(\"/mnt/silver/customer_updates\")\n\n# Existing dimension table (target)\ntarget_path = \"/mnt/silver/dim_customer\"\ntarget = DeltaTable.forPath(spark, target_path)\n\n# MERGE = upsert based on key\n(\n  target.alias(\"t\")\n    .merge(updates.alias(\"s\"), \"t.customer_id = s.customer_id\")\n    .whenMatchedUpdateAll()      # update existing\n    .whenNotMatchedInsertAll()   # insert new\n    .execute()\n)\n"
   },
   {
     "title": "Data quality: count nulls per column",
     "note": "Fast sanity check that you can run in every pipeline step.",
-    "code": "from pyspark.sql import functions as F\n\ncols = df.columns\nnull_counts = df.select([\n  F.sum(F.col(c).isNull().cast(\"int\")).alias(c)\n  for c in cols\n])\n\nnull_counts.show(truncate=False)\n"
+    "code": "from pyspark.sql import functions as F\n\n# Quick profile: count nulls for each column.\n# If any key columns have nulls, stop the pipeline.\ncols = df.columns\n\nnull_counts = df.select([\n  F.sum(F.col(c).isNull().cast(\"int\")).alias(c)\n  for c in cols\n])\n\nnull_counts.show(truncate=False)\n"
   },
   {
     "title": "Data quality: reject bad rows into a quarantine table",
     "note": "Keep bad rows for debugging instead of just dropping them silently.",
-    "code": "from pyspark.sql import functions as F\n\n# Example rules\nbad = df.filter(\n  F.col(\"customer_id\").isNull() |\n  F.col(\"email\").isNull() |\n  (F.col(\"amount\") < 0)\n)\n\ngood = df.subtract(bad)\n\nbad.write.format(\"delta\").mode(\"append\").save(\"/mnt/quarantine/bad_rows\")\ngood.write.format(\"delta\").mode(\"overwrite\").save(\"/mnt/silver/clean_rows\")\n"
+    "code": "from pyspark.sql import functions as F\n\n# Define simple rules. Expand these over time.\nbad = df.filter(\n  F.col(\"customer_id\").isNull() |\n  F.col(\"email\").isNull() |\n  (F.col(\"amount\") < 0)           # impossible value example\n)\n\n# Keep good rows separate\ngood = df.subtract(bad)\n\n# Save bad rows so you can inspect and fix upstream issues.\nbad.write.format(\"delta\").mode(\"append\").save(\"/mnt/quarantine/bad_rows\")\n\n# Save clean Silver output\ngood.write.format(\"delta\").mode(\"overwrite\").save(\"/mnt/silver/clean_rows\")\n"
   },
   {
     "title": "Performance: cache + count (only when needed)",
     "note": "Cache is not magic. Use it when you reuse the same DataFrame multiple times.",
-    "code": "df_cached = df.cache()\n\n# Materialize the cache\n_ = df_cached.count()\n\n# Reuse df_cached in multiple downstream actions\n"
+    "code": "# Cache when you reuse a DF multiple times in the same job.\n# Always materialize the cache with an action (count/show).\n\ndf_cached = df.cache()\n_ = df_cached.count()  # materialize\n\n# Reuse df_cached in multiple downstream actions\n# Example:\ndf_cached.groupBy(\"event_date\").count().show()\ndf_cached.select(\"customer_id\").distinct().count()\n"
   },
   {
     "title": "Explain query plan (debug performance)",
     "note": "If your job is slow, `explain()` tells you what Spark is actually doing.",
-    "code": "joined.explain(True)\n"
+    "code": "# Explain shows the logical + physical plan.\n# Use it when performance surprises you.\n\njoined.explain(True)\n"
   }
 ]
