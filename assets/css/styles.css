@@ -48,9 +48,11 @@ body{
 
 /* ---------- Sticky header (full width) ---------- */
 .site-header{
-  position: sticky;
+  position: fixed;
   top: 0;
   z-index: var(--nav-z);
+  left: 0;
+  right: 0;
   width: 100%;
 
   background: rgba(241, 250, 248, 0.90);
@@ -61,6 +63,8 @@ body{
 }
 
 html { scroll-padding-top: 92px; }
+body { padding-top: 92px; }
+
 
 /* ---------- Buttons (navbar + general) ---------- */
 .btn-soft{

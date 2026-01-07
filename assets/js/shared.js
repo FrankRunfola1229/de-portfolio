@@ -61,6 +61,35 @@
   };
 
   // -----------------------
+  // Text fetch helper (HTML partials)
+  // -----------------------
+  // In-memory memoization to avoid repeat network work.
+  const _textCache = new Map();
+
+  Site.fetchText = async function fetchText(path, opts = {}) {
+    const key = String(path);
+    const cacheMode = opts.cache ?? "force-cache";
+    const bust = opts.bust === true;
+
+    if (!bust && _textCache.has(key)) return _textCache.get(key);
+
+    const p = (async () => {
+      const res = await fetch(key, { cache: cacheMode });
+      if (!res.ok) throw new Error(`HTTP ${res.status} while fetching ${key}`);
+      return await res.text();
+    })();
+
+    _textCache.set(key, p);
+
+    try {
+      return await p;
+    } catch (e) {
+      _textCache.delete(key);
+      throw e;
+    }
+  };
+
+  // -----------------------
   // Azure service metadata
   // (Hot-linked icons — nothing stored locally)
   // -----------------------

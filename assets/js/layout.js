@@ -52,11 +52,11 @@
 
           <div class="collapse navbar-collapse" id="siteNav">
             <div class="d-flex flex-column flex-md-row gap-2 align-items-start align-items-md-center ms-md-auto mt-3 mt-md-0">
-              <a class="btn btn-sm btn-soft" href="index.html" data-nav>Home</a>
-              <a class="btn btn-sm btn-soft" href="projects.html" data-nav>Projects</a>
-              <a class="btn btn-sm btn-soft" href="labs.html" data-nav>Labs</a>
+              <a class="btn btn-sm btn-soft" href="index.html" data-nav><i class="bi bi-house-door me-1"></i>Home</a>
+              <a class="btn btn-sm btn-soft" href="projects.html" data-nav><i class="bi bi-boxes me-1"></i>Projects</a>
+              <a class="btn btn-sm btn-soft" href="labs.html" data-nav><i class="bi bi-beaker me-1"></i>Labs</a>
 
-              <a class="btn btn-sm btn-soft" href="training.html" data-nav>Training</a>
+              <a class="btn btn-sm btn-soft" href="training.html" data-nav><i class="bi bi-journal-code me-1"></i>Training</a>
 
               <div class="d-flex gap-2">
                 <a class="btn btn-sm btn-soft btn-icon"

@@ -62,7 +62,6 @@ It’s intentionally simple:
         diploma.png
     img/
       favicon.svg / favicon.png / favicon.ico
-      icon-labs.svg
       (project images...)
 ```
 
