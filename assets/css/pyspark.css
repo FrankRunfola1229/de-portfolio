@@ -1,8 +1,0 @@
-/* pyspark.css
-   Page-specific tweaks for the Training / PySpark page.
-   (Keep layout consistent with the rest of the site.)
-*/
-
-.pyspark-wrap{
-  max-width: none; /* let Bootstrap's .container control width */
-}

@@ -1,92 +1,108 @@
+
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Frank Runfola — Data Engineering</title>
-        <meta name="description" content="Azure Data Engineering portfolio." />
+        <title>Frank Runfola — Data Engineering Portfolio</title>
+        <meta name="description" content="Azure data engineering portfolio: small, auditable pipelines and practical projects." />
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-        <link rel="icon" href="assets/img/favicon.ico" sizes="any">
         <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
-        <link rel="icon" type="image/png" href="assets/img/favicon.png">
-        <link rel="apple-touch-icon" href="assets/img/favicon.png">
         <link rel="stylesheet" href="assets/css/styles.css">
     </head>
 
-    <body class="min-vh-100 d-flex flex-column" data-show-back="0" data-footer-right="Static • Azure">
+    <body class="min-vh-100 d-flex flex-column" data-page="home" data-footer-right="Home">
         <div id="siteHeader"></div>
         <div id="siteBackbar"></div>
 
-        <main class="container pt-1 pb-3 flex-grow-1 d-flex flex-column">
-            <section class="card-soft hero-card p-4 p-md-4 mt-5 mb-3">
-                <div class="d-flex align-items-center gap-3 gap-md-4 flex-wrap">
-                    <img class="profile-img" src="assets/img/profile.png" alt="Frank Runfola headshot" loading="lazy" />
+        <main class="container pt-4 pb-3 flex-grow-1">
+            <div class="mx-auto" style="max-width: 960px;">
+                <section class="card-surface hero-card p-4 p-md-4 mt-5 mb-3">
+                    <div class="d-flex align-items-center gap-3 gap-md-4 flex-wrap">
+                        <img class="profile-img" src="assets/img/profile.png" alt="Frank Runfola headshot" loading="lazy" />
 
-                    <div class="flex-grow-1">
-                        <h1 class="headline m-0">Azure Data Engineering.</h1>
-                        <p class="subhead mb-0 mt-2">Simple, auditable pipelines.</p>
+                        <div class="flex-grow-1">
+                            <div class="hero-meta">
+                                <div class="hero-kicker">Frank Runfola • Data Engineering</div>
 
-                        <!-- Short intro -->
-                        <div class="hero-intro mt-3">
-                            <p class="mb-2">Azure-only data engineering portfolio focused on practical, production-style pipelines.</p>
-                            <ul class="mb-0">
-                                <li><strong>End-to-end builds:</strong> ADF → ADLS Gen2 → Databricks → Synapse.</li>
-                                <li><strong>Real patterns:</strong> Medallion layers, Delta, partitioning, and repeatable runs.</li>
-                                <li><strong>Readable docs:</strong> every project ships with a clean README and clear trade-offs.</li>
-                            </ul>
+                                <h1 class="hero-title">I build calm, trustworthy data systems.</h1>
+
+                                <p class="hero-subtitle">
+                                    Small pipelines and lightweight data apps that stay readable, auditable, and easy to evolve.
+                                </p>
+
+                                <div class="hero-story">
+                                    <p class="mb-0">
+                                        I enjoy working with data because it turns messy reality into something people can rely on.
+                                        My focus is shipping simple end-to-end solutions that are clean, explainable, and useful.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Azure service pills (rendered by home.js) -->
+                            <div class="svc-row hero-services mt-3" id="heroServices" aria-label="Core Azure services"></div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <section class="hub-row hub-row-two">
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-12 col-sm-6 col-md-auto">
+                            <a class="hub-btn hub-tile" href="projects.html" aria-label="Go to Projects">
+                                <div class="hub-left text-center">
+                                    <div class="hub-ico"><i class="bi bi-boxes"></i></div>
+                                    <div class="text-center">
+                                        <p class="hub-title">Projects</p>
+                                        <p class="hub-sub">End-to-end pipelines</p>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
 
-                        <!-- Azure service pills (rendered by home.js) -->
-                        <div class="svc-row hero-services mt-3" id="heroServices" aria-label="Core Azure services"></div>
-
-                    </div>
-                </div>
-            </section>
-
-            <section class="hub-row hub-row-two">
-                <div class="row g-3 justify-content-center">
-                    <div class="col-12 col-sm-6 col-md-auto">
-                        <a class="hub-btn hub-tile" href="projects.html" aria-label="Go to Projects">
-                            <div class="hub-left text-center">
-                                <div class="hub-ico"><i class="bi bi-boxes"></i></div>
-                                <div class="text-center">
-                                    <p class="hub-title">Projects</p>
-                                    <p class="hub-sub">End-to-end pipelines</p>
+                        <div class="col-12 col-sm-6 col-md-auto">
+                            <a class="hub-btn hub-tile" href="labs.html" aria-label="Go to Labs">
+                                <div class="hub-left text-center">
+                                    <div class="hub-ico"><i class="bi bi-flask-fill"></i></div>
+                                    <div class="text-center">
+                                        <p class="hub-title">Labs</p>
+                                        <p class="hub-sub">Hands-on, run-ready tasks</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
 
-                    <div class="col-12 col-sm-6 col-md-auto">
-                        <a class="hub-btn hub-tile" href="labs.html" aria-label="Go to Labs">
-                            <div class="hub-left text-center">
-                                <div class="hub-ico"><i class="bi bi-flask-fill"></i></div>
-                                <div class="text-center">
-                                    <p class="hub-title">Labs</p>
-                                    <p class="hub-sub">Hands-on, run-ready tasks</p>
+                        <div class="col-12 col-sm-6 col-md-auto">
+                            <a class="hub-btn hub-tile" href="training.html" aria-label="Go to Training">
+                                <div class="hub-left text-center">
+                                    <div class="hub-ico"><i class="bi bi-journal-code"></i></div>
+                                    <div class="text-center">
+                                        <p class="hub-title">Training</p>
+                                        <p class="hub-sub">PySpark • SQL • Modeling</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
 
-                    <div class="col-12 col-sm-6 col-md-auto">
-                        <a class="hub-btn hub-tile" href="training.html" aria-label="Go to Training">
-                            <div class="hub-left text-center">
-                                <div class="hub-ico"><i class="bi bi-journal-code"></i></div>
-                                <div class="text-center">
-                                    <p class="hub-title">Training</p>
-                                    <p class="hub-sub">PySpark • SQL • Modeling</p>
+                        <div class="col-12 col-sm-6 col-md-auto">
+                            <a class="hub-btn hub-tile" href="about.html" aria-label="Go to About">
+                                <div class="hub-left text-center">
+                                    <div class="hub-ico"><i class="bi bi-person"></i></div>
+                                    <div class="text-center">
+                                        <div class="hub-title">About</div>
+                                        <div class="hub-sub">Contact & links</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
 
-            <footer id="siteFooter" class="border-top mt-auto pt-5 pb-3"></footer>
         </main>
+
+        <div id="siteFooter"></div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/shared.js"></script>

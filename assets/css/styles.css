@@ -166,6 +166,7 @@ a.btn-soft.is-active{
   display: flex;
   gap: .55rem;
   justify-content: center;
+  margin-top: auto;
 }
 
 .btn-card{
@@ -223,13 +224,66 @@ a.btn-soft.is-active{
   font-size: .95rem;
 }
 
-.headline{
-  font-weight: 750;
-  letter-spacing: -0.03em;
-  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+/* Hero text (homepage) */
+.hero-meta{
+  max-width: 62ch; /* keeps lines readable */
 }
 
- .subhead{ color: var(--muted); }
+.hero-kicker{
+  color: rgba(11,18,32,.55);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: .4rem;
+}
+
+.hero-title{
+  margin: 0;
+  font-weight: 760;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  font-size: clamp(1.65rem, 2.7vw, 2.35rem);
+}
+
+.hero-subtitle{
+  margin: .55rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: rgba(11,18,32,.72);
+  font-weight: 560;
+  max-width: 56ch;
+}
+
+.hero-story{
+  max-width: 50ch;
+  margin-top: 1rem;
+  padding: .75rem .9rem;
+  border-left: 3px solid rgba(11,18,32,.14);
+  background: rgba(11,18,32,.03);
+  border-radius: .9rem;
+}
+
+.hero-story p{
+  margin: 0;
+  font-size: .98rem;
+  line-height: 1.55;
+  color: rgba(11,18,32,.70);
+  font-weight: 520;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 576px){
+  .hero-meta{ max-width: 100%; }
+  .hero-subtitle{ font-size: .95rem; }
+  .hero-story{
+    max-width: 100%;
+    padding: .65rem .75rem;
+    margin-top: .85rem;
+  }
+  .hero-story p{ font-size: .92rem; }
+}
+
 
 .hero-intro{
   color: var(--muted);
@@ -285,6 +339,8 @@ a.btn-soft.is-active{
 
 /* ---------- Project cards ---------- */
 .project-card{
+  display: flex;
+  flex-direction: column;
   height: 100%;
   padding: 0.5rem;
   overflow: hidden;
@@ -326,6 +382,9 @@ a.btn-soft.is-active{
 .project-body{
   padding: 1rem;
   background: transparent;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 /* Sleeker centered title */
@@ -596,4 +655,46 @@ main{
 /* force footer to the bottom of main (override Bootstrap mt-*) */
 main footer{
   margin-top: auto !important;
+}
+
+
+/* =========================================
+   Training pages: readability (no code size changes)
+========================================= */
+body[data-footer-right="Training"] main{
+  /* keep content breathable */
+}
+
+body[data-footer-right="Training"] main p,
+body[data-footer-right="Training"] main li{
+  line-height: 1.6;
+  color: rgba(11,18,32,.72);
+  font-weight: 500;
+}
+
+body[data-footer-right="Training"] main h2,
+body[data-footer-right="Training"] main h3{
+  letter-spacing: -0.02em;
+  margin-top: 1.25rem;
+  margin-bottom: .6rem;
+}
+
+body[data-footer-right="Training"] main h2{
+  font-weight: 760;
+}
+
+body[data-footer-right="Training"] main h3{
+  font-weight: 720;
+}
+
+body[data-footer-right="Training"] main .card-soft{
+  /* slightly calmer cards on training pages */
+  box-shadow: 0 10px 24px rgba(14,24,39,.06);
+}
+
+@media (max-width: 576px){
+  body[data-footer-right="Training"] main p,
+  body[data-footer-right="Training"] main li{
+    font-size: .95rem;
+  }
 }
