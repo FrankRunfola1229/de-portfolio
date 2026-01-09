@@ -247,7 +247,8 @@ a.btn-soft.is-active{
 }
 
 .hero-subtitle{
-  margin: .55rem 0 0;
+  margin-top: 2rem;;
+
   font-size: 1.02rem;
   line-height: 1.5;
   color: rgba(11,18,32,.72);
@@ -257,7 +258,7 @@ a.btn-soft.is-active{
 
 .hero-story{
   max-width: 50ch;
-  margin-top: 1rem;
+  margin-top:2rem;
   padding: .75rem .9rem;
   border-left: 3px solid rgba(11,18,32,.14);
   background: rgba(11,18,32,.03);
@@ -265,7 +266,7 @@ a.btn-soft.is-active{
 }
 
 .hero-story p{
-  margin: 0;
+
   font-size: .98rem;
   line-height: 1.55;
   color: rgba(11,18,32,.70);
@@ -278,8 +279,9 @@ a.btn-soft.is-active{
   .hero-subtitle{ font-size: .95rem; }
   .hero-story{
     max-width: 100%;
-    padding: .65rem .75rem;
+    padding: .7rem .75rem;
     margin-top: .85rem;
+
   }
   .hero-story p{ font-size: .92rem; }
 }
@@ -429,8 +431,8 @@ a.btn-soft.is-active{
   align-items: center;
   justify-content: center;
 
-  margin-top: 1rem;
-  margin-bottom: 1.25rem;
+  padding-top: 1.5rem;
+
 
   min-height: 42px;
 }
@@ -575,7 +577,7 @@ a.btn-soft.is-active{
   }
 
   .hub-tile{
-    width: 100%;
+    width: 65%;
     height: auto;
     padding: .90rem;
   }
@@ -600,6 +602,15 @@ Training snippets: slightly smaller code on desktop
   }
 }
 
+/* Python code: consistent sizing on mobile */
+pre.mb-0.language-python,
+pre.language-python,
+pre[class*="language-python"],
+pre[class*="language-"] code.language-python,
+code.language-python{
+  font-size: 0.75rem !important;
+  line-height: 1.35;
+}
 
 /* =========================================
    Training snippets: smaller code on mobile
@@ -615,7 +626,7 @@ Training snippets: slightly smaller code on desktop
 
   /* Tighten the block a bit so more fits on screen */
   #snippetsGrid pre{
-    padding: .55rem .65rem;
+    padding: .55rem .7rem;
     border-radius: 12px;
     overflow-x: auto;
   }
