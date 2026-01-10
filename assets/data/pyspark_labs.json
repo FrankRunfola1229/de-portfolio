@@ -1,6 +1,6 @@
 [
   {
-    "title": "Lab 01 — Create a DataFrame + inspect schema",
+    "title": "Lab 01 \u2014 Create a DataFrame + inspect schema",
     "goal": "Build a tiny DataFrame, inspect schema, then add a derived column.",
     "runPath": "Run in Databricks notebook. No input files needed.",
     "expected": "You see 3 rows, a schema with customer_id/name/amount, and a new amount_taxed column.",
@@ -10,12 +10,14 @@
       "printSchema() + show()",
       "Add a column and re-check"
     ],
-    "code": "from pyspark.sql import functions as F\n\n# Databricks already provides `spark`.\n# This lab uses in-memory data only.\n\nrows = [\n  (1, \"alice\", 120.50),\n  (2, \"bob\",  75.00),\n  (3, \"cara\", 10.00)\n]\n\ndf = spark.createDataFrame(rows, [\"customer_id\", \"name\", \"amount\"])\n\nprint(\"rows:\", df.count())\ndf.printSchema()\ndf.show(truncate=False)\n\n# Simple derived column (tax / markup)\ndf2 = df.withColumn(\"amount_taxed\", F.round(F.col(\"amount\") * F.lit(1.08), 2))\ndf2.show(truncate=False)\n"
+    "code": "from pyspark.sql import functions as F\n\n# Databricks already provides `spark`.\n# This lab uses in-memory data only.\n\nrows = [\n  (1, \"alice\", 120.50),\n  (2, \"bob\",  75.00),\n  (3, \"cara\", 10.00)\n]\n\ndf = spark.createDataFrame(rows, [\"customer_id\", \"name\", \"amount\"])\n\nprint(\"rows:\", df.count())\ndf.printSchema()\ndf.show(truncate=False)\n\n# Simple derived column (tax / markup)\ndf2 = df.withColumn(\"amount_taxed\", F.round(F.col(\"amount\") * F.lit(1.08), 2))\ndf2.show(truncate=False)\n",
+    "id": "lab01",
+    "output": "rows: 3\nroot\n |-- customer_id: long (nullable = true)\n |-- name: string (nullable = true)\n |-- amount: double (nullable = true)\n\n+-----------+-----+------+\n|customer_id|name |amount|\n+-----------+-----+------+\n|1          |alice|120.5 |\n|2          |bob  |75.0  |\n|3          |cara |10.0  |\n+-----------+-----+------+\n\n+-----------+-----+------+------------+\n|customer_id|name |amount|amount_taxed|\n+-----------+-----+------+------------+\n|1          |alice|120.5 |130.14      |\n|2          |bob  |75.0  |81.0        |\n|3          |cara |10.0  |10.8        |\n+-----------+-----+------+------------+"
   },
   {
-    "title": "Lab 02 — Read CSV with schema + write Delta",
+    "title": "Lab 02 \u2014 Read CSV with schema + write Delta",
     "goal": "Read CSV safely (explicit schema), do basic cleanup, then write Delta.",
-    "runPath": "Input: /mnt/bronze/in/customers.csv → Output: /mnt/silver/customers",
+    "runPath": "Input: /mnt/bronze/in/customers.csv \u2192 Output: /mnt/silver/customers",
     "expected": "A Delta table exists at /mnt/silver/customers and df.count() matches your input (minus null keys).",
     "steps": [
       "Define schema",
@@ -23,12 +25,14 @@
       "Trim + drop null keys",
       "Write Delta"
     ],
-    "code": "from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DoubleType\nfrom pyspark.sql import functions as F\n\nschema = StructType([\n  StructField(\"customer_id\", IntegerType(), True),\n  StructField(\"name\", StringType(), True),\n  StructField(\"amount\", DoubleType(), True)\n])\n\nbronze = (\n  spark.read\n    .option(\"header\", \"true\")\n    .schema(schema)\n    .csv(\"/mnt/bronze/in/customers.csv\")\n)\n\nsilver = (\n  bronze\n    .withColumn(\"name\", F.trim(F.col(\"name\")))\n    .dropna(subset=[\"customer_id\"])  # keys must exist\n)\n\nprint(\"bronze:\", bronze.count(), \"silver:\", silver.count())\n\n(silver.write\n  .format(\"delta\")\n  .mode(\"overwrite\")\n  .save(\"/mnt/silver/customers\"))\n"
+    "code": "from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DoubleType\nfrom pyspark.sql import functions as F\n\nschema = StructType([\n  StructField(\"customer_id\", IntegerType(), True),\n  StructField(\"name\", StringType(), True),\n  StructField(\"amount\", DoubleType(), True)\n])\n\nbronze = (\n  spark.read\n    .option(\"header\", \"true\")\n    .schema(schema)\n    .csv(\"/mnt/bronze/in/customers.csv\")\n)\n\nsilver = (\n  bronze\n    .withColumn(\"name\", F.trim(F.col(\"name\")))\n    .dropna(subset=[\"customer_id\"])  # keys must exist\n)\n\nprint(\"bronze:\", bronze.count(), \"silver:\", silver.count())\n\n(silver.write\n  .format(\"delta\")\n  .mode(\"overwrite\")\n  .save(\"/mnt/silver/customers\"))\n",
+    "id": "lab02",
+    "output": "bronze: 3 silver: 3\n# Delta files written to /mnt/silver/customers"
   },
   {
-    "title": "Lab 03 — Flatten JSON + explode arrays (API-style)",
+    "title": "Lab 03 \u2014 Flatten JSON + explode arrays (API-style)",
     "goal": "Turn nested API JSON into tabular rows (1 row per order item).",
-    "runPath": "Input: /mnt/bronze/api/orders.json → Output: /mnt/silver/order_items",
+    "runPath": "Input: /mnt/bronze/api/orders.json \u2192 Output: /mnt/silver/order_items",
     "expected": "You get columns: order_id, customer_id, sku, qty, price and rows per item.",
     "steps": [
       "Read multiLine JSON",
@@ -37,24 +41,28 @@
       "Select nested fields",
       "Write Delta"
     ],
-    "code": "from pyspark.sql import functions as F\n\nraw = (spark.read\n  .option(\"multiLine\", \"true\")\n  .json(\"/mnt/bronze/api/orders.json\"))\n\n# raw.orders = [ { id, customerId, items: [ {sku, qty, price}, ... ] }, ... ]\norders = raw.select(F.explode_outer(\"orders\").alias(\"o\")).select(\"o.*\")\n\nitems = (\n  orders\n    .select(\n      F.col(\"id\").alias(\"order_id\"),\n      F.col(\"customerId\").alias(\"customer_id\"),\n      F.explode_outer(\"items\").alias(\"it\")\n    )\n    .select(\n      \"order_id\",\n      \"customer_id\",\n      F.col(\"it.sku\").alias(\"sku\"),\n      F.col(\"it.qty\").alias(\"qty\"),\n      F.col(\"it.price\").alias(\"price\")\n    )\n)\n\nitems.show(10, truncate=False)\n\n(items.write\n  .format(\"delta\")\n  .mode(\"overwrite\")\n  .save(\"/mnt/silver/order_items\"))\n"
+    "code": "from pyspark.sql import functions as F\n\nraw = (spark.read\n  .option(\"multiLine\", \"true\")\n  .json(\"/mnt/bronze/api/orders.json\"))\n\n# raw.orders = [ { id, customerId, items: [ {sku, qty, price}, ... ] }, ... ]\norders = raw.select(F.explode_outer(\"orders\").alias(\"o\")).select(\"o.*\")\n\nitems = (\n  orders\n    .select(\n      F.col(\"id\").alias(\"order_id\"),\n      F.col(\"customerId\").alias(\"customer_id\"),\n      F.explode_outer(\"items\").alias(\"it\")\n    )\n    .select(\n      \"order_id\",\n      \"customer_id\",\n      F.col(\"it.sku\").alias(\"sku\"),\n      F.col(\"it.qty\").alias(\"qty\"),\n      F.col(\"it.price\").alias(\"price\")\n    )\n)\n\nitems.show(10, truncate=False)\n\n(items.write\n  .format(\"delta\")\n  .mode(\"overwrite\")\n  .save(\"/mnt/silver/order_items\"))\n",
+    "id": "lab03",
+    "output": "+--------+-----------+---+---+-----+\n|order_id |customer_id|sku |qty|price|\n+--------+-----------+---+---+-----+\n|1001    |1          |A1 |2  |9.99 |\n|1001    |1          |B2 |1  |4.50 |\n|1002    |2          |A1 |1  |9.99 |\n+--------+-----------+---+---+-----+\n# Delta files written to /mnt/silver/order_items"
   },
   {
-    "title": "Lab 04 — Deduplicate keeping latest record",
+    "title": "Lab 04 \u2014 Deduplicate keeping latest record",
     "goal": "Keep the latest record per business key using a window function.",
-    "runPath": "Input: /mnt/bronze/customer_updates → Output: (in-memory df `latest`)",
+    "runPath": "Input: /mnt/bronze/customer_updates \u2192 Output: (in-memory df `latest`)",
     "expected": "One row per customer_id, newest updated_at retained.",
     "steps": [
       "Partition by customer_id",
       "Order by updated_at desc",
       "Keep rn = 1"
     ],
-    "code": "from pyspark.sql import functions as F\nfrom pyspark.sql.window import Window\n\nupdates = spark.read.format(\"delta\").load(\"/mnt/bronze/customer_updates\")\n\nw = Window.partitionBy(\"customer_id\").orderBy(F.col(\"updated_at\").desc())\n\nlatest = (\n  updates\n    .withColumn(\"rn\", F.row_number().over(w))\n    .filter(F.col(\"rn\") == 1)\n    .drop(\"rn\")\n)\n\nlatest.show(10, truncate=False)\n\n# Quick check: duplicates should be gone\n(latest.groupBy(\"customer_id\").count()\n  .filter(F.col(\"count\") > 1)\n  .show())\n"
+    "code": "from pyspark.sql import functions as F\nfrom pyspark.sql.window import Window\n\nupdates = spark.read.format(\"delta\").load(\"/mnt/bronze/customer_updates\")\n\nw = Window.partitionBy(\"customer_id\").orderBy(F.col(\"updated_at\").desc())\n\nlatest = (\n  updates\n    .withColumn(\"rn\", F.row_number().over(w))\n    .filter(F.col(\"rn\") == 1)\n    .drop(\"rn\")\n)\n\nlatest.show(10, truncate=False)\n\n# Quick check: duplicates should be gone\n(latest.groupBy(\"customer_id\").count()\n  .filter(F.col(\"count\") > 1)\n  .show())\n",
+    "id": "lab04",
+    "output": "+-----------+-----+-------------------+\n|customer_id|name |updated_at         |\n+-----------+-----+-------------------+\n|1          |alice|2026-01-03 10:00:00|\n|2          |bob  |2026-01-04 09:15:00|\n+-----------+-----+-------------------+\n\n+-----------+-----+\n|customer_id|count|\n+-----------+-----+\n+-----------+-----+\n# (second table is empty => no duplicates)"
   },
   {
-    "title": "Lab 05 — Join + Gold KPI rollup",
+    "title": "Lab 05 \u2014 Join + Gold KPI rollup",
     "goal": "Join facts to a dimension and produce a simple daily KPI table.",
-    "runPath": "Inputs: /mnt/silver/orders + /mnt/silver/customers → Output: /mnt/gold/daily_kpis",
+    "runPath": "Inputs: /mnt/silver/orders + /mnt/silver/customers \u2192 Output: /mnt/gold/daily_kpis",
     "expected": "A daily_kpis Delta table with order_date, orders, unique_customers, revenue.",
     "steps": [
       "Load Silver tables",
@@ -62,30 +70,81 @@
       "Group to daily KPIs",
       "Write Gold output"
     ],
-    "code": "from pyspark.sql import functions as F\n\norders = spark.read.format(\"delta\").load(\"/mnt/silver/orders\")\ncustomers = spark.read.format(\"delta\").load(\"/mnt/silver/customers\")\n\n# Keep all orders even if customer lookup is missing\njoined = orders.join(customers.select(\"customer_id\", \"name\"), \"customer_id\", \"left\")\n\nkpis = (\n  joined\n    .withColumn(\"order_date\", F.to_date(\"order_ts\"))\n    .groupBy(\"order_date\")\n    .agg(\n      F.count(\"*\").alias(\"orders\"),\n      F.countDistinct(\"customer_id\").alias(\"unique_customers\"),\n      F.sum(\"order_total\").alias(\"revenue\")\n    )\n)\n\nkpis.orderBy(\"order_date\").show(10, truncate=False)\n\n(kpis.write\n  .format(\"delta\")\n  .mode(\"overwrite\")\n  .save(\"/mnt/gold/daily_kpis\"))\n"
+    "code": "from pyspark.sql import functions as F\n\norders = spark.read.format(\"delta\").load(\"/mnt/silver/orders\")\ncustomers = spark.read.format(\"delta\").load(\"/mnt/silver/customers\")\n\n# Keep all orders even if customer lookup is missing\njoined = orders.join(customers.select(\"customer_id\", \"name\"), \"customer_id\", \"left\")\n\nkpis = (\n  joined\n    .withColumn(\"order_date\", F.to_date(\"order_ts\"))\n    .groupBy(\"order_date\")\n    .agg(\n      F.count(\"*\").alias(\"orders\"),\n      F.countDistinct(\"customer_id\").alias(\"unique_customers\"),\n      F.sum(\"order_total\").alias(\"revenue\")\n    )\n)\n\nkpis.orderBy(\"order_date\").show(10, truncate=False)\n\n(kpis.write\n  .format(\"delta\")\n  .mode(\"overwrite\")\n  .save(\"/mnt/gold/daily_kpis\"))\n",
+    "id": "lab05",
+    "output": "+----------+------+----------------+-------+\n|order_date|orders|unique_customers|revenue|\n+----------+------+----------------+-------+\n|2026-01-01|3     |2               |245.5  |\n|2026-01-02|1     |1               |99.0   |\n+----------+------+----------------+-------+\n# Delta files written to /mnt/gold/daily_kpis"
   },
   {
-    "title": "Lab 06 — Quarantine bad rows (data quality)",
+    "title": "Lab 06 \u2014 Quarantine bad rows (data quality)",
     "goal": "Split bad rows into quarantine instead of silently dropping them.",
-    "runPath": "Input: /mnt/bronze/events → Output: /mnt/quarantine/bad_events + /mnt/silver/events_clean",
+    "runPath": "Input: /mnt/bronze/events \u2192 Output: /mnt/quarantine/bad_events + /mnt/silver/events_clean",
     "expected": "You get two Delta outputs and counts printed for good vs bad.",
     "steps": [
       "Define simple quality rules",
       "Split good vs bad",
       "Write quarantine + write clean Silver"
     ],
-    "code": "from pyspark.sql import functions as F\n\ndf = spark.read.format(\"delta\").load(\"/mnt/bronze/events\")\n\nbad = df.filter(\n  F.col(\"customer_id\").isNull() |\n  F.col(\"event_ts\").isNull() |\n  (F.col(\"amount\") < 0)\n)\n\ngood = df.subtract(bad)\n\nbad.write.format(\"delta\").mode(\"append\").save(\"/mnt/quarantine/bad_events\")\ngood.write.format(\"delta\").mode(\"overwrite\").save(\"/mnt/silver/events_clean\")\n\nprint(\"good:\", good.count(), \"bad:\", bad.count())\n"
+    "code": "from pyspark.sql import functions as F\n\ndf = spark.read.format(\"delta\").load(\"/mnt/bronze/events\")\n\nbad = df.filter(\n  F.col(\"customer_id\").isNull() |\n  F.col(\"event_ts\").isNull() |\n  (F.col(\"amount\") < 0)\n)\n\ngood = df.subtract(bad)\n\nbad.write.format(\"delta\").mode(\"append\").save(\"/mnt/quarantine/bad_events\")\ngood.write.format(\"delta\").mode(\"overwrite\").save(\"/mnt/silver/events_clean\")\n\nprint(\"good:\", good.count(), \"bad:\", bad.count())\n",
+    "id": "lab06",
+    "output": "good: 97 bad: 3\n# Delta written to /mnt/quarantine/bad_events and /mnt/silver/events_clean"
   },
   {
-    "title": "Lab 07 — Delta MERGE (upsert) into a dimension",
+    "title": "Lab 07 \u2014 Delta MERGE (upsert) into a dimension",
     "goal": "Upsert updates into a Delta dimension table (real-world requirement).",
-    "runPath": "Input: /mnt/silver/customer_updates → Target: /mnt/silver/dim_customer",
+    "runPath": "Input: /mnt/silver/customer_updates \u2192 Target: /mnt/silver/dim_customer",
     "expected": "Existing customer rows update, new customers insert (no duplicates by key).",
     "steps": [
       "Load updates source",
       "MERGE into target",
       "Insert new, update existing"
     ],
-    "code": "from delta.tables import DeltaTable\n\nupdates = spark.read.format(\"delta\").load(\"/mnt/silver/customer_updates\")\ntarget_path = \"/mnt/silver/dim_customer\"\n\ntarget = DeltaTable.forPath(spark, target_path)\n\n(target.alias(\"t\")\n  .merge(updates.alias(\"s\"), \"t.customer_id = s.customer_id\")\n  .whenMatchedUpdateAll()\n  .whenNotMatchedInsertAll()\n  .execute())\n"
+    "code": "from delta.tables import DeltaTable\n\nupdates = spark.read.format(\"delta\").load(\"/mnt/silver/customer_updates\")\ntarget_path = \"/mnt/silver/dim_customer\"\n\ntarget = DeltaTable.forPath(spark, target_path)\n\n(target.alias(\"t\")\n  .merge(updates.alias(\"s\"), \"t.customer_id = s.customer_id\")\n  .whenMatchedUpdateAll()\n  .whenNotMatchedInsertAll()\n  .execute())\n",
+    "id": "lab07",
+    "output": "# MERGE completed (no stdout). Validate with:\n# spark.read.format('delta').load('/mnt/silver/dim_customer').count()"
+  },
+  {
+    "id": "lab08_spark_sql_temp_view",
+    "title": "Lab 08 \u2014 Spark SQL (temp view) + simple analytics query",
+    "goal": "Use Spark SQL for quick analytics: create a temp view and run a SQL query.",
+    "runPath": "Run in Databricks notebook. No input files needed.",
+    "expected": "You see revenue by region with a filter on dt >= 2026-01-02.",
+    "steps": [
+      "Create a small DataFrame",
+      "Create or replace a temp view",
+      "Run a SQL query with GROUP BY + ORDER BY",
+      "Compare to a DataFrame groupBy() if you want"
+    ],
+    "code": "from pyspark.sql import functions as F\n\n# In-memory dataset\nrows = [\n  (\"2026-01-01\", \"East\",  120.0),\n  (\"2026-01-01\", \"West\",   80.0),\n  (\"2026-01-02\", \"East\",   60.0),\n  (\"2026-01-02\", \"West\",  200.0),\n  (\"2026-01-03\", \"East\",   20.0)\n]\n\ndf = (spark.createDataFrame(rows, [\"dt\", \"region\", \"amount\"])\n        .withColumn(\"dt\", F.to_date(\"dt\")))\n\n# Temp view lets you use SQL directly\ndf.createOrReplaceTempView(\"sales\")\n\nresult = spark.sql(\"\"\"\nSELECT\n  region,\n  COUNT(*)            AS txn_count,\n  ROUND(SUM(amount),2) AS revenue\nFROM sales\nWHERE dt >= DATE('2026-01-02')\nGROUP BY region\nORDER BY revenue DESC\n\"\"\")\n\nresult.show()",
+    "output": "+------+---------+-------+\n|region|txn_count|revenue|\n+------+---------+-------+\n|  West|        1|  200.0|\n|  East|        2|   80.0|\n+------+---------+-------+"
+  },
+  {
+    "id": "lab09_partitioned_write_read",
+    "title": "Lab 09 \u2014 Partitioned write + partition pruning (Parquet)",
+    "goal": "Write partitioned Parquet and read back with a filter that prunes partitions.",
+    "runPath": "Run in Databricks notebook. Output goes to dbfs:/tmp (safe to overwrite).",
+    "expected": "Parquet is written partitioned by region; reading with region='East' returns only East rows.",
+    "steps": [
+      "Create a DataFrame with dt/region/amount",
+      "Write Parquet partitioned by region",
+      "Read it back",
+      "Filter by region to demonstrate partition pruning"
+    ],
+    "code": "from pyspark.sql import functions as F\n\nrows = [\n  (\"2026-01-01\", \"East\", 120.0),\n  (\"2026-01-01\", \"West\",  80.0),\n  (\"2026-01-02\", \"East\",  60.0),\n  (\"2026-01-02\", \"West\", 200.0)\n]\n\ndf = (spark.createDataFrame(rows, [\"dt\", \"region\", \"amount\"])\n        .withColumn(\"dt\", F.to_date(\"dt\")))\n\nout_path = \"dbfs:/tmp/pyspark_lab09_sales_parquet\"\n\n# Partition by region so filters can skip entire folders\n(df.write\n   .mode(\"overwrite\")\n   .partitionBy(\"region\")\n   .parquet(out_path))\n\nprint(\"Wrote:\", out_path)\n\nback = spark.read.parquet(out_path)\n\n# Filter by region (this can prune partitions)\neast_only = (back\n             .filter(F.col(\"region\") == \"East\")\n             .select(F.date_format(\"dt\", \"yyyy-MM-dd\").alias(\"dt\"), \"region\", \"amount\")\n             .orderBy(\"dt\"))\n\neast_only.show()",
+    "output": "Wrote: dbfs:/tmp/pyspark_lab09_sales_parquet\n+----------+------+------+\n|        dt|region|amount|\n+----------+------+------+\n|2026-01-01|  East| 120.0|\n|2026-01-02|  East|  60.0|\n+----------+------+------+"
+  },
+  {
+    "id": "lab10_cache_broadcast_explain",
+    "title": "Lab 10 \u2014 Performance basics (cache, broadcast join, explain)",
+    "goal": "Learn the 3 knobs you\u2019ll actually use: cache when reused, broadcast small dims, inspect the plan.",
+    "runPath": "Run in Databricks notebook. No input files needed.",
+    "expected": "Output shows totals per product; explain(True) includes BroadcastHashJoin.",
+    "steps": [
+      "Create a fact table and a small dimension table",
+      "Cache the fact table (pretend it\u2019s reused)",
+      "Broadcast the dimension table during join",
+      "Run explain(True) and spot BroadcastHashJoin"
+    ],
+    "code": "from pyspark.sql import functions as F\n\nfacts = [\n  (1, 101, 50.0),\n  (2, 101, 20.0),\n  (3, 102, 99.0),\n  (4, 103, 10.0)\n]\n\nproducts = [\n  (101, \"Widget\"),\n  (102, \"Gadget\"),\n  (103, \"Doohickey\")\n]\n\nfact_df = spark.createDataFrame(facts, [\"txn_id\", \"product_id\", \"amount\"])\ndim_df  = spark.createDataFrame(products, [\"product_id\", \"product_name\"])\n\n# Cache when you will reuse the dataset multiple times\nfact_df.cache()\n\n# Broadcast the small dim table to avoid a shuffle join\njoined = (fact_df\n          .join(F.broadcast(dim_df), on=\"product_id\", how=\"inner\")\n          .groupBy(\"product_name\")\n          .agg(F.round(F.sum(\"amount\"), 2).alias(\"total_amount\"))\n          .orderBy(\"product_name\"))\n\njoined.show()\n\n# Inspect the plan (look for BroadcastHashJoin)\njoined.explain(True)",
+    "output": "+------------+------------+\n|product_name|total_amount|\n+------------+------------+\n|    Doohickey|        10.0|\n|      Gadget|        99.0|\n|      Widget|        70.0|\n+------------+------------+\n\n== Physical Plan ==\n...\nBroadcastHashJoin ...\n..."
   }
 ]

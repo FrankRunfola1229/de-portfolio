@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -29,18 +30,21 @@
                 <p class="subhead mb-0 mt-2">Short, practical labs. Run them. Learn faster.</p>
             </section>
 
-            <!-- Rendered by assets/js/pyspark-labs.js -->
+            <!-- Rendered from pyspark_labs.json (see script at bottom) -->
             <section class="card-soft p-4 p-md-4 mb-3">
                 <h2 class="section-title m-0">PySpark basics (quick mental model)</h2>
                 <p class="text-muted mb-3 mt-2">
                     This is the minimum you need to not get lost in Databricks notebooks. Source: Microsoft Learn
-                    (<a href="https://learn.microsoft.com/en-us/azure/databricks/pyspark/" target="_blank" rel="noopener">PySpark on Azure Databricks</a>).
+                    (<a href="https://learn.microsoft.com/en-us/azure/databricks/pyspark/" target="_blank" rel="noopener">PySpark on Azure
+                        Databricks</a>).
                 </p>
 
                 <ul class="mb-3">
                     <li><strong>SparkSession</strong> is your entry point (Databricks gives you <code>spark</code> already).</li>
-                    <li><strong>DataFrames</strong> are the core API. You build a plan with <strong>transformations</strong> (lazy), and work actually runs on <strong>actions</strong> (like <code>show()</code>, <code>count()</code>, <code>write</code>).</li>
-                    <li>Use built-in functions (<code>pyspark.sql.functions</code>) and column expressions — avoid Python loops and UDFs unless you truly need them.</li>
+                    <li><strong>DataFrames</strong> are the core API. You build a plan with <strong>transformations</strong> (lazy), and work actually
+                        runs on <strong>actions</strong> (like <code>show()</code>, <code>count()</code>, <code>write</code>).</li>
+                    <li>Use built-in functions (<code>pyspark.sql.functions</code>) and column expressions — avoid Python loops and UDFs unless you
+                        truly need them.</li>
                     <li>Debug smart: <code>printSchema()</code>, <code>show()</code>, and <code>explain()</code> tell you what’s happening.</li>
                     <li>Performance basics: filter early, select only needed columns, avoid <code>collect()</code>, cache only when reused.</li>
                 </ul>
@@ -56,7 +60,6 @@ out = (df
 out.write.format("delta").mode("overwrite").save("/path/out")</code></pre>
             </section>
 
-
             <section class="row g-4" id="labsGrid" aria-live="polite"></section>
 
             <footer id="siteFooter" class="border-top mt-auto pt-5 pb-3"></footer>
@@ -69,6 +72,132 @@ out.write.format("delta").mode("overwrite").save("/path/out")</code></pre>
 
         <script src="assets/js/shared.js"></script>
         <script src="assets/js/layout.js"></script>
-        <script src="assets/js/pyspark-labs.js"></script>
+        <script>
+/* =========================================
+   PySpark Labs renderer (no build step)
+   - Loads JSON (tries assets/data first, then local file)
+   - Renders Bootstrap cards into #labsGrid
+========================================= */
+(async function () {
+  const grid = document.getElementById("labsGrid");
+  if (!grid) return;
+
+  const sources = [
+    "assets/data/pyspark_labs.json",
+    "pyspark_labs.json"
+  ];
+
+  async function loadLabs() {
+    let lastErr = null;
+    for (const url of sources) {
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) throw new Error(url + " HTTP " + res.status);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error(url + " did not return an array");
+        return data;
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    throw lastErr || new Error("Failed to load labs JSON");
+  }
+
+  function esc(s) {
+    return String(s ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function stepsList(steps) {
+    if (!Array.isArray(steps) || steps.length === 0) return "<div class=\"text-muted small\">No steps.</div>";
+    return "<ol class=\"mb-0\">" + steps.map(s => `<li>${esc(s)}</li>`).join("") + "</ol>";
+  }
+
+  function metaLine(label, value) {
+    if (!value) return "";
+    return `<div class=\"mb-1\"><strong>${label}</strong> ${esc(value)}</div>`;
+  }
+
+  try {
+    const labs = await loadLabs();
+
+    // Clear any server-rendered content
+    grid.innerHTML = "";
+
+    labs.forEach((lab, i) => {
+      const n = i + 1;
+      const base = lab.id ? String(lab.id) : `lab${String(n).padStart(2, "0")}`;
+      const stepsId = `${base}-steps`;
+      const codeId = `${base}-code`;
+      const outId = `${base}-out`;
+
+      const col = document.createElement("div");
+      col.className = "col-12 col-lg-6";
+
+      col.innerHTML = `
+        <div class="card-soft p-4 h-100 lab-card">
+          <div class="d-flex align-items-start justify-content-between gap-3">
+            <div class="flex-grow-1">
+              <div class="d-flex flex-wrap align-items-center gap-2">
+                <h3 class="h5 m-0">${esc(lab.title || `Lab ${n}`)}</h3>
+                <span class="badge text-bg-primary">#${n}</span>
+              </div>
+              <p class="text-muted mb-2 mt-2">${esc(lab.goal || "")}</p>
+
+              <div class="lab-meta small">
+                ${metaLine("Run:", lab.runPath)}
+                ${metaLine("Expected:", lab.expected)}
+              </div>
+            </div>
+          </div>
+
+                    <div class="mt-3">
+            <div class="lab-section-title">Steps</div>
+            <div class="lab-panel">
+              ${stepsList(lab.steps)}
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <div class="lab-section-title">Code</div>
+            <div class="lab-panel">
+              <pre class="mb-0"><code class="language-python">${esc(lab.code || "")}</code></pre>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <div class="lab-section-title">Output</div>
+            <div class="lab-panel">
+              <pre class="mb-0"><code class="language-none">${esc(lab.output || "No sample output provided.")}</code></pre>
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      grid.appendChild(col);
+    });
+
+    // Highlight after DOM insertion
+    if (window.Prism && typeof window.Prism.highlightAll === "function") {
+      window.Prism.highlightAll();
+    }
+  } catch (err) {
+    console.error(err);
+    grid.innerHTML = `
+      <div class="col-12">
+        <div class="alert alert-warning mb-0">
+          <strong>Couldn’t load labs JSON.</strong>
+          <div class="small mt-1">Tried: <code>assets/data/pyspark_labs.json</code> then <code>pyspark_labs.json</code></div>
+        </div>
+      </div>
+    `;
+  }
+})();
+</script>
     </body>
 </html>
