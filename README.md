@@ -8,7 +8,7 @@ It’s intentionally simple:
 - **No build step**
 - **Content is data-driven** (JSON) so you can update the site without touching JS/HTML much.
 
----
+<br>
 
 ## Pages
 
@@ -23,49 +23,52 @@ It’s intentionally simple:
 
 > Note: `training-pyspark-labs.html` is kept as a compatibility redirect so older links don’t break.
 
----
+<br>
 
 ## Folder structure
 
 ```
-/
-  index.html
-  projects.html
-  labs.html
-  labs-pyspark.html
-  training.html
-  training-pyspark.html
-  training-sql.html
-  training-modeling.html
-
-  assets/
-    css/
-      styles.css          # site-wide styles
-      pyspark.css         # training/pyspark page tweaks (kept consistent with site width)
-    js/
-      layout.js           # injects navbar/backbar/footer
-      shared.js           # shared helpers + nav/back behavior + JSON fetch utilities
-      home.js             # home page service pills
-      app.js              # projects page renderer
-      pyspark-labs.js     # labs/pyspark renderer
-      pyspark.js          # training/pyspark snippets renderer
-      sql.js              # training/sql snippets renderer
-      modeling.js         # training/modeling snippets renderer
-    data/
-      projects.json
-      pyspark_labs.json
-      pyspark_snippets.json
-      sql_snippets.json
-      modeling_snippets.json
-      files/
-        cv.pdf
-        diploma.png
-    img/
-      favicon.svg / favicon.png / favicon.ico
-      (project images...)
+/                         # repo root (GitHub Pages serves from here)
+├─ index.html             # landing page (intro + quick links)
+├─ projects.html          # projects gallery (JSON-driven)
+├─ labs.html              # labs hub page
+├─ labs-pyspark.html      # PySpark labs page (JSON-driven)
+├─ training.html          # training hub page
+├─ training-pyspark.html  # PySpark training/snippets (JSON-driven)
+├─ training-sql.html      # SQL training/snippets (JSON-driven)
+├─ training-modeling.html # data modeling training/snippets (JSON-driven)
+│
+└─ assets/                # everything shared across pages
+   ├─ css/
+   │  ├─ styles.css       # global site styles (layout, cards, typography)
+   │  └─ pyspark.css      # PySpark-specific tweaks (kept consistent with site width)
+   │
+   ├─ js/
+   │  ├─ layout.js        # injects navbar/backbar/footer into all pages
+   │  ├─ shared.js        # shared helpers: fetch JSON, nav/back behavior, utilities
+   │  ├─ home.js          # renders home page “service pills”
+   │  ├─ app.js           # renders project cards into #projectsGrid
+   │  ├─ pyspark-labs.js  # renders labs into #labsGrid
+   │  ├─ pyspark.js       # renders PySpark snippets into #snippetsGrid
+   │  ├─ sql.js           # renders SQL snippets into #snippetsGrid
+   │  └─ modeling.js      # renders modeling snippets into #snippetsGrid
+   │
+   ├─ data/                     # data that drives the UI (edit these most often)
+   │  ├─ projects.json          # project cards content
+   │  ├─ pyspark_labs.json      # lab cards content (PySpark)
+   │  ├─ pyspark_snippets.json  # training snippets (PySpark)
+   │  ├─ sql_snippets.json      # training snippets (SQL)
+   │  ├─ modeling_snippets.json # training snippets (data modeling)
+   │  └─ files/
+   │     ├─ cv.pdf             # downloadable resume/CV
+   │     └─ diploma.png        # credential image
+   │
+   └─ img/
+      ├─ favicon.svg      # modern favicon
+      └─ ...              # project images referenced by projects.json
 ```
 
----
+<br>
 
 ## How the site works
 
@@ -122,7 +125,7 @@ Then open:
 
 > Why a server? Some browsers restrict `fetch()` from `file://` pages. Running a local server avoids that.
 
----
+<br>
 
 ## Update content (common edits)
 
@@ -156,7 +159,7 @@ Typical fields:
 - `note`
 - `code`
 
----
+<br>
 
 ## Favicons
 Favicons live in `assets/img/`:
@@ -166,7 +169,7 @@ Favicons live in `assets/img/`:
 
 Every page includes all three so browser support is consistent.
 
----
+<br>
 
 ## Deploy
 
@@ -178,12 +181,18 @@ Every page includes all three so browser support is consistent.
    - Folder: `/ (root)`
 4. Your site will publish at your GitHub Pages URL.
 
+---
+
 ### Deploy to Azure (Static Website on Storage — cheapest)
 1. Create an Azure Storage Account
 2. Enable **Static website**
    - Index document: `index.html`
 3. Upload the repo contents to the `$web` container (keep folder structure).
 4. Use the Static Website endpoint.
+    -Home page: `https://frankrunfola-data-engineering.github.io/de-portfolio-site/index.html`
+    -JSON projects: `https://frankrunfola-data-engineering.github.io/de-portfolio-site/assets/data/projects.json`
+
+---
 
 ### Deploy to Azure Static Web Apps (also great)
 - Create a Static Web App and point it at this repo.
