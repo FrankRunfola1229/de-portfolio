@@ -189,8 +189,8 @@ Every page includes all three so browser support is consistent.
    - Index document: `index.html`
 3. Upload the repo contents to the `$web` container (keep folder structure).
 4. Use the Static Website endpoint.
-    - Home page: `https://frankrunfola-data-engineering.github.io/de-portfolio-site/index.html`
-    - JSON projects: `https://frankrunfola-data-engineering.github.io/de-portfolio-site/assets/data/projects.json`
+    - Home page: https://frankrunfola-data-engineering.github.io/de-portfolio-site/index.html
+    - JSON projects: https://frankrunfola-data-engineering.github.io/de-portfolio-site/assets/data/projects.json
 
 ---
 
