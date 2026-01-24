@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Data Engineering Terms — Frank Runfola</title>
+    <meta name="description" content="Data Engineering terms: processing, architecture, and engineering." />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+
+  <body class="min-vh-100 d-flex flex-column" data-page="terms" data-show-back="1" data-footer-right="Data Engineering Terms">
+    <a id="top"></a>
+    <div id="siteHeader"></div>
+    <div id="siteBackbar"></div>
+
+    <main class="container pt-4 pb-3 flex-grow-1 d-flex flex-column">
+      <section class="card-soft hero-card p-4 p-md-4 mb-3">
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3">
+          <div>
+            <h1 class="headline m-0">Data Engineering Terms</h1>
+            <p class="subhead mb-0 mt-2">Clean definitions. Fast scanning. No fluff.</p>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-sm btn-soft" href="#data-processing"><i class="bi bi-sliders me-1"></i>Processing</a>
+            <a class="btn btn-sm btn-soft" href="#data-architecture"><i class="bi bi-diagram-3 me-1"></i>Architecture</a>
+            <a class="btn btn-sm btn-soft" href="#data-engineering"><i class="bi bi-gear me-1"></i>Engineering</a>
+          </div>
+        </div>
+
+        <div class="row g-2 align-items-center mt-3">
+          <div class="col-12 col-lg-8">
+            <div class="input-group">
+              <span class="input-group-text bg-white border-0" style="border:1px solid var(--line); border-right:0; border-radius:14px 0 0 14px;">
+                <i class="bi bi-search"></i>
+              </span>
+              <input id="termSearch" type="search" class="form-control" placeholder="Search terms (example: ETL, lakehouse, SCD, validation)..."
+                style="border:1px solid var(--line); border-left:0; border-radius:0 14px 14px 0;" />
+            </div>
+            <div class="small text-muted mt-2" id="termCount"></div>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <div class="d-flex gap-2 justify-content-lg-end">
+              <button class="btn btn-sm btn-soft" id="clearSearch" type="button"><i class="bi bi-x-circle me-1"></i>Clear</button>
+              <div class="dropdown">
+                <button class="btn btn-sm btn-soft dropdown-toggle" data-bs-toggle="dropdown" type="button">
+                  <i class="bi bi-funnel me-1"></i>Filter
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><button class="dropdown-item" data-filter="all" type="button">All</button></li>
+                  <li><button class="dropdown-item" data-filter="Data Processing" type="button">Data Processing</button></li>
+                  <li><button class="dropdown-item" data-filter="Data Architecture" type="button">Data Architecture</button></li>
+                  <li><button class="dropdown-item" data-filter="Data Engineering" type="button">Data Engineering</button></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card-soft p-3 mb-3">
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+          <span class="small text-muted me-1">Shortcuts:</span>
+          <a class="btn btn-sm btn-soft" href="#data-processing">Processing</a>
+          <a class="btn btn-sm btn-soft" href="#data-architecture">Architecture</a>
+          <a class="btn btn-sm btn-soft" href="#data-engineering">Engineering</a>
+        </div>
+      </section>
+
+      
+        <section class="mt-4" id="data-processing">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-2">
+            <div>
+              <h2 class="section-title m-0">Data Processing</h2>
+              <p class="text-muted mb-0 small">Quick definitions you can use in interviews and docs.</p>
+            </div>
+            <a class="btn btn-sm btn-soft" href="#top"><i class="bi bi-arrow-up-short me-1"></i>Top</a>
+          </div>
+          <div class="row g-3">
+            
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Manipulation" data-desc="Modifying data through filtering, sorting, or aggregating." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Manipulation</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Modifying data through filtering, sorting, or aggregating.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Transformation" data-desc="Converting data into a suitable format for analysis or storage." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Transformation</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Converting data into a suitable format for analysis or storage.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Cleanup" data-desc="Fixing data issues such as errors, duplicates, and missing values." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Cleanup</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Fixing data issues such as errors, duplicates, and missing values.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Enrichment" data-desc="Adding additional information to existing data." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Enrichment</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Adding additional information to existing data.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Aggregation" data-desc="The process of summarizing data using functions like sum or average." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Aggregation</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">The process of summarizing data using functions like sum or average.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Modeling" data-desc="Designing how data is structured and related within a system." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Modeling</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Designing how data is structured and related within a system.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Validation" data-desc="Ensuring data meets defined quality rules." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Validation</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Ensuring data meets defined quality rules.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Quality" data-desc="Measuring accuracy, completeness, and consistency of data." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Quality</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Measuring accuracy, completeness, and consistency of data.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Standardization" data-desc="Converting data into a consistent format or convention." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Standardization</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Converting data into a consistent format or convention.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Normalization" data-desc="Scaling numeric data into a common range or structure." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Normalization</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Scaling numeric data into a common range or structure.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Deduplication" data-desc="Identifying and removing duplicate records." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Deduplication</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Identifying and removing duplicate records.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Filtering" data-desc="Selecting only relevant data based on conditions." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Filtering</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Selecting only relevant data based on conditions.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Sorting" data-desc="Ordering data based on one or more fields." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Sorting</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Ordering data based on one or more fields.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Parsing" data-desc="Extracting structured values from raw or semi-structured data." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Parsing</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Extracting structured values from raw or semi-structured data.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Encoding" data-desc="Converting categorical values into numeric representations." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Encoding</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Converting categorical values into numeric representations.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Masking" data-desc="Obscuring sensitive data to protect privacy." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Masking</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Obscuring sensitive data to protect privacy.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Sampling" data-desc="Selecting a subset of data for faster processing or analysis." data-section="Data Processing">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Sampling</h3>
+                <span class="badge rounded-pill text-bg-light border">Processing</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Selecting a subset of data for faster processing or analysis.</p>
+            </div>
+          </div>
+        
+          </div>
+        </section>
+    
+        <section class="mt-4" id="data-architecture">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-2">
+            <div>
+              <h2 class="section-title m-0">Data Architecture</h2>
+              <p class="text-muted mb-0 small">Quick definitions you can use in interviews and docs.</p>
+            </div>
+            <a class="btn btn-sm btn-soft" href="#top"><i class="bi bi-arrow-up-short me-1"></i>Top</a>
+          </div>
+          <div class="row g-3">
+            
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Architecture" data-desc="The overall design of how data is collected, stored, integrated, and used across systems." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Architecture</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">The overall design of how data is collected, stored, integrated, and used across systems.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Platform" data-desc="The shared infrastructure, tools, and services used to manage data at scale." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Platform</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">The shared infrastructure, tools, and services used to manage data at scale.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Source" data-desc="The original system or application where data is created and collected, such as databases, APIs, or files." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Source</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">The original system or application where data is created and collected, such as databases, APIs, or files.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Operational Data Store (ODS)" data-desc="A system that stores near real-time operational data." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Operational Data Store (ODS)</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A system that stores near real-time operational data.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Warehouse" data-desc="A central system for storing clean, structured data optimized for analytics." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Warehouse</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A central system for storing clean, structured data optimized for analytics.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Lake" data-desc="A storage system for raw data in any format, structured or unstructured." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Lake</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A storage system for raw data in any format, structured or unstructured.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Lakehouse" data-desc="A platform that combines data lake flexibility with data warehouse structure." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Lakehouse</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A platform that combines data lake flexibility with data warehouse structure.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Mesh" data-desc="A decentralized architecture where domains own and share data as products." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Mesh</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A decentralized architecture where domains own and share data as products.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Mart" data-desc="A subject-focused subset of a data warehouse designed for a specific business area." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Mart</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A subject-focused subset of a data warehouse designed for a specific business area.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Vault" data-desc="A modeling approach focused on historical tracking, scalability, and auditability." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Vault</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A modeling approach focused on historical tracking, scalability, and auditability.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Medallion Architecture" data-desc="A layered design using bronze, silver, and gold data layers." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Medallion Architecture</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A layered design using bronze, silver, and gold data layers.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Bronze Layer" data-desc="Stores raw ingested data with minimal transformation." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Bronze Layer</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Stores raw ingested data with minimal transformation.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Silver Layer" data-desc="Contains cleaned and standardized data ready for business logic." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Silver Layer</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Contains cleaned and standardized data ready for business logic.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Gold Layer" data-desc="Holds curated, business-ready data for analytics and reporting." data-section="Data Architecture">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Gold Layer</h3>
+                <span class="badge rounded-pill text-bg-light border">Architecture</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Holds curated, business-ready data for analytics and reporting.</p>
+            </div>
+          </div>
+        
+          </div>
+        </section>
+    
+        <section class="mt-4" id="data-engineering">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-2">
+            <div>
+              <h2 class="section-title m-0">Data Engineering</h2>
+              <p class="text-muted mb-0 small">Quick definitions you can use in interviews and docs.</p>
+            </div>
+            <a class="btn btn-sm btn-soft" href="#top"><i class="bi bi-arrow-up-short me-1"></i>Top</a>
+          </div>
+          <div class="row g-3">
+            
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Engineering" data-desc="Building systems that collect, move, transform, and store data reliably at scale." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Engineering</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Building systems that collect, move, transform, and store data reliably at scale.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Pipeline" data-desc="An automated process that moves data from source to destination." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Pipeline</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">An automated process that moves data from source to destination.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="ETL" data-desc="Extract, Transform, Load data into analytics systems." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">ETL</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Extract, Transform, Load data into analytics systems.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="ELT" data-desc="Extract, Load, then Transform data inside the target system." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">ELT</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Extract, Load, then Transform data inside the target system.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Extraction" data-desc="Copying data from source systems without changing it." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Extraction</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Copying data from source systems without changing it.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Transformation" data-desc="Converting data into the correct structure, format, and logic for analysis." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Transformation</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Converting data into the correct structure, format, and logic for analysis.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Load" data-desc="Writing extracted or prepared data into a target system." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Load</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Writing extracted or prepared data into a target system.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Ingestion" data-desc="The process of collecting data from source systems." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Ingestion</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">The process of collecting data from source systems.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Batch Processing" data-desc="Processing data in large chunks at scheduled intervals." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Batch Processing</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Processing data in large chunks at scheduled intervals.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Streaming Processing" data-desc="Processing data continuously in real time." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Streaming Processing</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Processing data continuously in real time.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Full Load" data-desc="Loading the entire dataset from a source system." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Full Load</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Loading the entire dataset from a source system.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Incremental (Delta) Load" data-desc="Loading only new or changed data since the last run." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Incremental (Delta) Load</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Loading only new or changed data since the last run.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Schema Evolution" data-desc="Handling changes in data structure over time." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Schema Evolution</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Handling changes in data structure over time.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Partitioning" data-desc="Splitting data into smaller parts to improve performance." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Partitioning</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Splitting data into smaller parts to improve performance.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Indexing" data-desc="Creating structures that speed up data access." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Indexing</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Creating structures that speed up data access.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Orchestration" data-desc="Managing dependencies and execution of data pipelines." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Orchestration</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Managing dependencies and execution of data pipelines.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Scheduling" data-desc="Running data jobs at defined times." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Scheduling</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Running data jobs at defined times.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Monitoring" data-desc="Tracking pipeline health, failures, and performance." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Monitoring</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Tracking pipeline health, failures, and performance.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Migration" data-desc="Moving data between systems while preserving accuracy." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Migration</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Moving data between systems while preserving accuracy.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Slowly Changing Dimension (SCD)" data-desc="A technique for managing changes in dimension data over time." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Slowly Changing Dimension (SCD)</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A technique for managing changes in dimension data over time.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="SCD Type 1" data-desc="Updates data by overwriting old values without keeping history." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">SCD Type 1</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Updates data by overwriting old values without keeping history.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="SCD Type 2" data-desc="Preserves full history by creating a new record for each change." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">SCD Type 2</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Preserves full history by creating a new record for each change.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="SCD Type 3" data-desc="Stores limited history by adding extra columns for previous values." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">SCD Type 3</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Stores limited history by adding extra columns for previous values.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Schema Registry" data-desc="A centralized store for managing schema versions." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Schema Registry</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A centralized store for managing schema versions.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Schema Drift" data-desc="Unexpected changes in incoming data structure." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Schema Drift</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Unexpected changes in incoming data structure.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Change Data Capture (CDC)" data-desc="Capturing database changes in real time." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Change Data Capture (CDC)</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">Capturing database changes in real time.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Freshness" data-desc="How up to date data is compared to when it was generated." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Freshness</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">How up to date data is compared to when it was generated.</p>
+            </div>
+          </div>
+        
+          <div class="col-12 col-md-6 col-lg-4 term-card" data-term="Data Snapshot" data-desc="A copy of data taken at a specific point in time." data-section="Data Engineering">
+            <div class="card-soft p-3 h-100">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h3 class="h6 m-0">Data Snapshot</h3>
+                <span class="badge rounded-pill text-bg-light border">Engineering</span>
+              </div>
+              <p class="text-muted small mt-2 mb-0">A copy of data taken at a specific point in time.</p>
+            </div>
+          </div>
+        
+          </div>
+        </section>
+    
+
+      <section id="noResults" class="card-soft p-4 mt-3" hidden>
+        <h2 class="h5 mb-1">No matches</h2>
+        <p class="text-muted mb-0">Try a different keyword (example: <strong>etl</strong>, <strong>lake</strong>, <strong>silver</strong>, <strong>quality</strong>).</p>
+      </section>
+
+      <footer id="siteFooter" class="border-top mt-auto pt-5 pb-3"></footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/layout.js"></script>
+    <script src="assets/js/terms.js"></script>
+  </body>
+</html>

@@ -112,6 +112,13 @@ body{
   transform: translateY(-1px);
 }
 
+/* Slightly larger, more rectangular soft button (used on About -> Quick Links) */
+.btn-rect{
+  border-radius: .375rem; /* matches Bootstrap's default button radius */
+  padding: .52rem .78rem;
+  line-height: 1.2;
+}
+
 /* icon-only nav buttons (GitHub/LinkedIn) */
 .btn-icon{ padding: .28rem .44rem; }
 

@@ -113,7 +113,7 @@ The JS page files read JSON and render cards into:
 From the repo root:
 
 ```bash
-python -m http.server 8000
+python3 -m http.server 8000
 ```
 
 Then open:
